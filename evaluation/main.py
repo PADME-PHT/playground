@@ -57,7 +57,7 @@ df.drop(index = 12, inplace=True)
 knowPht = df[df["G01Q02"] == "Yes"]
 notKnowPht = df[df["G01Q02"] == "No"]
 
-print(f"{len(knowPht)}/{len(df)} ({round(len(knowPht)/len(df), 3)}%) people know the PHT - {len(notKnowPht)}/{len(df)} ({round(len(notKnowPht)/len(df), 3)}%) people do not")
+print(f"{len(knowPht)}/{len(df)} ({round(len(knowPht)/len(df)*100, 3)}%) people know the PHT - {len(notKnowPht)}/{len(df)} ({round(len(notKnowPht)/len(df)*100, 3)}%) people do not")
 print("People that know PHT do:")
 print(knowPht["G01Q03"].to_numpy())
 

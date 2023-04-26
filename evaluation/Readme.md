@@ -2,13 +2,13 @@
 
 This folder contains the answers from evaluation participants as described in the paper. Moreover, we provide the script that was used to calculate the SUS score and avg + std deviation for the custom questions.
 
-Overall, the evaluation has been conducted with an anonymous online questionnaire with the help of [LimeSurvey](https://www.limesurvey.org/de/). The answers from all 29 participants have been exported and are provided as a CSV file named 'results.csv'.
+Overall, the evaluation has been conducted with an anonymous online questionnaire with the help of [LimeSurvey](https://www.limesurvey.org/de/). The answers from all 29 participants have been exported and are provided as a CSV file named 'results.csv'. In the file, you can find three question groups (G01Q02, G02Q04, G03Q05). Group, G01Q02 contains one question asking whether participants had previous experience with DA. Group, G02Q04 contains the 10 SUS questions in the order given below. Lastly, group G03Q05 contains six custom questions, also in the order specified in the table below.
 
 The script can be executed using Python version 3.x after installing ```numpy``` and ```pandas```. On execution, the script will create several CSV files that contain the calculated results for different sub-groups. Those results are split between the **custom questions** and the questions from the System Usability Scale (SUS). Moreover, we further distinguish each case by overall results, and results from participants with and without prior experience in DA.
 
-As described in the paper, the responses from one participant where invalid (id=12) because the participant told us afterward that he did not understand the questions and 'choose randomly'. Consequently, our script ignores the answers from this participant.
+As described in the paper, the responses from one participant was invalid (id=12) because the participant told us after the evaluation that he did not understand the questions and 'choose randomly'. Consequently, our script ignores the answers from this participant.
 
-For the overall results of both the SUS and our custom questions, you can find tabular visualizations in the following.
+For the overall results of both the SUS and our custom questions we provide tabular visualizations in the following.
 
 ## SUS score
 
