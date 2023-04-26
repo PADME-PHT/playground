@@ -1,0 +1,18 @@
+version: '3'
+
+services:
+  playground_postgres:
+    image: postgres:14
+    container_name: 'playground-eval-postgres'
+    restart: unless-stopped
+    ports:
+      - "5432:5432"
+    environment: 
+      POSTGRES_PASSWORD: admin
+      POSTGRES_USER: admin
+      POSTGRES_DB: patientdb
+    volumes: 
+      - "playground_eval_postgres_data:/var/lib/postgresql/data"
+
+volumes:
+  playground_eval_postgres_data:

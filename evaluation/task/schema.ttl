@@ -1,0 +1,290 @@
+@prefix pht: <http://schema.padme-analytics.de#> .
+@prefix station: <https://station-registry.hs-mittweida.de/api/stations/> .
+@prefix dataset: <https://playgroundapi.padme-analytics.de/dataset/> .
+@prefix interface: <https://playgroundapi.padme-analytics.de/interface/> .
+@prefix interfaceShape: <https://playgroundapi.padme-analytics.de/interfaceShape/> .
+@prefix datatype: <https://playgroundapi.padme-analytics.de/datatype/> .
+@prefix tabular: <https://playgroundapi.padme-analytics.de/tabular/> .
+@prefix column: <https://playgroundapi.padme-analytics.de/column/> .
+@prefix orga: <https://station-registry.hs-mittweida.de/api/organizations/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/#> .
+@prefix dcat: <http://www.w3.org/ns/dcat/#> .
+
+#Organisations
+#RWTH
+orga:f0a6e2c0-ed2a-4ef4-bdfb-ea853b6f7706 a foaf:Organization;
+foaf:name "RWTH Aachen"^^xsd:string .
+
+# Stations
+# Hospital A
+station:d7b0a9a7-07fd-4a31-b93a-3c946dc82667 a pht:Station;
+pht:userOwnedHasTitle "Hospital A"^^xsd:string; 
+pht:userOwnedHasDescription "Hospital A Station"^^xsd:string;
+pht:responsibleOrganization orga:f0a6e2c0-ed2a-4ef4-bdfb-ea853b6f7706;
+pht:hasDataSet dataset:34680662-1e34-11ed-861d-0242ac120002 .
+
+# Hospital B
+station:5bce186a-5005-4ca8-878e-9d8d4e0747c0 a pht:Station;
+pht:userOwnedHasTitle "Hospital B"^^xsd:string; 
+pht:userOwnedHasDescription "Hospital B Station"^^xsd:string;
+pht:responsibleOrganization orga:f0a6e2c0-ed2a-4ef4-bdfb-ea853b6f7706;
+pht:hasDataSet dataset:3466461a-1e34-11ed-861d-0242ac120002 .
+
+# Datasets
+dataset:3466461a-1e34-11ed-861d-0242ac120002 a pht:Dataset; 
+dcat:title "Eval - Patient Insurance"^^xsd:string;
+dcat:description "A dataset providing information about patients and their insurance."^^xsd:string;
+pht:accessThroughInterface interface:34664908-1e34-11ed-861d-0242ac120002 . 
+
+#Interface
+interface:34664908-1e34-11ed-861d-0242ac120002 a pht:PostgresInterface;
+pht:dataInterfaceVersion "14.0.0.0"^^xsd:string;
+pht:hasInterfaceShape interfaceShape:3466510a-1e34-11ed-861d-0242ac120002 .
+
+#SQL Interface Shape
+interfaceShape:3466510a-1e34-11ed-861d-0242ac120002 a pht:RelationalSQLDataInterfaceShape;
+pht:dataInterfaceShapeHasKey "patientdb"^^xsd:string; 
+pht:consistsOfTabularShapes tabular:3466525e-1e34-11ed-861d-0242ac120002, 
+tabular:34666ba4-1e34-11ed-861d-0242ac120002,
+tabular:3466629e-1e34-11ed-861d-0242ac120002 .
+
+#Table Patients
+tabular:3466525e-1e34-11ed-861d-0242ac120002 a pht:TabularSQLDataInterfaceShape; 
+pht:dataInterfaceShapeHasKey "patients"^^xsd:string;
+pht:consistsOfColumnShapes column:34665470-1e34-11ed-861d-0242ac120002, 
+column:3466577c-1e34-11ed-861d-0242ac120002, 
+column:34665858-1e34-11ed-861d-0242ac120002,
+column:346659e8-1e34-11ed-861d-0242ac120002, 
+column:3466563c-1e34-11ed-861d-0242ac120002, 
+column:3466533a-1e34-11ed-861d-0242ac120002, 
+column:3466682a-1e34-11ed-861d-0242ac120002 .
+
+column:34665470-1e34-11ed-861d-0242ac120002 a pht:ColumnSQLDataInterfaceShape; 
+pht:attributeIsUnique "true"^^xsd:boolean;
+pht:dataInterfaceShapeHasKey "id"^^xsd:string;
+pht:shapeHasDatatype [
+    a pht:DataInterfaceShapeAtomicDatatype; 
+    pht:hasDatatype xsd:unsignedInt
+] .
+
+column:3466577c-1e34-11ed-861d-0242ac120002 a pht:ColumnSQLDataInterfaceShape; 
+pht:dataInterfaceShapeHasKey "first_name"^^xsd:string;
+pht:shapeHasDatatype  [
+    a pht:DataInterfaceShapeAtomicDatatype; 
+    pht:hasDatatype datatype:firstName
+] .
+
+column:34665858-1e34-11ed-861d-0242ac120002 a pht:ColumnSQLDataInterfaceShape; 
+pht:dataInterfaceShapeHasKey "last_name"^^xsd:string;
+pht:shapeHasDatatype  [
+    a pht:DataInterfaceShapeAtomicDatatype; 
+    pht:hasDatatype datatype:lastName
+] .
+
+column:346659e8-1e34-11ed-861d-0242ac120002 a pht:ColumnSQLDataInterfaceShape; 
+pht:dataInterfaceShapeHasKey "age"^^xsd:string;
+pht:shapeHasDatatype  [
+    a pht:DataInterfaceShapeAtomicDatatype; 
+    pht:hasDatatype datatype:age
+] .
+
+column:3466563c-1e34-11ed-861d-0242ac120002 a pht:ColumnSQLDataInterfaceShape; 
+pht:dataInterfaceShapeHasKey "insurance_number"^^xsd:string;
+pht:shapeHasDatatype  [
+    a pht:DataInterfaceShapeAtomicDatatype; 
+    pht:hasDatatype xsd:unsignedInt
+] .
+
+column:3466533a-1e34-11ed-861d-0242ac120002 a pht:ColumnSQLDataInterfaceShape; 
+pht:dataInterfaceShapeHasKey "insurance_id"^^xsd:string;
+pht:shapeReferences column:34665b50-1e34-11ed-861d-0242ac120002;
+pht:shapeHasDatatype  [
+    a pht:DataInterfaceShapeAtomicDatatype; 
+    pht:hasDatatype xsd:unsignedInt
+] .
+
+column:3466682a-1e34-11ed-861d-0242ac120002 a pht:ColumnSQLDataInterfaceShape; 
+pht:dataInterfaceShapeHasKey "address_id"^^xsd:string;
+pht:shapeReferences column:34665fec-1e34-11ed-861d-0242ac120002;
+pht:shapeHasDatatype  [
+    a pht:DataInterfaceShapeAtomicDatatype; 
+    pht:hasDatatype xsd:unsignedInt
+] .
+
+#Table Insurance
+tabular:34666ba4-1e34-11ed-861d-0242ac120002 a pht:TabularSQLDataInterfaceShape; 
+pht:dataInterfaceShapeHasKey "insurance_company"^^xsd:string;
+pht:consistsOfColumnShapes column:34665b50-1e34-11ed-861d-0242ac120002,
+column:3466615e-1e34-11ed-861d-0242ac120002, 
+column:34666a78-1e34-11ed-861d-0242ac120002 .
+
+column:34665b50-1e34-11ed-861d-0242ac120002 a pht:ColumnSQLDataInterfaceShape; 
+pht:attributeIsUnique "true"^^xsd:boolean;
+pht:dataInterfaceShapeHasKey "id"^^xsd:string;
+pht:shapeHasDatatype [
+    a pht:DataInterfaceShapeAtomicDatatype; 
+    pht:hasDatatype xsd:unsignedInt
+] .
+
+column:3466615e-1e34-11ed-861d-0242ac120002 a pht:ColumnSQLDataInterfaceShape; 
+pht:dataInterfaceShapeHasKey "name"^^xsd:string;
+pht:shapeHasDatatype  [
+    a pht:DataInterfaceShapeAtomicDatatype; 
+    pht:hasDatatype datatype:companyName
+] .
+
+column:34666a78-1e34-11ed-861d-0242ac120002 a pht:ColumnSQLDataInterfaceShape; 
+pht:dataInterfaceShapeHasKey "address_id"^^xsd:string;
+pht:shapeReferences column:34665fec-1e34-11ed-861d-0242ac120002;
+pht:shapeHasDatatype  [
+    a pht:DataInterfaceShapeAtomicDatatype; 
+    pht:hasDatatype xsd:unsignedInt
+] .
+
+#Address table
+tabular:3466629e-1e34-11ed-861d-0242ac120002 a pht:TabularSQLDataInterfaceShape; 
+pht:dataInterfaceShapeHasKey "address"^^xsd:string;
+pht:consistsOfColumnShapes column:34665fec-1e34-11ed-861d-0242ac120002,
+column:34666398-1e34-11ed-861d-0242ac120002, 
+column:346664b0-1e34-11ed-861d-0242ac120002, 
+column:346665f0-1e34-11ed-861d-0242ac120002, 
+column:346666ea-1e34-11ed-861d-0242ac120002.
+
+column:34665fec-1e34-11ed-861d-0242ac120002 a pht:ColumnSQLDataInterfaceShape; 
+pht:attributeIsUnique "true"^^xsd:boolean;
+pht:dataInterfaceShapeHasKey "id"^^xsd:string;
+pht:shapeHasDatatype [
+    a pht:DataInterfaceShapeAtomicDatatype; 
+    pht:hasDatatype xsd:unsignedInt
+] .
+
+column:34666398-1e34-11ed-861d-0242ac120002 a pht:ColumnSQLDataInterfaceShape; 
+pht:dataInterfaceShapeHasKey "city"^^xsd:string;
+pht:shapeHasDatatype  [
+   a pht:DataInterfaceShapeAtomicDatatype; 
+   pht:hasDatatype datatype:cityName
+] .
+
+column:346664b0-1e34-11ed-861d-0242ac120002 a pht:ColumnSQLDataInterfaceShape; 
+pht:dataInterfaceShapeHasKey "street"^^xsd:string;
+pht:shapeHasDatatype  [
+   a pht:DataInterfaceShapeAtomicDatatype; 
+   pht:hasDatatype datatype:streetName
+] .
+
+column:346665f0-1e34-11ed-861d-0242ac120002 a pht:ColumnSQLDataInterfaceShape; 
+pht:dataInterfaceShapeHasKey "house_number"^^xsd:string;
+pht:shapeHasDatatype  [
+    a pht:DataInterfaceShapeAtomicDatatype; 
+    pht:hasDatatype datatype:buildingNumber
+] .
+
+column:346666ea-1e34-11ed-861d-0242ac120002 a pht:ColumnSQLDataInterfaceShape; 
+pht:dataInterfaceShapeHasKey "postcode"^^xsd:string;
+pht:shapeHasDatatype [
+    a pht:DataInterfaceShapeAtomicDatatype; 
+    pht:hasDatatype datatype:zipCode
+] .
+
+# Treatment History Set
+dataset:34680662-1e34-11ed-861d-0242ac120002 a pht:Dataset; 
+dcat:title "Eval - Treatment History"^^xsd:string;
+dcat:description "A dataset about patients and their treatment history."^^xsd:string;
+pht:accessThroughInterface interface:346684fe-1e34-11ed-861d-0242ac120002 . 
+
+#Interface
+interface:346684fe-1e34-11ed-861d-0242ac120002 a pht:PostgresInterface;
+pht:dataInterfaceVersion "14.0.0.0"^^xsd:string;
+pht:hasInterfaceShape interfaceShape:3467ff14-1e34-11ed-861d-0242ac120002.
+
+#SQL Interface Shape
+interfaceShape:3467ff14-1e34-11ed-861d-0242ac120002 a pht:RelationalSQLDataInterfaceShape;
+pht:dataInterfaceShapeHasKey "patientdb"^^xsd:string; 
+pht:consistsOfTabularShapes tabular:346683fa-1e34-11ed-861d-0242ac120002,
+tabular:3467ffe6-1e34-11ed-861d-0242ac120002 .
+
+#Table Patients
+tabular:346683fa-1e34-11ed-861d-0242ac120002 a pht:TabularSQLDataInterfaceShape; 
+pht:dataInterfaceShapeHasKey "patient_info"^^xsd:string;
+pht:consistsOfColumnShapes column:346682b0-1e34-11ed-861d-0242ac120002, 
+column:3466818e-1e34-11ed-861d-0242ac120002, 
+column:34665858-1e34-11ed-861d-0242ac120002,
+column:3468018a-1e34-11ed-861d-0242ac120002, 
+column:34680586-1e34-11ed-861d-0242ac120002 .
+
+column:346682b0-1e34-11ed-861d-0242ac120002 a pht:ColumnSQLDataInterfaceShape; 
+pht:attributeIsUnique "true"^^xsd:boolean;
+pht:dataInterfaceShapeHasKey "id"^^xsd:string;
+pht:shapeHasDatatype [
+    a pht:DataInterfaceShapeAtomicDatatype; 
+    pht:hasDatatype xsd:unsignedInt
+] .
+
+column:3466818e-1e34-11ed-861d-0242ac120002 a pht:ColumnSQLDataInterfaceShape; 
+pht:dataInterfaceShapeHasKey "first_name"^^xsd:string;
+pht:shapeHasDatatype  [
+    a pht:DataInterfaceShapeAtomicDatatype; 
+    pht:hasDatatype datatype:firstName
+] .
+
+column:3467e9d4-1e34-11ed-861d-0242ac120002 a pht:ColumnSQLDataInterfaceShape; 
+pht:dataInterfaceShapeHasKey "last_name"^^xsd:string;
+pht:shapeHasDatatype  [
+    a pht:DataInterfaceShapeAtomicDatatype; 
+    pht:hasDatatype datatype:lastName
+] .
+
+column:3468018a-1e34-11ed-861d-0242ac120002 a pht:ColumnSQLDataInterfaceShape; 
+pht:dataInterfaceShapeHasKey "age"^^xsd:string;
+pht:shapeHasDatatype  [
+    a pht:DataInterfaceShapeAtomicDatatype; 
+    pht:hasDatatype datatype:age
+] .
+
+column:34680586-1e34-11ed-861d-0242ac120002 a pht:ColumnSQLDataInterfaceShape; 
+pht:dataInterfaceShapeHasKey "gender"^^xsd:string;
+pht:shapeHasDatatype  [
+    a pht:DataInterfaceShapeAtomicDatatype; 
+    pht:hasDatatype datatype:gender
+] .
+
+#Table treatments
+tabular:3467ffe6-1e34-11ed-861d-0242ac120002 a pht:TabularSQLDataInterfaceShape; 
+pht:dataInterfaceShapeHasKey "treatments"^^xsd:string;
+pht:consistsOfColumnShapes column:346800b8-1e34-11ed-861d-0242ac120002,
+column:346803e2-1e34-11ed-861d-0242ac120002, 
+column:346804b4-1e34-11ed-861d-0242ac120002, 
+column:34680734-1e34-11ed-861d-0242ac120002 .
+
+column:346800b8-1e34-11ed-861d-0242ac120002 a pht:ColumnSQLDataInterfaceShape; 
+pht:attributeIsUnique "true"^^xsd:boolean;
+pht:dataInterfaceShapeHasKey "id"^^xsd:string;
+pht:shapeHasDatatype [
+    a pht:DataInterfaceShapeAtomicDatatype; 
+    pht:hasDatatype xsd:unsignedInt
+] .
+
+column:346803e2-1e34-11ed-861d-0242ac120002 a pht:ColumnSQLDataInterfaceShape; 
+pht:dataInterfaceShapeHasKey "date"^^xsd:string;
+pht:shapeHasDatatype [
+    a pht:DataInterfaceShapeAtomicDatatype; 
+    pht:hasDatatype datatype:date
+] .
+
+column:346804b4-1e34-11ed-861d-0242ac120002 a pht:ColumnSQLDataInterfaceShape; 
+pht:dataInterfaceShapeHasKey "description"^^xsd:string;
+pht:shapeHasDatatype [
+    a pht:DataInterfaceShapeAtomicDatatype; 
+    pht:hasDatatype datatype:loremIpsum; 
+    pht:atomicDataTypeLength "150"^^xsd:integer
+] .
+
+column:34680734-1e34-11ed-861d-0242ac120002 a pht:ColumnSQLDataInterfaceShape; 
+pht:dataInterfaceShapeHasKey "patient_id"^^xsd:string;
+pht:shapeReferences column:346682b0-1e34-11ed-861d-0242ac120002;
+pht:shapeHasDatatype [
+    a pht:DataInterfaceShapeAtomicDatatype; 
+    pht:hasDatatype xsd:unsignedInt
+] .
+

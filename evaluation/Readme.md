@@ -1,6 +1,6 @@
 # Evaluation
 
-This folder contains the answers from evaluation participants as described in the paper. Moreover, we provide the script that was used to calculate the SUS score and avg + std deviation for the custom questions.
+This folder contains the answers from evaluation participants as described in the paper. Moreover, we provide the script that was used to calculate the SUS score and avg + std deviation for the custom questions. Besides this material, we provide the needed information to replicate the use-case in the 'task' subfolder.
 
 Overall, the evaluation has been conducted with an anonymous online questionnaire with the help of [LimeSurvey](https://www.limesurvey.org/de/). The answers from all 29 participants have been exported and are provided as a CSV file named 'results.csv'. In the file, you can find three question groups (G01Q02, G02Q04, G03Q05). Group, G01Q02 contains one question asking whether participants had previous experience with DA. Group, G02Q04 contains the 10 SUS questions in the order given below. Lastly, group G03Q05 contains six custom questions, also in the order specified in the table below.
 
