@@ -1,0 +1,11 @@
+<h1 mat-dialog-title>Do you really want to delete the variable {{envName}}?</h1>
+<div mat-dialog-actions style="margin-top: 8px">
+  <button mat-raised-button style="margin-right: 10px" (click)="Cancel()">Cancel</button>
+  <button mat-raised-button style="margin-right: 10px" color="warn" (click)="Confirm()">Delete</button>
+  <mat-checkbox  
+      [(ngModel)]="deleteAll"
+      *ngIf="showMultiOption"
+      matTooltip="deletes the variable from all stations where is occurs">
+      Delete for all Stations
+    </mat-checkbox>
+</div>

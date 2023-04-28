@@ -1,0 +1,26 @@
+<h1 mat-dialog-title>Choose a template</h1>
+<div mat-dialog-content>
+  <div class="container">
+    <mat-card class="template-card" (click)="ItemSelected(i)" *ngFor="let template of templates; index as i" [style.margin-right]="i < templates.length - 1 ? '15px' : '0px'">
+      <mat-card-header class="centered-elem">
+        <mat-card-title>{{template.name}}</mat-card-title>
+      </mat-card-header>
+      <img mat-card-image class="card-image" src="{{template.image}}"alt="Python Logo">
+      <mat-card-content class="card-content">
+        <p>
+          {{template.text}}
+        </p>
+        <div class="centered-elem" style="width:100%">
+          <mat-checkbox [disableRipple]="true" (click)="$event.preventDefault()" [ngModel]="template.checked"></mat-checkbox>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
+<div mat-dialog-actions style="margin-top: 15px;">
+  <div style="display: flex; justify-content: flex-start; align-items: center">
+    <button mat-raised-button style="margin-right: 10px" (click)="Cancel()">Cancel</button>
+    <button mat-raised-button style="margin-right: 10px;" [disabled]="!canCreate || loading" (click)="CreateTemplate()">Create</button>
+    <mat-spinner *ngIf="loading" color="accent" diameter="25"></mat-spinner>
+  </div>
+</div>

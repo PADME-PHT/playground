@@ -1,0 +1,110 @@
+<div class="width-100 height-100" style="position:relative">
+  <!-- Selection with width 1px, overflows automatically in the needed size-->
+  <div style="width: 1px; height: 1px; position: absolute; left: 15px; top: 15px; z-index: 999;">
+    <mat-form-field style="margin-top: 0px;">
+      <mat-label>Resource:</mat-label>
+      <mat-select [(ngModel)]="selectedTable" (ngModelChange)="selectedTableChanged()">
+        <mat-option *ngFor="let table of dataset.tables" [value]="table">{{formatTableKey(table.key)}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <!-- Graph-->
+  <div class="width-100" style="height: calc(100% - 30px); min-width:360px; overflow: hidden; position: absolute; z-index: 10">
+   <ngx-graph
+     [panOffsetX]="0"
+     [panOffsetY]="0"
+     [panningEnabled]="true"
+     [draggingEnabled]="false"
+     [animate]="false"
+     [links]="links"
+     [autoCenter]="true"
+     [autoZoom]="false"
+     [nodes]="nodes"
+     
+     appNgxGraphFix #graph>
+     <!-- Templated used for the table-->
+     <ng-template #nodeTemplate let-node>
+      <svg:foreignObject width="1px" height="1px" style="overflow:visible">
+        <div [class.table-container]="usesDarkMode()" [class.table-container-light]="usesLightMode()"
+             [style.width]="node.dimension.width + 'px'" [style.height]="node.dimension.height + 'px'">
+          <!-- Heading -->
+          <div [style.background-color]="node.data.highlightColor" [style.height]="'4px'"></div>
+          <!-- Text and Icon-->
+          <div class="mat-subheading-2" 
+               style="display: flex; min-width: 100%; width:100%; margin:0px; flex-direction: row; height: calc(100% - 4px); align-items: center; justify-content: space-between;">
+            <div style="height:1px; width:1px;"></div> <!-- Not visible element that centers the text-->
+            <div style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; padding-left: 3px;"
+                 [matTooltip]="node.data.text"
+                 [matTooltipPosition]="'below'"
+                 [matTooltipClass]="'tooltip-big'">
+              {{node.data.text}}
+            </div>
+            <div style="padding:2px; padding-right: 3px; display: flex; align-items: center; justify-content: center;">
+              <mat-icon class="column-icon" *ngIf="node.data.unique">key</mat-icon>
+              <mat-icon class="column-icon" *ngIf="node.data.references">keyboard_tab</mat-icon>
+              <mat-icon class="column-icon" *ngIf="node.data.datatype == DataTypeKind.Object">data_object</mat-icon>
+              <mat-icon class="column-icon" *ngIf="node.data.datatype == DataTypeKind.List">data_array</mat-icon>
+              <mat-icon class="column-icon" *ngIf="node.data.datatype == DataTypeKind.Atomic">build</mat-icon>
+            </div>
+          </div>
+        </div>
+        </svg:foreignObject>
+      </ng-template>
+
+      <!-- Link template taken from https://swimlane.github.io/ngx-graph/custom-templates#edge-template-->
+      <ng-template #defsTemplate>
+        <svg:marker id="arrow" viewBox="0 -5 10 10" style="fill: white;" refX="8" refY="0" markerWidth="4" markerHeight="4" orient="auto">
+          <svg:path d="M0,-5L10,0L0,5" class="arrow-head" />
+        </svg:marker>
+      </ng-template>
+
+      <ng-template #linkTemplate let-link>
+        <svg:g class="edge">
+          <svg:path class="line" stroke-width="2" marker-end="url(#arrow)"></svg:path>
+          <svg:text fill="white" style="fill: white; font-size:1.2em"class="edge-label" text-anchor="middle">
+            <textPath
+              class="text-path"
+              [attr.href]="'#' + link.id"
+              [style.dominant-baseline]="link.dominantBaseline"
+              startOffset="50%"
+            >
+              {{link.label}}
+            </textPath>
+          </svg:text>
+        </svg:g>
+      </ng-template>
+   </ngx-graph>
+ </div>
+
+  <!-- Legend -->
+  <div class="width-100" style="height:30px" style="position: absolute; bottom: 5px; display: flex; flex-wrap: nowrap; justify-content: center;">
+    <div matTooltip="The property is unique for all generated instances">
+      Unique
+      <mat-icon class="column-icon" style="margin-right: 10px;">key</mat-icon>
+    </div>
+
+    <div>
+      Object
+      <mat-icon class="column-icon" style="margin-right: 10px;">data_object</mat-icon>
+    </div>
+ 
+    <div>
+      List
+      <mat-icon class="column-icon" style="margin-right: 10px;">data_array</mat-icon>
+    </div>
+
+    <div matTooltip="These values will be generated with the specified type by the playground">
+      Generated
+      <mat-icon class="column-icon" style="margin-right: 10px;" >build</mat-icon>
+    </div>
+
+    <div matTooltip="This property references another resource or dataset and the value will be filed with this data">
+      Reference
+      <mat-icon class="column-icon">keyboard_tab</mat-icon>
+    </div>
+ 
+    <div (click)="zoomToFit()" class="zoom-to-fit">
+      <mat-icon class="column-icon">zoom_out_map</mat-icon>
+    </div>
+  </div>
+</div>

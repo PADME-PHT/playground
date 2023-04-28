@@ -1,0 +1,352 @@
+@prefix pht: <http://schema.padme-analytics.de#> .
+@prefix station: <https://station-registry.hs-mittweida.de/api/stations/> .
+@prefix dataset: <https://playgroundapi.padme-analytics.de/dataset/> .
+@prefix interface: <https://playgroundapi.padme-analytics.de/interface/> .
+@prefix interfaceShape: <https://playgroundapi.padme-analytics.de/interfaceShape/> .
+@prefix datatype: <https://playgroundapi.padme-analytics.de/datatype/> .
+@prefix tabular: <https://playgroundapi.padme-analytics.de/tabular/> .
+@prefix column: <https://playgroundapi.padme-analytics.de/column/> .
+@prefix orga: <https://station-registry.hs-mittweida.de/api/organizations/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/#> .
+@prefix dcat: <http://www.w3.org/ns/dcat/#> .
+
+#Organisation
+orga:f0a6e2c0-ed2a-4ef4-bdfb-ea853b6f7706 a foaf:Organization;
+foaf:name "Dev Orga"^^xsd:string .
+
+# Stations
+# Station 1
+station:d7b0a9a7-07fd-4a31-b93a-3c946dc82667 a pht:Station;
+pht:userOwnedHasTitle "Station 1"^^xsd:string; 
+pht:userOwnedHasDescription "Development Station 1"^^xsd:string;
+pht:responsibleOrganization orga:f0a6e2c0-ed2a-4ef4-bdfb-ea853b6f7706;
+pht:hasDataSet dataset:5fc441e6-f160-11ec-8ea0-0242ac120002 .
+
+# Station 2
+station:5bce186a-5005-4ca8-878e-9d8d4e0747c0 a pht:Station;
+pht:userOwnedHasTitle "Station 2"^^xsd:string; 
+pht:userOwnedHasDescription "Development Station 2"^^xsd:string;
+pht:responsibleOrganization orga:f0a6e2c0-ed2a-4ef4-bdfb-ea853b6f7706;
+pht:hasDataSet dataset:b3af83ba-38f1-4108-b7c9-fc8779c5f2cb .
+
+# Datasets
+dataset:5fc441e6-f160-11ec-8ea0-0242ac120002 a pht:Dataset; 
+dcat:title "Cities and States"^^xsd:string;
+dcat:description "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin vehicula, leo in congue auctor, dui nulla auctor est, a finibus tortor ex consequat elit. Etiam efficitur rhoncus urna, a fringilla augue mollis in. Phasellus lorem libero, viverra a quam sollicitudin, auctor tincidunt quam. Sed eu turpis dapibus dui tempor accumsan vitae et felis. Aliquam tempus arcu nec odio scelerisque pellentesque. Quisque eget auctor mi. Nam ultricies sapien nec rutrum interdum."^^xsd:string;
+pht:accessThroughInterface interface:9d9a7972-f160-11ec-8ea0-0242ac120002 . 
+
+#Interface
+interface:9d9a7972-f160-11ec-8ea0-0242ac120002 a pht:PostgresInterface;
+pht:dataInterfaceVersion "14.0.0.0"^^xsd:string;
+pht:hasInterfaceShape interfaceShape:e3491650-12fc-11ed-861d-0242ac120002 .
+
+#SQL Interface Shape
+interfaceShape:e3491650-12fc-11ed-861d-0242ac120002 a pht:RelationalSQLDataInterfaceShape;
+pht:dataInterfaceShapeHasKey "testdb"^^xsd:string; 
+pht:consistsOfTabularShapes tabular:96ed17c8-f189-11ec-8ea0-0242ac120002;
+pht:consistsOfTabularShapes tabular:021f99e4-f18a-11ec-8ea0-0242ac120002 . 
+
+#Table Cities
+tabular:96ed17c8-f189-11ec-8ea0-0242ac120002 a pht:TabularSQLDataInterfaceShape; 
+pht:dataInterfaceShapeHasKey "cities"^^xsd:string;
+pht:consistsOfColumnShapes column:c4fa91b8-f189-11ec-8ea0-0242ac120002, 
+column:e7ba6a02-f189-11ec-8ea0-0242ac120002, 
+column:e7ba6c96-f189-11ec-8ea0-0242ac120002, 
+column:e7ba6dc2-f189-11ec-8ea0-0242ac120002, 
+column:021f989a-f18a-11ec-8ea0-0242ac120002 . 
+
+column:c4fa91b8-f189-11ec-8ea0-0242ac120002 a pht:ColumnSQLDataInterfaceShape; 
+pht:attributeIsUnique "true"^^xsd:boolean;
+pht:dataInterfaceShapeHasKey "id"^^xsd:string;
+pht:shapeHasDatatype [
+    a pht:DataInterfaceShapeAtomicDatatype; 
+    pht:hasDatatype xsd:unsignedInt
+] .
+
+column:e7ba6a02-f189-11ec-8ea0-0242ac120002 a pht:ColumnSQLDataInterfaceShape; 
+pht:dataInterfaceShapeHasKey "name"^^xsd:string;
+pht:shapeHasDatatype  [
+    a pht:DataInterfaceShapeAtomicDatatype; 
+    pht:hasDatatype datatype:cityName
+] .
+
+column:e7ba6c96-f189-11ec-8ea0-0242ac120002 a pht:ColumnSQLDataInterfaceShape; 
+pht:dataInterfaceShapeHasKey "postcode"^^xsd:string;
+pht:shapeHasDatatype [
+    a pht:DataInterfaceShapeAtomicDatatype; 
+    pht:hasDatatype datatype:zipCode;
+] .
+
+column:e7ba6dc2-f189-11ec-8ea0-0242ac120002 a pht:ColumnSQLDataInterfaceShape; 
+pht:dataInterfaceShapeHasKey "hasUniveristy"^^xsd:string;
+pht:shapeHasDatatype [
+    a pht:DataInterfaceShapeAtomicDatatype; 
+    pht:hasDatatype xsd:boolean
+] .
+
+column:021f989a-f18a-11ec-8ea0-0242ac120002 a pht:ColumnSQLDataInterfaceShape; 
+pht:dataInterfaceShapeHasKey "stateId"^^xsd:string;
+pht:shapeReferences column:412844b6-f198-11ec-8ea0-0242ac120002;
+pht:shapeHasDatatype [
+    a pht:DataInterfaceShapeAtomicDatatype; 
+    pht:hasDatatype xsd:unsignedInt
+] .
+
+#Table for states
+tabular:021f99e4-f18a-11ec-8ea0-0242ac120002 a pht:TabularSQLDataInterfaceShape; 
+pht:dataInterfaceShapeHasKey "states"^^xsd:string;
+pht:consistsOfColumnShapes column:412844b6-f198-11ec-8ea0-0242ac120002;
+pht:consistsOfColumnShapes column:9bf173e4-f18a-11ec-8ea0-0242ac120002 .
+
+column:412844b6-f198-11ec-8ea0-0242ac120002 a pht:ColumnSQLDataInterfaceShape; 
+pht:attributeIsUnique "true"^^xsd:boolean;
+pht:dataInterfaceShapeHasKey "id"^^xsd:string;
+pht:shapeHasDatatype [
+    a pht:DataInterfaceShapeAtomicDatatype; 
+    pht:hasDatatype xsd:unsignedInt
+] .
+
+column:9bf173e4-f18a-11ec-8ea0-0242ac120002 a pht:ColumnSQLDataInterfaceShape; 
+pht:dataInterfaceShapeHasKey "name"^^xsd:string;
+pht:shapeHasDatatype [
+    a pht:DataInterfaceShapeAtomicDatatype; 
+    pht:hasDatatype datatype:country;
+] .
+
+# Dataset Universities
+dataset:b3af83ba-38f1-4108-b7c9-fc8779c5f2cb a pht:Dataset; 
+dcat:title "Universities"^^xsd:string;
+dcat:description "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin vehicula, leo in congue auctor, dui nulla auctor est, a finibus tortor ex consequat elit. Etiam efficitur rhoncus urna, a fringilla augue mollis in. Phasellus lorem libero, viverra a quam sollicitudin, auctor tincidunt quam. Sed eu turpis dapibus dui tempor accumsan vitae et felis. Aliquam tempus arcu nec odio scelerisque pellentesque. Quisque eget auctor mi. Nam ultricies sapien nec rutrum interdum."^^xsd:string;
+pht:accessThroughInterface interface:cfd10f9a-0546-49d6-b89a-529337c876e5 . 
+
+#Postgres Interface
+interface:cfd10f9a-0546-49d6-b89a-529337c876e5 a pht:PostgresInterface;
+pht:dataInterfaceVersion "14.0.0.0"^^xsd:string;
+pht:hasInterfaceShape interfaceShape:4085f1a8-12fd-11ed-861d-0242ac120002 .
+
+#SQL Interface Shape
+interfaceShape:4085f1a8-12fd-11ed-861d-0242ac120002 a pht:RelationalSQLDataInterfaceShape;
+pht:dataInterfaceShapeHasKey "universitydb"^^xsd:string; 
+pht:consistsOfTabularShapes tabular:76de1f2a-448d-43a3-a0db-8ce493b00c80, 
+tabular:a9ed16a1-4b27-4468-87ba-7c6ec9e21214, 
+tabular:962052e2-806f-4d10-81fa-0ae191c84156,
+tabular:ed0b292b-6638-4185-8bb2-e229b104b985, 
+tabular:9b3f4256-29f8-4293-bce8-86bc8647fd08, 
+tabular:91da86c2-0d29-45ad-b7fa-b9fd68ccd753,
+tabular:96de12cf-ce3f-4dde-a07a-f2bb4093cc7c .
+
+#Table person
+tabular:a9ed16a1-4b27-4468-87ba-7c6ec9e21214 a pht:TabularSQLDataInterfaceShape; 
+pht:dataInterfaceShapeHasKey "person"^^xsd:string;
+pht:consistsOfColumnShapes column:e0d5ca27-0e3a-4baa-a486-bb06bc292d43, 
+column:9b0dd5ac-de52-4ac0-af37-e16692ff2719, 
+column:1e9fbc1d-39de-4a5c-b85c-945b326b6126, 
+column:a2a30b0e-726e-41bd-9208-5dd27846574e .
+
+column:e0d5ca27-0e3a-4baa-a486-bb06bc292d43 a pht:ColumnSQLDataInterfaceShape; 
+pht:attributeIsUnique "true"^^xsd:boolean;
+pht:dataInterfaceShapeHasKey "id"^^xsd:string;
+pht:shapeHasDatatype [
+    a pht:DataInterfaceShapeAtomicDatatype; 
+    pht:hasDatatype xsd:unsignedInt
+] .
+
+column:9b0dd5ac-de52-4ac0-af37-e16692ff2719 a pht:ColumnSQLDataInterfaceShape; 
+pht:dataInterfaceShapeHasKey "first_name"^^xsd:string;
+pht:shapeHasDatatype  [
+    a pht:DataInterfaceShapeAtomicDatatype; 
+    pht:hasDatatype datatype:firstName
+] .
+
+column:1e9fbc1d-39de-4a5c-b85c-945b326b6126 a pht:ColumnSQLDataInterfaceShape; 
+pht:dataInterfaceShapeHasKey "last_name"^^xsd:string;
+pht:shapeHasDatatype [
+    a pht:DataInterfaceShapeAtomicDatatype; 
+    pht:hasDatatype datatype:lastName
+] .
+
+column:a2a30b0e-726e-41bd-9208-5dd27846574e a pht:ColumnSQLDataInterfaceShape; 
+pht:dataInterfaceShapeHasKey "addressId"^^xsd:string;
+pht:shapeReferences column:5fafbdac-5d99-4ca4-b233-bcd1bd5ede9f;
+pht:shapeHasDatatype [
+    a pht:DataInterfaceShapeAtomicDatatype; 
+    pht:hasDatatype xsd:unsignedInt
+] .
+
+#Address table
+tabular:76de1f2a-448d-43a3-a0db-8ce493b00c80 a pht:TabularSQLDataInterfaceShape; 
+pht:dataInterfaceShapeHasKey "address"^^xsd:string;
+pht:consistsOfColumnShapes column:5fafbdac-5d99-4ca4-b233-bcd1bd5ede9f,
+column:c1e26d67-a8f5-4ccb-b99d-f087f1185e1b, 
+column:ba7a1cb4-091f-40bf-bed1-9c5bb14c47a6, 
+column:869553df-3c75-46b9-a068-0fb67ed7f1d9, 
+column:c38843ff-9c46-4595-bbba-3f9d73bc3116 .
+
+column:5fafbdac-5d99-4ca4-b233-bcd1bd5ede9f a pht:ColumnSQLDataInterfaceShape; 
+pht:attributeIsUnique "true"^^xsd:boolean;
+pht:dataInterfaceShapeHasKey "id"^^xsd:string;
+pht:shapeHasDatatype [
+    a pht:DataInterfaceShapeAtomicDatatype; 
+    pht:hasDatatype xsd:unsignedInt
+] .
+
+column:c1e26d67-a8f5-4ccb-b99d-f087f1185e1b a pht:ColumnSQLDataInterfaceShape; 
+pht:dataInterfaceShapeHasKey "city"^^xsd:string;
+pht:shapeHasDatatype  [
+   a pht:DataInterfaceShapeAtomicDatatype; 
+   pht:hasDatatype datatype:cityName
+] .
+
+column:ba7a1cb4-091f-40bf-bed1-9c5bb14c47a6 a pht:ColumnSQLDataInterfaceShape; 
+pht:dataInterfaceShapeHasKey "street"^^xsd:string;
+pht:shapeHasDatatype  [
+   a pht:DataInterfaceShapeAtomicDatatype; 
+   pht:hasDatatype datatype:streetName
+] .
+
+column:869553df-3c75-46b9-a068-0fb67ed7f1d9 a pht:ColumnSQLDataInterfaceShape; 
+pht:dataInterfaceShapeHasKey "house_number"^^xsd:string;
+pht:shapeHasDatatype  [
+    a pht:DataInterfaceShapeAtomicDatatype; 
+    pht:hasDatatype datatype:buildingNumber
+] .
+
+column:c38843ff-9c46-4595-bbba-3f9d73bc3116 a pht:ColumnSQLDataInterfaceShape; 
+pht:dataInterfaceShapeHasKey "postcode"^^xsd:string;
+pht:shapeHasDatatype [
+    a pht:DataInterfaceShapeAtomicDatatype; 
+    pht:hasDatatype datatype:zipCode
+] .
+
+#Table student
+tabular:962052e2-806f-4d10-81fa-0ae191c84156 a pht:TabularSQLDataInterfaceShape; 
+pht:dataInterfaceShapeHasKey "students"^^xsd:string;
+pht:consistsOfColumnShapes column:b89e8c42-679a-4d9c-9aa4-7bca5a52c244, 
+column:bf426da1-8917-47e8-8683-d92ac708ebcf .
+
+column:b89e8c42-679a-4d9c-9aa4-7bca5a52c244 a pht:ColumnSQLDataInterfaceShape; 
+pht:attributeIsUnique "true"^^xsd:boolean;
+pht:dataInterfaceShapeHasKey "id"^^xsd:string;
+pht:shapeHasDatatype [
+    a pht:DataInterfaceShapeAtomicDatatype; 
+    pht:hasDatatype xsd:unsignedInt
+] .
+
+column:bf426da1-8917-47e8-8683-d92ac708ebcf a pht:ColumnSQLDataInterfaceShape; 
+pht:dataInterfaceShapeHasKey "personId"^^xsd:string;
+pht:shapeReferences column:e0d5ca27-0e3a-4baa-a486-bb06bc292d43;
+pht:shapeHasDatatype [
+    a pht:DataInterfaceShapeAtomicDatatype; 
+    pht:hasDatatype xsd:unsignedInt
+] .
+
+#Table professor
+tabular:ed0b292b-6638-4185-8bb2-e229b104b985 a pht:TabularSQLDataInterfaceShape; 
+pht:dataInterfaceShapeHasKey "professor"^^xsd:string;
+pht:consistsOfColumnShapes column:d98e1efa-d088-4c9c-8a6d-6c0a6f01737d,
+column:a84f53ed-8513-4ebf-b228-7cfa16a59c4e, 
+column:82e32241-6d21-4ebf-9beb-cdc67cb566af .
+
+column:d98e1efa-d088-4c9c-8a6d-6c0a6f01737d a pht:ColumnSQLDataInterfaceShape; 
+pht:attributeIsUnique "true"^^xsd:boolean;
+pht:dataInterfaceShapeHasKey "id"^^xsd:string;
+pht:shapeHasDatatype [
+    a pht:DataInterfaceShapeAtomicDatatype; 
+    pht:hasDatatype xsd:unsignedInt
+] .
+
+column:82e32241-6d21-4ebf-9beb-cdc67cb566af a pht:ColumnSQLDataInterfaceShape; 
+pht:dataInterfaceShapeHasKey "grade_group"^^xsd:string;
+pht:shapeHasDatatype [
+    a pht:DataInterfaceShapeAtomicDatatype; 
+    pht:hasDatatype xsd:unsignedInt;
+    pht:atomicDataTypeLength "2"^^xsd:integer
+] .
+
+column:a84f53ed-8513-4ebf-b228-7cfa16a59c4e a pht:ColumnSQLDataInterfaceShape; 
+pht:dataInterfaceShapeHasKey "personId"^^xsd:string;
+pht:shapeReferences column:e0d5ca27-0e3a-4baa-a486-bb06bc292d43;
+pht:shapeHasDatatype [
+    a pht:DataInterfaceShapeAtomicDatatype; 
+    pht:hasDatatype xsd:unsignedInt
+] .
+
+#Table university
+tabular:9b3f4256-29f8-4293-bce8-86bc8647fd08 a pht:TabularSQLDataInterfaceShape; 
+pht:dataInterfaceShapeHasKey "university"^^xsd:string;
+pht:consistsOfColumnShapes column:7a6fd135-6ec4-441e-aef0-ffc5bedeca41,
+column:2f17fd17-9df6-45b9-aef0-8aa6263a92be, 
+column:9df29064-c202-43c2-a566-ab2e9e33f1da .
+
+column:7a6fd135-6ec4-441e-aef0-ffc5bedeca41 a pht:ColumnSQLDataInterfaceShape; 
+pht:attributeIsUnique "true"^^xsd:boolean;
+pht:dataInterfaceShapeHasKey "id"^^xsd:string;
+pht:shapeHasDatatype [
+    a pht:DataInterfaceShapeAtomicDatatype; 
+    pht:hasDatatype xsd:unsignedInt
+] .
+
+column:2f17fd17-9df6-45b9-aef0-8aa6263a92be a pht:ColumnSQLDataInterfaceShape; 
+pht:dataInterfaceShapeHasKey "name"^^xsd:string;
+pht:shapeHasDatatype [
+    a pht:DataInterfaceShapeAtomicDatatype; 
+    pht:hasDatatype datatype:companyName
+] .
+
+column:9df29064-c202-43c2-a566-ab2e9e33f1da a pht:ColumnSQLDataInterfaceShape; 
+pht:dataInterfaceShapeHasKey "number_of_students"^^xsd:string;
+pht:shapeHasDatatype [
+    a pht:DataInterfaceShapeAtomicDatatype; 
+    pht:hasDatatype xsd:unsignedInt; 
+    pht:atomicDataTypeLength "6"^^xsd:integer
+] .
+
+#Table professor-university
+tabular:96de12cf-ce3f-4dde-a07a-f2bb4093cc7c a pht:TabularSQLDataInterfaceShape; 
+pht:dataInterfaceShapeHasKey "professor_university"^^xsd:string;
+pht:consistsOfColumnShapes column:5e1e7b3d-9307-41f7-abe7-ac66bf8b4d12, 
+column:c3b5a835-084a-4aab-bfa7-99c785180b56 .
+
+column:5e1e7b3d-9307-41f7-abe7-ac66bf8b4d12 a pht:ColumnSQLDataInterfaceShape; 
+pht:attributeIsUnique "true"^^xsd:boolean;
+pht:dataInterfaceShapeHasKey "professor_id"^^xsd:string;
+pht:shapeReferences column:d98e1efa-d088-4c9c-8a6d-6c0a6f01737d;
+pht:shapeHasDatatype [
+    a pht:DataInterfaceShapeAtomicDatatype; 
+    pht:hasDatatype xsd:unsignedInt
+] .
+
+column:c3b5a835-084a-4aab-bfa7-99c785180b56 a pht:ColumnSQLDataInterfaceShape; 
+pht:attributeIsUnique "true"^^xsd:boolean;
+pht:shapeReferences column:7a6fd135-6ec4-441e-aef0-ffc5bedeca41;
+pht:dataInterfaceShapeHasKey "university_id"^^xsd:string;
+pht:shapeHasDatatype [
+    a pht:DataInterfaceShapeAtomicDatatype; 
+    pht:hasDatatype xsd:unsignedInt
+] .
+
+#Table student-university
+tabular:91da86c2-0d29-45ad-b7fa-b9fd68ccd753 a pht:TabularSQLDataInterfaceShape; 
+pht:dataInterfaceShapeHasKey "student_university"^^xsd:string;
+pht:consistsOfColumnShapes column:e2623a0c-9cd3-47ed-836e-e435b9584fb0, 
+column:255face2-3354-47be-8871-aeff2f7da0a6 .
+
+column:e2623a0c-9cd3-47ed-836e-e435b9584fb0 a pht:ColumnSQLDataInterfaceShape; 
+pht:attributeIsUnique "true"^^xsd:boolean;
+pht:dataInterfaceShapeHasKey "student_id"^^xsd:string;
+pht:shapeReferences column:b89e8c42-679a-4d9c-9aa4-7bca5a52c244;
+pht:shapeHasDatatype [
+    a pht:DataInterfaceShapeAtomicDatatype; 
+    pht:hasDatatype xsd:unsignedInt
+] .
+
+column:255face2-3354-47be-8871-aeff2f7da0a6 a pht:ColumnSQLDataInterfaceShape; 
+pht:attributeIsUnique "true"^^xsd:boolean;
+pht:shapeReferences column:7a6fd135-6ec4-441e-aef0-ffc5bedeca41;
+pht:dataInterfaceShapeHasKey "university_id"^^xsd:string;
+pht:shapeHasDatatype [
+    a pht:DataInterfaceShapeAtomicDatatype; 
+    pht:hasDatatype xsd:unsignedInt
+] .

@@ -1,0 +1,35 @@
+<!-- Output options -->
+<div class="container width-100" style="height: 60px; display: flex; flex-direction: row; align-items: center; justify-content: space-evenly">
+  <span>
+    Output Filters:
+  </span>
+  <mat-slide-toggle
+      class="example-margin"
+      [checked]="showBuildDetails"
+      (change)="buildDetailsChanged($event.checked)"
+      [color]="sliderColor">
+    Detailed build output
+    </mat-slide-toggle>
+    <mat-form-field style="margin-top: 15px;">
+      <mat-label>Show Execution at Stations</mat-label>
+      <mat-select [formControl]="selectedStation" multiple>
+        <mat-option *ngFor="let halt of route.halts" [value]="halt.station.id">{{halt.station.name}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+</div>
+
+<!-- 100% width is needed such that code mirror does not expand with content -->
+<div style="height: calc(100% - 61px); width:100%; overflow: auto;">
+  <ngx-codemirror
+  [preserveScrollPosition]="false"
+  [options]="{
+    lineNumbers: false,
+    theme: 'monokai',
+    mode: 'text/plain',
+    readOnly: true,
+    scrollbarStyle: 'simple' 
+  }" #editor
+></ngx-codemirror>
+</div>
+
+

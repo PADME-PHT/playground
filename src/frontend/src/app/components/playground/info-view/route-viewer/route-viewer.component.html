@@ -1,0 +1,21 @@
+
+<div class="height-100 width-100">
+<!-- Header options -->
+<div class="container width-100" style="height: 60px; display: flex; flex-direction: row; align-items: center; justify-content: center">
+  <div class="mat-title" style="margin: 0px !important;">
+    Route 
+  </div>
+</div>
+
+<div style="display: flex; flex-direction: column;">
+
+  <div style="margin: 20px" >
+    Specify the order in which the stations should be visited during the simulation by dragging & dropping items.
+  </div>
+
+  <div class="widht-100">
+    <app-route-selector [route]="route" (routeChange)="routeChanged($event)" ></app-route-selector>
+  </div>
+</div>
+
+</div>

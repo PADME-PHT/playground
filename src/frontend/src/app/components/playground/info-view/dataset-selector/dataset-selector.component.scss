@@ -1,0 +1,13 @@
+@use 'sass:map';
+@use '@angular/material' as mat;
+@use '../../../../../styles.scss' as theme;
+
+//Load the theme and the color config from there
+$color-config:  mat.get-color-config(theme.$theme);
+$background-palette: map.get($color-config, 'background');
+
+.container
+{
+  background-color: mat.get-color-from-palette($background-palette, background);
+  border-bottom: 1px solid black;
+}

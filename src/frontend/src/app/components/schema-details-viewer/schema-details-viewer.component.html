@@ -1,0 +1,44 @@
+<div>
+
+  <mat-card>
+    <mat-card-title class="mat-title">Title</mat-card-title>
+    <mat-card-content>
+      {{dataset.title}}
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card *ngIf="dataset.type == DatasetType.Relational">
+    <mat-card-title class="mat-title">Database name</mat-card-title>
+    <mat-card-content>
+      {{dataset.key}}
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card>
+    <mat-card-title class="mat-title">Data source type</mat-card-title>
+    <mat-card-content>
+      {{dataset.sourceType}} {{dataset.sourceTypeVersion}}
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card>
+    <mat-card-title class="mat-title">Allows anonymous access</mat-card-title>
+    <mat-card-content>
+      {{dataset.allowsAnonymousAccess ? "true": "false"}}
+    </mat-card-content>
+  </mat-card>
+  
+  <mat-card *ngIf="dataset.type == DatasetType.MimeType">
+    <mat-card-title class="mat-title">Format Type</mat-card-title>
+    <mat-card-content>
+      {{formatFormatType(dataset.formatType)}}
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card>
+    <mat-card-title class="mat-title">Description</mat-card-title>
+    <mat-card-content>
+      {{dataset.description}}
+    </mat-card-content>
+  </mat-card>
+<div>

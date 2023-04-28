@@ -1,0 +1,11 @@
+FROM node:18
+
+WORKDIR /usr/src/app
+
+# Install useful packages
+RUN apt-get update && apt-get install -y nano
+
+# Set different directory for global npm installations
+# (The default directory does not have the right permissions)
+ENV NPM_CONFIG_PREFIX=/home/node/.npm-global
+ENV PATH=$PATH:/home/node/.npm-global/bin

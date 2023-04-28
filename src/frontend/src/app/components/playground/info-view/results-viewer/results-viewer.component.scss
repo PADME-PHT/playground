@@ -1,0 +1,138 @@
+@use 'sass:map';
+@use '@angular/material' as mat;
+@use '../../../../../styles.scss' as theme;
+
+//Load the theme and the color config from there
+$color-config:  mat.get-color-config(theme.$theme);
+$background-palette: map.get($color-config, 'background');
+$warn-palette: map.get($color-config, 'warn');
+
+::ng-deep .error-snackbar
+{
+  color:  mat.get-color-from-palette($warn-palette, main);
+}
+
+.error-message
+{
+  color:  mat.get-color-from-palette($warn-palette, main);
+}
+
+.container
+{
+  background-color: mat.get-color-from-palette($background-palette, background);
+  border-bottom: 1px solid black;
+}
+
+.container-footer
+{
+  background-color: mat.get-color-from-palette($background-palette, background);
+  border-top: 1px solid black;
+}
+
+.mat-card
+{
+  padding: 0px;
+  border-radius: 0px;
+}
+
+//Elements
+$modified: darkgoldenrod;
+$deleted: mat.get-color-from-palette($warn-palette, main);
+$added: #019101;;
+
+.modified-element
+{
+  color: $modified;
+}
+
+.modified-legend
+{
+  background: $modified;
+}
+
+.deleted-element
+{
+  color: $deleted;
+}
+
+.deleted-legend
+{
+  background-color: $deleted;
+}
+
+.added-element
+{
+  color: $added;
+}
+
+.added-legend
+{
+  background-color: $added;
+}
+
+
+//Scrollbar
+::-webkit-scrollbar {
+  width: 13px;
+  overflow-y: scroll;
+  background: #EEEEEE;
+  box-shadow: inset 0 0 4px #EEEEEE;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #C2C2C2;
+}
+
+//Tree
+.result-tree-invisible
+{
+  display: none;
+}
+
+.result-tree ul,
+.result-tree li 
+{
+  margin-top: 0;
+  margin-bottom: 0;
+  list-style-type: none;
+}
+
+.mat-icon-button
+{
+  height: 36px;
+}
+
+.mat-tree-node
+{
+  min-height: 36px; 
+}
+
+//Padding for single leaf elements that do not have a parent
+mat-tree-node[role=treeitem]
+{
+  padding-left: 13px;
+}
+
+.icon-button
+{
+  transform: scale(0.7);
+  color: gray;
+}
+
+/*
+ * This padding sets alignment of the nested nodes.
+ */
+.result-tree .mat-nested-tree-node div[role=group] 
+{
+  padding-left: 15px;
+}
+
+/*
+ * Padding for leaf nodes.
+ * Leaf nodes need to have padding so as to align with other non-leaf nodes
+ * under the same parent.
+ */
+.result-tree div[role=group] > .mat-tree-node 
+{
+  padding-left: 25px;
+}

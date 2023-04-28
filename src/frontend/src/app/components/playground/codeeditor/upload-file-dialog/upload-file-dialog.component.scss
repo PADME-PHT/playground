@@ -1,0 +1,42 @@
+@use 'sass:map';
+@use '@angular/material' as mat;
+@use '../../../../../styles.scss' as theme;
+
+//Load the theme and the color config from there
+$color-config:  mat.get-color-config(theme.$theme);
+$background-palette: map.get($color-config, 'background');
+$warn-palette: map.get($color-config, 'warn');
+
+::ng-deep .error-snackbar
+{
+  color:  mat.get-color-from-palette($warn-palette, main);
+}
+
+.size
+{
+  color: lighten(mat.get-color-from-palette($background-palette, background), 50%);
+}
+
+//is applied conditionally by the fileDragNDrop directive
+.file-over
+{
+  border: 2px dashed theme.$drag-highlight !important;
+}
+
+.drop-zone
+{
+  border: 1px dashed white;
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar {
+  width: 13px;
+  overflow-y: scroll;
+  background: #EEEEEE;
+  box-shadow: inset 0 0 4px #EEEEEE;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #C2C2C2;
+}
+

@@ -1,0 +1,15 @@
+<!-- 100% width is needed such das code mirror does not expand with content -->
+<div style="height: 100%; width:100%; overflow: auto;">
+  <ngx-codemirror
+  [ngModel]="content"
+  (ngModelChange)="contentUpdated($event)"
+  [options]="{
+    lineNumbers: true,
+    theme: 'monokai',
+    mode: this.getTextModeForFile(),
+    readOnly: this.IsReadonly,
+    scrollbarStyle: 'simple' 
+  }" #editor
+></ngx-codemirror>
+</div>
+

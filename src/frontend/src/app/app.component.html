@@ -1,0 +1,49 @@
+
+<!-- Toolbar on top -->
+<mat-toolbar color="primary" class="topbar telative mat-toolbar mat-toolbar-single-row">
+  
+  <div class="width-100" style="display: flex; align-items: center; justify-content: space-between;padding-right: 13px">
+    <div >
+      <span>PADME</span>
+      <img height="20px" style="margin-left: 2px; margin-right:2px" class="logo" src="assets/img/padme_white_150x150.png"> 
+      <span>Playground</span>
+    </div>
+
+    <div style="display: flex; align-items: center; justify-content: center;">
+      <div style="padding-right: 15px">
+        <a href="https://docs.padme-analytics.de/en/how-to/playground" target="_blank">
+          <button mat-stroked-button color="accent">
+            View Documentation
+            <mat-icon>
+              info_outline
+            </mat-icon>
+          </button>
+        </a>
+      </div>
+      <div style="display: flex; align-items: center; justify-content: center;">
+        <button mat-stroked-button color="accent" [matMenuTriggerFor]="userMenu">
+          <mat-icon>
+            account_circle
+          </mat-icon>
+          <mat-icon>
+            expand_more
+          </mat-icon>
+        </button>
+        <mat-menu #userMenu="matMenu"> 
+          <ng-template matMenuContent let-item="index"> 
+            <button mat-menu-item (click)="logout()"> 
+              <mat-icon>logout</mat-icon>
+              <span>Logout</span>
+            </button> 
+          </ng-template> 
+        </mat-menu> 
+      </div>
+
+    </div>
+   
+
+
+  </div>
+</mat-toolbar>
+
+<router-outlet></router-outlet>

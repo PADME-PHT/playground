@@ -1,0 +1,111 @@
+services:
+
+  keycloak: 
+    image: bitnami/keycloak
+    container_name: 'playground-keycloak'
+    restart: unless-stopped
+    networks:
+      playground-net:
+        aliases: 
+          - keycloak
+    ports: 
+      - "8080:8080"
+    environment: 
+      KEYCLOAK_CREATE_ADMIN_USER: "true"
+      KEYCLOAK_ADMIN_USER: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+      KEYCLOAK_DATABASE_HOST: keycloak_postgres
+      KEYCLOAK_DATABASE_USER: keycloak
+      KEYCLOAK_DATABASE_PASSWORD: 1234
+      KEYCLOAK_DATABASE_NAME: keycloak
+
+  keycloak_postgres:
+    image: postgres
+    container_name: 'playground-keycloak-postgres'
+    restart: unless-stopped
+    networks:
+      playground-net:
+        aliases: 
+          - keycloak_postgres
+    environment: 
+      POSTGRES_PASSWORD: 1234
+      POSTGRES_USER: keycloak
+      POSTGRES_DB: keycloak
+    volumes: 
+      - "keycloak_potgres_data:/var/lib/postgresql/data"
+
+  backend:
+    build: 
+      context: ./../
+      dockerfile: ./src/backend/Dockerfile.dev
+    #Portforwarding of local port 8080 to 8080 in the keycloak container (for some reason, nc terminates sometimes, therefore, we do it continuously)
+    entrypoint: ${COMMAND-/bin/sh -c "while :; do nc -l -k -p 8080 -c 'nc keycloak 8080'; done"}
+    restart: unless-stopped
+    container_name: playground-backend
+    depends_on: 
+      - dind
+      - blazegraph
+      - keycloak
+    networks:
+      playground-net:
+    ports: 
+      - "1234:1234"
+    environment: 
+      DOCKER_HOST: dind
+      DOCKER_PORT: 2376
+      NODE_ENV: development
+      KEYCLOAK_REALM: master
+      # We use localhost here because otherwise we get name mismatches (e.g. expected localhost, got keycloak) when validating tokens
+      # This is due to the tokens beeing created by the frontend, which uses localhost as a target
+      # However: We use a port forwarding with the nc command (see entrypoint above) and this way everything works
+      KEYCLOAK_SERVER_URL: http://localhost:8080
+      KEYCLOAK_CLIENT_ID: playground
+      API_PORT: 1234
+      CORS_ORIGIN: "*"
+      LOGGER_LEVEL: debug
+      METADATA_ENDPOINT: http://blazegraph:9999/bigdata/sparql
+    volumes:
+      - "playground-dindcerts-client:/usr/src/app/src/backend/dind-certs-client/certs:ro"
+      - "./../:/usr/src/app:cached"  
+
+  dind:
+    image: docker:dind
+    container_name: 'playground-dind'
+    restart: unless-stopped
+    environment:
+      DOCKER_TLS_CERTDIR: /certs
+      DOCKER_TLS_SAN: DNS:dind
+    volumes:
+      - "playground-dindcerts-ca:/certs/ca"
+      - "playground-dindcerts-client:/certs/client"
+    networks:
+      playground-net: 
+        aliases: 
+          - dind
+    privileged: true
+
+  blazegraph:
+    container_name: 'playground-blaze'
+    restart: unless-stopped
+    build: 
+      context: ./external/blazegraph
+      cache_from:
+        - blazegraph:latest
+    volumes:
+      - "playground-blazedata:/workdir/data/"
+    ports: 
+      - "9999:9999"
+    networks:
+      playground-net: 
+        aliases: 
+          - blazegraph
+
+networks:
+  playground-net:
+
+volumes:
+  keycloak_potgres_data:
+  playground-dindcerts-ca:
+  playground-dindcerts-client:
+  playground-blazedata:
+     name: "playground-blazedata"

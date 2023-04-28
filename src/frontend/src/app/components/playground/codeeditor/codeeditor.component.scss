@@ -1,0 +1,80 @@
+@use 'sass:map';
+@use '@angular/material' as mat;
+@use '../../../../styles.scss' as theme;
+
+$color-config:  mat.get-color-config(theme.$theme);
+$warn-palette: map.get($color-config, 'warn');
+
+::ng-deep .error-snackbar
+{
+  color:  mat.get-color-from-palette($warn-palette, main);
+}
+
+.mat-card
+{
+  padding: 0px;
+  border-radius: 0px;
+}
+
+.flex-wrap
+{
+  flex-wrap: wrap;
+}
+
+.flex-nowrap
+{
+  flex-wrap: nowrap;
+}
+
+.flex-container {
+  display: flex;
+}
+
+::-webkit-scrollbar {
+  width: 13px;
+  overflow-y: scroll;
+  background: #EEEEEE;
+  box-shadow: inset 0 0 4px #EEEEEE;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #C2C2C2;
+}
+
+.flex-space-around
+{
+  justify-content: space-around;
+}
+
+.flex-center
+{
+  justify-content: center;
+  align-items: center;
+}
+
+.flex-end
+{
+  justify-content: center;
+  align-items: end;
+}
+
+.flex-start
+{
+  justify-content: center;
+  align-items: start;
+}
+
+.sidebar
+{
+  flex: 0 0 200px;
+}
+
+.sidebar-content
+{
+  width: 200px;
+}
+
+.mat-list-text
+{
+  overflow-x: auto;
+}

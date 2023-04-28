@@ -1,0 +1,59 @@
+
+<mat-card class="height-100" [ngClass]="{'width-100': this.selectedIndex != -1}" [style.width]="this.selectedIndex == -1 ? '30px': ''" >
+    <mat-card-content class="height-100">
+      <mat-drawer-container color="background" class="height-100" [ngClass]="{'width-100': this.selectedIndex != -1}">
+        <mat-drawer 
+          mode="side"
+          position="end"
+          style="width: 30px; border-left: 1px solid black;"
+          class="height-100 scroll-without-scrollbar drawer" 
+          opened
+        >
+          <!-- Menu Options --> 
+          <div *ngFor="let option of options; index as i" 
+            (click)="selectionChanged(i)" 
+            [ngClass]="{'menu-elem-selected': selectedIndex == i}"
+            class="menu-elem"
+          >
+          <div class="rotate" >
+            {{option}}
+          </div>
+          <mat-divider></mat-divider>
+        </div>
+        </mat-drawer>
+        <mat-drawer-content>
+           <!-- Content -->
+           <div [ngClass]="{'height-100 width-100': this.selectedIndex != -1}">
+            <div class="height-100 width-100" *ngIf="schemaSelected() || schemaDetailsSelected()">
+              <div style="height: 60px" class="width-100">
+                <app-dataset-selector 
+                  [(selectedStation)]="selectedStation" 
+                  [(selectedDataset)]="selectedDataset"
+                  [route]="route">
+                </app-dataset-selector>
+              </div>  
+              <div style="height: calc(100% - 60px)" class="width-100" *ngIf="schemaSelected()">
+                <app-schema-viewer [datasets]="availableDatasets" [dataset]="selectedDataset"></app-schema-viewer>
+              </div>
+              <div style="height: calc(100% - 60px)" class="width-100" *ngIf="schemaDetailsSelected()">
+                <app-schema-details-viewer [dataset]="selectedDataset"></app-schema-details-viewer>
+              </div>
+            </div>
+            <app-route-viewer class="height-100 width-100" [(route)]="route" *ngIf="routeSelected()"></app-route-viewer>
+            <!-- 
+              Should keep its state because initialization might be expensive (lot of logs) and the component has local state that would otherwise needed to be restored
+              Therefore, we use display none/block instead of ng directives like if here
+            -->
+            <app-ouput-viewer class="height-100 width-100" [style.display]="outputSelected() ? 'block' : 'none'"></app-ouput-viewer>
+            <app-results-viewer class="height-100 width-100" *ngIf="resultSelected()"></app-results-viewer>
+            <app-envs-viewer class="height-100 width-100" 
+              [route]="route"
+              [selectedStation]="selectedStation"
+              (selectedStationChange)="updateStationAndResetDataset($event)"
+              *ngIf="envsSelected()">
+            </app-envs-viewer>
+          </div>
+        </mat-drawer-content>
+      </mat-drawer-container>
+    </mat-card-content> 
+  </mat-card>

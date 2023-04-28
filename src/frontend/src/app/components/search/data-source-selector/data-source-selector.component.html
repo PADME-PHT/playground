@@ -1,0 +1,57 @@
+<mat-expansion-panel *ngFor="let orga of organizations" 
+  [expanded]="mode == 'deselection'" 
+  [hideToggle]="mode == 'deselection'">
+  <!-- Organization name etc.-->
+  <mat-expansion-panel-header 
+    [collapsedHeight]="'48px'" 
+    [expandedHeight]="'48px'"
+    (click)="mode == 'deselection' ? panelHeader._toggle() : $event" #panelHeader>
+    <mat-panel-title>
+      {{orga.name}}
+    </mat-panel-title>
+  </mat-expansion-panel-header>
+
+  <!-- Station -->
+  <mat-expansion-panel *ngFor="let station of orga.stations" [expanded]="mode == 'deselection'" [hideToggle]="mode == 'deselection'">
+    <mat-expansion-panel-header 
+      [collapsedHeight]="'48px'" 
+      [expandedHeight]="'48px'" 
+      (click)="mode == 'deselection' ? panelHeader._toggle() : $event" #panelHeader>
+      <mat-panel-title>
+        {{station.name}}
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    
+    <!-- Dataset -->
+    <div style="display: flex;" *ngIf="station.datasets.length > 0">
+      <!-- Selection List (select dataset for visualization) -->
+      <mat-selection-list style="width: calc(100% - 28px)" (click)="$event.preventDefault()" 
+          (selectionChange)="datasetSelected(orga, station, $event)" [multiple]="false" #selection>
+        <mat-list-option *ngFor="let dataset of station.datasets" [value]="dataset">
+          {{dataset.title}}
+        </mat-list-option>
+      </mat-selection-list>
+      <!-- List with checkboxes-->
+      <mat-list class="selection-box">
+        <mat-list-item class="width-100 height-100 selection-box" 
+            style="display: flex; align-items: center; justify-content: center" 
+            *ngFor="let dataset of station.datasets">
+          <mat-checkbox [checked]="mode == 'deselection'" [id]="dataset.id"
+            [matTooltip]="checkbox.checked ? 'Unselect data source for simulation' : 'Select data source for simulation'" 
+            (change)="checkboxClicked(checkbox.checked, orga, station, dataset)" #checkbox>
+          </mat-checkbox>
+        </mat-list-item>
+      </mat-list>
+    </div>
+    
+    <!-- No dataset found -->
+    <div *ngIf="station.datasets.length == 0" class="no-station" style="height: 48px; display: flex; align-items: center;">
+      No datasets for station found
+    </div>
+
+  </mat-expansion-panel>
+  <!-- No station found -->
+  <div *ngIf="orga.stations.length == 0" class="no-station" style="height: 48px; display: flex; align-items: center;">
+    No stations for organization found
+  </div>
+</mat-expansion-panel>

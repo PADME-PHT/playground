@@ -1,0 +1,101 @@
+@use 'sass:map';
+@use '@angular/material' as mat;
+@use '../../../styles.scss' as theme;
+
+$color-config:  mat.get-color-config(theme.$theme);
+$background-palette: map.get($color-config, 'background');
+$warn-palette: map.get($color-config, 'warn');
+
+.item
+{
+  background-color: mat.get-color-from-palette($background-palette, background);
+  margin-top: 10px !important; // needed to overwrite card default
+  margin-bottom: 10px; 
+  height: calc(100% - 20px);
+}
+
+::-webkit-scrollbar {
+  width: 13px;
+  overflow-y: scroll;
+  background: #EEEEEE;
+  box-shadow: inset 0 0 4px #EEEEEE;
+}
+
+::ng-deep .error-snackbar
+{
+  color:  mat.get-color-from-palette($warn-palette, main);
+}
+
+::-webkit-scrollbar-thumb {
+  background: #C2C2C2;
+}
+
+.item-left
+{
+  margin-left:10px;
+  width: calc(100% - 10px);
+}
+
+.item-middle
+{
+  margin-left: 10px; 
+  margin-right: 10px;
+  width: calc(100% - 20px);
+}
+
+.item-right
+{
+  margin-right:10px;
+  width: calc(100% - 10px)
+}
+
+.mat-card
+{
+  padding: 0px;
+  border-radius: 0px;
+}
+
+.dataset-detail
+{
+  background-color: darken(mat.get-color-from-palette($background-palette, background), 1%);
+}
+
+::ng-deep .dataset-detail-expanded .mat-expansion-panel-content
+{
+  height: calc(100% - 48px) !important;
+}
+
+::ng-deep .dataset-detail-expanded .mat-expansion-panel-body
+{
+  height: 100% !important;
+}
+
+.selection-header
+{
+  text-align: center;
+  padding-bottom: 8px;
+  padding-top: 8px; //needed for overwrite card default
+  margin: 0px !important;
+}
+
+.mat-expansion-panel
+{
+  padding: 0px;
+  border-radius: 0px;
+}
+
+.mat-expansion-panel
+{
+  background-color: transparent;
+  box-shadow: none !important;
+}
+
+.mat-expansion-panel-header
+{
+  padding-left: 16px;
+  padding-right: 16px;
+}
+
+mat-panel-description {
+  flex-grow: 0;
+}

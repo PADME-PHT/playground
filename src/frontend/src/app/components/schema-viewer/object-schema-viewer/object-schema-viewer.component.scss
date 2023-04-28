@@ -1,0 +1,42 @@
+@use 'sass:map';
+@use '@angular/material' as mat;
+@use '../../../../styles.scss' as theme;
+
+//Load the theme and the color config from there
+$color-config:  mat.get-color-config(theme.$theme);
+$background-palette: map.get($color-config, 'background');
+
+.mat-subheading-2
+{
+  font-size: 20px;
+}
+
+.table-container
+{
+  background-color: mat.get-color-from-palette($background-palette, background);
+}
+
+.table-container-light
+{
+  background-color: mat.get-color-from-palette($background-palette, dialog);
+}
+
+.column-icon {
+  vertical-align: middle;
+  font-size: 20px;
+  padding-bottom: 2px;
+  height: 20px ;
+  width: 20px ;
+}
+
+.zoom-to-fit
+{
+  position: absolute; 
+  right: 0; 
+  padding-bottom: 5px; 
+  padding-right: 2px;
+}
+
+.zoom-to-fit:hover{
+  cursor: pointer;
+}

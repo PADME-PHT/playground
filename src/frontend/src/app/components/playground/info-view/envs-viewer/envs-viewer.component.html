@@ -1,0 +1,166 @@
+
+<div class="width-100 height-100">
+  <!-- Header to select the Station -->
+  <div class="width-100 selectionContainer" style="height: 60px; display: flex; flex-direction: row; align-items: center; justify-content: center;">
+
+    <!-- Select Station-->
+    <mat-form-field style="margin-top: 15px;">
+      <mat-label>Station:</mat-label>
+      <mat-select [(ngModel)]="selectedStation" (ngModelChange)="selectedStationChanged()">
+        <mat-option *ngFor="let halt of route.halts" [value]="halt.station">{{halt.station.name}}</mat-option>
+      </mat-select>
+    </mat-form-field>   
+  </div>
+
+  <!-- Predefined Environment variables -->
+  <div style="height: calc(50% - 30px); min-height: calc(50%- 30px); max-height: calc(50%- 30px);">
+    <mat-card style="height:calc(100% - 8px)"> <!-- Remove padding from height-->
+      <mat-card-title class="mat-title">Predefined Environment Variables</mat-card-title>
+       <!-- Remove height of the title from height-->
+      <mat-card-content style="height: calc(100% - 48px); display:flex; flex-direction: column; justify-content: space-between;">
+        
+        <div
+          style="max-height: calc(100% - 68px); overflow: auto; height: calc(100% - 68px);"
+          (resized)="updatePredefinedPaginationSize()"
+          #predefinedTableContainer
+        >
+          <table mat-table [dataSource]="predefinedDataSource" class="mat-elevation-z0" matSort #predefinedSort>
+
+            <ng-container matColumnDef="name">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
+              <td mat-cell *matCellDef="let element"> 
+                {{element.name}}
+              </td>
+            </ng-container>
+        
+            <ng-container matColumnDef="value">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Value</th>
+              <td mat-cell *matCellDef="let element">{{element.value}}</td>
+            </ng-container>
+        
+            <ng-container matColumnDef="description">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Description</th>
+              <td mat-cell *matCellDef="let element">{{element.description}}</td>
+            </ng-container>
+            
+            <ng-container matColumnDef="buttons" >
+              <th mat-header-cell *matHeaderCellDef style="text-align: end;"></th>
+              <td mat-cell *matCellDef="let element" style="text-align: end;">
+                <button
+                  *ngIf="element.value !== element.initialValue" 
+                  color="warn"
+                  mat-icon-button
+                  aria-label="Reset to default value"
+                  matTooltip="Reset to default value"
+                  (click)="resetPredefinedVariable(element)"
+                >
+                  <mat-icon>history</mat-icon>
+                </button>
+                <button mat-icon-button aria-label="setValue" (click)="editVariable(element, true)">
+                  <mat-icon>edit_note</mat-icon>
+                </button>
+              </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="predefinedDisplayColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: predefinedDisplayColumns;"></tr>
+            
+            <!-- no available data-->
+            <tr class="mat-row" *matNoDataRow>
+              <td *ngIf="predefinedInput.value.length > 0" class="mat-cell" colspan="4">No data matching the filter "{{predefinedInput.value}}"</td>
+              <td *ngIf="predefinedInput.value.length == 0" class="mat-cell" colspan="4">No data</td>
+            </tr>
+        
+          </table> 
+        </div>
+
+        <!-- Pagination and Filtering -->
+        <div style="display: flex; padding-top:auto; justify-content: center; height:68px">
+          <mat-form-field class="filter" style="flex:auto; padding-left: 8px;" appearance="standard">
+            <mat-label>Filter</mat-label>
+            <input matInput (keyup)="applyPredefinedFilter($event)" placeholder="e.g. Port" #predefinedInput>
+          </mat-form-field>
+
+          <mat-paginator [hidePageSize]="true" [showFirstLastButtons]="true" [pageSize]="predefinedPageSize" aria-label="Select page of users" #predefinedPaginator></mat-paginator>          
+        </div>
+        
+      </mat-card-content>
+    </mat-card>  
+  </div>
+
+  <!-- Own environment variables-->
+  <div style="height: calc(50% - 31px);" >
+    <mat-card style="height:calc(100% - 6px)"> <!-- Remove padding from height-->
+      <mat-card-title class="mat-title">
+        <div style="display: flex; justify-content: space-between">
+          <div>
+            Custom Environment Variables
+          </div>
+          <div>
+            <button mat-stroked-button (click)="addOwnVariable()">
+              Add Variable
+            </button>
+          </div>
+        </div>
+        </mat-card-title>
+       <!-- Remove height of the title from the height of the card-->
+      <mat-card-content style="height: calc(100% - 48px); display:flex; flex-direction: column; justify-content: space-between;">
+        <div
+          style="max-height: calc(100% - 68px); overflow: auto; height: calc(100% - 68px);"
+          (resized)="updateOwnPaginationSize()"
+          #ownTableContainer
+        >
+          <table mat-table [dataSource]="ownDataSource" class="mat-elevation-z0" matSort #ownSort>
+
+            <ng-container matColumnDef="name">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
+              <td mat-cell *matCellDef="let element"> 
+                {{element.name}} 
+              </td>
+            </ng-container>
+        
+            <ng-container matColumnDef="value">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Value</th>
+              <td mat-cell *matCellDef="let element"> 
+                {{element.value}}
+              </td>
+            </ng-container>
+            
+            <ng-container matColumnDef="buttons" >
+              <th mat-header-cell *matHeaderCellDef style="text-align: end;"></th>
+              <td mat-cell *matCellDef="let element" style="text-align: end;">
+                <button mat-icon-button aria-label="setValue" (click)="editVariable(element, true)">
+                  <mat-icon>edit_note</mat-icon>
+                </button>
+                <button mat-icon-button aria-label="Remove variable" (click)="deleteVariable(element)">
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="ownDisplayColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: ownDisplayColumns;"></tr>
+            
+            <!-- no available data-->
+            <tr class="mat-row" *matNoDataRow>
+              <td *ngIf="ownInput.value.length > 0 "class="mat-cell" colspan="4">No variables matching the filter "{{ownInput.value}}"</td>
+              <td *ngIf="ownInput.value.length == 0 "class="mat-cell" colspan="4">No data</td>
+            </tr>
+    
+          </table> 
+        </div>
+    
+        <!-- Pagination and Filtering -->
+        <div style="display: flex; justify-content: center; height:68px">
+
+          <mat-form-field class="filter" style="flex:auto; padding-left: 8px;" appearance="standard">
+            <mat-label>Filter</mat-label>
+            <input matInput (keyup)="applyOwnFilter($event)" placeholder="e.g. Port" #ownInput>
+          </mat-form-field>
+
+          <mat-paginator [hidePageSize]="true" [showFirstLastButtons]="true" [pageSize]="ownPageSize" aria-label="Select page of users" #ownPaginator></mat-paginator>          
+        </div>
+      </mat-card-content>
+    </mat-card>  
+  </div>
+</div>

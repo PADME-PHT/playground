@@ -1,0 +1,19 @@
+<div class="width-100 container height-100" style="display: flex; flex-direction: row; align-items: center; justify-content: space-evenly;">
+
+  <!-- Select Station-->
+  <mat-form-field style="margin-top: 15px;">
+    <mat-label>Station:</mat-label>
+    <mat-select [(ngModel)]="selectedStation" (ngModelChange)="selectedStationChanged()">
+      <mat-option *ngFor="let halt of route.halts" [value]="halt.station">{{halt.station.name}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <!-- Select Dataset -->
+  <mat-form-field style="margin-top: 15px;">
+      <mat-label>Dataset:</mat-label>
+      <mat-select [(ngModel)]="selectedDataset" (ngModelChange)="selectedDatasetChanged()">
+        <mat-option *ngFor="let dataset of selectedStation.datasets" [value]="dataset">{{dataset.title}}</mat-option>
+      </mat-select>
+  </mat-form-field>
+   
+</div>

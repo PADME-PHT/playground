@@ -1,0 +1,39 @@
+<h1 mat-dialog-title>{{mode == 'Edit' ? 'Edit' : 'Add'}} Environment Variable</h1>
+<div mat-dialog-content style="width: 400px;">
+  <div class="width-100">
+    <mat-form-field appearance="fill" class="width-100">
+      <mat-label>Variable name</mat-label>
+      <input matInput [formControl]="name" type="text">
+      <mat-error *ngIf="name.invalid">{{getNameErrorMessage()}}</mat-error>
+    </mat-form-field> 
+  </div>
+  <div class="width-100" style="padding-top: 5px">
+    <mat-form-field appearance="fill" class="width-100">
+      <mat-label>Variable Value</mat-label>
+      <input matInput [formControl]="value" type="text">
+      <mat-error *ngIf="value.invalid">Please provide a value</mat-error>
+    </mat-form-field>
+  </div>
+</div>
+<div mat-dialog-actions style="margin-top: 8px">
+  <button mat-raised-button class="menu-button" (click)="Cancel()">Cancel</button>
+  <span *ngIf="mode == 'Edit'">
+    <button mat-raised-button class="menu-button" [disabled]="(name.value == initialName && value.value == initialValue) || name.invalid || value.invalid" (click)="Success()">Update</button>
+    <mat-checkbox  
+      [(ngModel)]="multipleSelected"
+      *ngIf="showMultiOption"
+      [disabled]="name.value == initialName && value.value == initialValue"
+      matTooltip="applies the changes to all variables with the same name">
+      Update for all Stations
+    </mat-checkbox>
+  </span>
+  <span *ngIf="mode == 'Create'">
+    <button mat-raised-button class="menu-button" [disabled]="name.invalid || value.invalid" (click)="Success()">Add</button> 
+    <mat-checkbox  
+      [(ngModel)]="multipleSelected"
+      *ngIf="showMultiOption"
+      [disabled]="name.invalid || value.invalid">
+      Add for all Stations
+    </mat-checkbox>
+  </span>
+</div>

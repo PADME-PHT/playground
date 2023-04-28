@@ -1,0 +1,15 @@
+<h1 mat-dialog-title>Route Settings</h1>
+<div mat-dialog-content style="max-width: 600px">
+  Please specify the order in which the stations should be visited during the simulation.
+  To change the order, simple drag & drop the items. <br>
+  The order specified here can later also be changed in the simulation settings.
+  <div style="width: 100%; display:flex; align-items: center; justify-content: center; margin-top: 10px; margin-bottom: 10px;">
+    <div style="padding: 10px;">
+      <app-route-selector [(route)]="route"></app-route-selector>
+    </div>
+  </div>
+</div>
+<div style="display: flex; justify-content: flex-start; align-items: center">
+  <button mat-raised-button style="margin-right: 10px" (click)="Cancel()">Cancel</button>
+  <button mat-raised-button style="margin-right: 10px;" class="confirm" (click)="Confirm()">Confirm</button>
+</div>

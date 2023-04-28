@@ -1,0 +1,25 @@
+.info-when-selected
+{
+  min-width: 535px;
+  flex: 1 1 calc(50% - 3px);
+}
+
+.info-when-not-selected
+{
+  min-width: 30px;
+  //important is needed here in order to overwrite the flex property
+  //set by the resize directive
+  flex: 1 1 30px !important;
+}
+
+.editor-when-selected
+{
+  flex: 1 1 calc(50% - 3px);
+}
+
+.editor-when-not-selected
+{
+  //important is needed here in order to overwrite the flex property
+  //set by the resize directive
+  flex: 1 1 calc(100% - 30px) !important;
+}

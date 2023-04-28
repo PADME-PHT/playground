@@ -1,0 +1,12 @@
+@use 'sass:map';
+@use '@angular/material' as mat;
+@use '../../../../../../styles.scss' as theme;
+
+//Load the theme and the color config from there
+$color-config:  mat.get-color-config(theme.$theme);
+$warn-palette: map.get($color-config, 'warn');
+
+.snackbar-text
+{
+  color:  mat.get-color-from-palette($warn-palette, main);
+}

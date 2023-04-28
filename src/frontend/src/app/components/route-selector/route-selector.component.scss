@@ -1,0 +1,46 @@
+@use 'sass:map';
+@use '@angular/material' as mat;
+@use '../../../styles.scss' as theme;
+
+$color-config:  mat.get-color-config(theme.$theme);
+$background-palette: map.get($color-config, 'background');
+
+.route-list {
+  max-width: 100%;
+  min-height: 60px;
+}
+
+.route-box {
+  padding: 10px 10px;
+  background-color: mat.get-color-from-palette($background-palette, background);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+  cursor: move;
+  color: white;;
+  font-size: 14px;
+}
+
+.cdk-drag-preview {
+  box-sizing: border-box;
+  border-radius: 4px;
+  box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
+              0 8px 10px 1px rgba(0, 0, 0, 0.14),
+              0 3px 14px 2px rgba(0, 0, 0, 0.12);
+}
+
+.cdk-drag-placeholder {
+  opacity: 0;
+}
+
+.cdk-drag-animating {
+  color: white;;
+  font-size: 14px;
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.route-list.cdk-drop-list-dragging .route-box:not(.cdk-drag-placeholder) {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}

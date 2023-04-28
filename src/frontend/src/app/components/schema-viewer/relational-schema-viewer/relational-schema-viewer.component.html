@@ -1,0 +1,107 @@
+<div class="width-100 height-100" style="position:relative">
+  <!--Graph -->
+ <div class="width-100" 
+     (resized)="onResized($event)" 
+     style="min-width:360px; height: calc(100% - 30px); overflow: hidden;">
+   <ngx-graph
+     [panOffsetX]="0"
+     [panOffsetY]="0"
+     [panningEnabled]="true"
+     [draggingEnabled]="true"
+     [animate]="false"
+     [links]="links"
+     [autoCenter]="true"
+     [autoZoom]="false"
+     [nodes]="nodes"
+     appNgxGraphFix #graph>
+   <!-- Templated used for the table-->
+     <ng-template #nodeTemplate let-node>
+       <svg:foreignObject width="1px" height="1px" style="overflow:visible">
+         <div [class.table-container]="usesDarkMode()" [class.table-container-light]="usesLightMode()"
+              [style.width]="node.dimension.width + 'px'" [style.height]="getHeightForTableViewer(node.data.table) + 'px'">
+           <!-- Heading -->
+           <div [style.background-color]="node.data.highlightColor" [style.height]="'4px' "></div>
+           <div class="mat-title" style="margin:0px; height: 30px; text-align: center;" >{{node.data.table.key}}</div>
+           <mat-divider [class.mat-divider-dark]="usesDarkMode()" 
+             [class.mat-divider-light]="usesLightMode()"
+             [style.width]="node.dimension.width + 'px'" style="height:3px; margin-top: 2px;">
+           </mat-divider>
+           <div [style.height]="node.data.table.columns.length * 30 + 'px'" style="padding: 6px 6px 8px 6px;">
+             <!-- Columns -->
+             <div class="mat-subheading-2" 
+               *ngFor="let column of node.data.table.columns" style="margin: 0px; height: 30px">
+               <div style="display: flex; min-width: 100%; width:100%; align-items: center; justify-content: space-between;">
+                 <div style="overflow: hidden; text-overflow: ellipsis;"
+                      [matTooltip]="column.key"
+                      [matTooltipPosition]="'below'"
+                      [matTooltipClass]="'tooltip-big'">
+                   {{column.key}}
+                 </div>
+                 <div style="padding:2px">
+                 </div>
+                 <div style="display: flex; align-items: center; justify-content: flex-end">
+                   <div style="overflow: hidden; text-overflow: ellipsis; flex-shrink: 3;"
+                      [matTooltip]="column.datatype.name"
+                      [matTooltipPosition]="'below'"
+                      [matTooltipClass]="'tooltip-big'">
+                     {{column.datatype.name}}
+                   </div>
+                   <div style="flex-shrink: 0; padding-left:2px;" >
+                     <mat-icon class="column-icon" *ngIf="column.isUnique">key</mat-icon>
+                     <mat-icon class="column-icon" 
+                     *ngIf="column.referenceTo"
+                     [matTooltip]="column.referenceTo ? 'references ' + getTableAndColumnName(column.referenceTo) : ''"
+                     [matTooltipPosition]="'below'"
+                     [matTooltipClass]="'tooltip-big'">
+                     keyboard_tab
+                     </mat-icon>
+                   </div>
+                 </div>
+               </div>
+             </div>
+           </div>
+         </div>
+         </svg:foreignObject>
+     </ng-template>
+
+     <!-- Link template taken from https://swimlane.github.io/ngx-graph/custom-templates#edge-template-->
+     <ng-template #defsTemplate>
+       <svg:marker id="arrow" viewBox="0 -5 10 10" style="fill: white;" refX="8" refY="0" markerWidth="4" markerHeight="4" orient="auto">
+         <svg:path d="M0,-5L10,0L0,5" class="arrow-head" />
+       </svg:marker>
+     </ng-template>
+
+     <ng-template #linkTemplate let-link>
+       <svg:g class="edge">
+         <svg:path class="line" stroke-width="2" marker-end="url(#arrow)"></svg:path>
+         <svg:text fill="white" style="fill: white; font-size:1.2em"class="edge-label" text-anchor="middle">
+           <textPath
+             class="text-path"
+             [attr.href]="'#' + link.id"
+             [style.dominant-baseline]="link.dominantBaseline"
+             startOffset="50%"
+           >
+             {{link.label}}
+           </textPath>
+         </svg:text>
+       </svg:g>
+     </ng-template>
+   </ngx-graph>
+ </div>
+ <!-- Legend -->
+ <div class="width-100" style="height:30px" style="display: flex; flex-wrap: nowrap; justify-content: center; padding-bottom: 5px;">
+   <div>
+     Primary Key
+     <mat-icon class="column-icon" style="margin-right: 10px;">key</mat-icon>
+   </div>
+
+   <div matTooltip="Hover a foreign key to get the referenced column">
+     Foreign Key (hover for details)
+     <mat-icon class="column-icon">keyboard_tab</mat-icon>
+   </div>
+
+   <div (click)="zoomToFit()" class="zoom-to-fit">
+     <mat-icon class="column-icon">zoom_out_map</mat-icon>
+   </div>
+ </div>
+</div>

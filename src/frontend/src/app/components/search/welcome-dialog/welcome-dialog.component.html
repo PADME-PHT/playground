@@ -1,0 +1,19 @@
+<div style="display: flex; align-items: center; justify-content: center; margin-bottom: 20px;" class="header">
+  <h1 mat-dialog-title style="margin: 0px;">Welcome to the PADME</h1>
+  <img height="25px" style="margin-left: 2px; margin-right:2px" src="assets/img/padme_white_150x150.png"> 
+  <h1 mat-dialog-title style="margin: 0px;">Playground</h1>
+</div>
+<mat-divider style="background-color: white; margin-bottom: 20px;"></mat-divider>
+<div mat-dialog-content style="max-width: 700px; text-align: center; margin-bottom: 25px;">
+  Welcome to the PADME Playground! This application lets you execute analysis tasks in a simulated PADME ecosystem. 
+  With this simulation, you can test your analysis task before distributing it to data holders.<br><br>
+
+  In a first step, please select the stations and related data sources you want to use for your simulation. <br>
+  For each station, at least one data source is required, but you can also choose multiple if needed. <br><br>
+
+  After this first step, you can upload or create the analysis task and start the simulation in the next screen.
+</div>
+<div style="margin-top: 12px; display: flex; justify-content: center; align-items: center">
+  <button mat-raised-button style="margin-right: 15px;" class="start" (click)="Start()">Start</button>
+  <mat-checkbox (change)="showMessageChanged($event.checked)">Do not show this message again</mat-checkbox>
+</div>

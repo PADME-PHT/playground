@@ -1,0 +1,48 @@
+<h1 mat-dialog-title>Upload a file</h1>
+<div style="width: 600px; height: 300px;">
+  <!-- Drop/browse files-->
+  <div *ngIf="!uploading" class="drop-zone" mat-dialog-content fileDragNDrop (fileDrop)="newFilesUploaded($event)" 
+      style="width: 100%; height: 100%; display: flex; align-items: center; flex-direction: column; justify-content: center;">
+      <mat-icon style="font-size: 50px; height: 50px; width: 50px; margin-bottom: 5px;">
+        file_upload
+      </mat-icon>
+      <div class="mat-subheading-2" style="margin-bottom: 5px">Drag and drop file here</div>
+      <div class="mat-subheading-2" style="margin-bottom: 5px">or</div>
+      <button mat-stroked-button color="accent" (click)="triggerBrowseFiles()">
+        Browse for files
+        <input type="file" style="display:none" (change)="handleFileBrowse($event)" #browseFiles>
+      </button>
+  </div>
+  <!-- List of uploads -->
+  <div style="height: 300px; width: 600px; overflow: auto;" *ngIf="uploading"  >
+      <div style="width: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center;">
+        <div *ngFor="let file of files;index as i" style="width: 100%; height:60px; display: flex; justify-content: space-evenly; align-items: center; padding-top: 5px; padding-bottom: 5px;">
+          <img src="assets/img/file-upload.svg" width="50px" style="padding-right: 5px" alt="file">
+          <div style="width: calc(100% - 55px); display: flex; flex-direction: column;"> 
+            <div>
+              {{file.name}}
+            </div>
+            <div class="size">
+              {{formatBytes(file.size)}}
+            </div>
+            <mat-progress-bar
+                class="example-margin"
+                [color]="'accent'"
+                [mode]="'determinate'"
+                [value]="fileProgress[i]">
+            </mat-progress-bar>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+<div mat-dialog-actions style="margin-top: 15px;">
+  <div style="display: flex; justify-content: space-between; align-items: center">
+    <button mat-raised-button style="margin-right: 10px" (click)="cancel()">Cancel</button>
+    <mat-checkbox  
+      [(ngModel)]="unzip"
+      matTooltip="Whether zip files should be deflated after the upload">
+      Deflate zip files
+    </mat-checkbox>
+  </div>
+</div>

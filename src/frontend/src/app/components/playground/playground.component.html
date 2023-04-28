@@ -1,0 +1,14 @@
+<div style="display: flex; flex-direction: row; height: calc(100% - 64px);">
+  <div [ngClass]="{'editor-when-selected': infoSelected, 'editor-when-not-selected': !infoSelected}"
+       style="height: 100%; min-width: 210px" 
+       #firstElement>
+    <app-codeeditor #editor></app-codeeditor>
+  </div>
+  <!-- Only enable grabber when menu on the right is selected-->
+  <div *ngIf="infoSelected" class="grabber" appResize [leftResize]="firstElement" [rightResize]="rightElement"></div>
+  <div style="height: 100%;" 
+      [ngClass]="{'info-when-selected': infoSelected, 'info-when-not-selected': !infoSelected}" 
+      #rightElement>
+    <app-info-view (hasSelectionChanged)="infoViewHasSelectionChanged($event)"></app-info-view>
+  </div>
+</div>

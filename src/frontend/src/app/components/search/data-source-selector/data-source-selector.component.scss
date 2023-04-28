@@ -1,0 +1,42 @@
+::ng-deep .selection-box .mat-list-base, 
+::ng-deep .selection-box .mat-list-item, 
+::ng-deep .selection-box .mat-list-item-content
+{
+  padding: 0px !important;
+}
+
+
+::ng-deep .selection-box .mat-list-base, 
+::ng-deep .selection-box .mat-list-item
+{
+  width: 40px !important;
+  height: 48px !important;
+}
+
+.mat-expansion-panel
+{
+  padding: 0px;
+  border-radius: 0px;
+}
+
+.mat-expansion-panel
+{
+  background-color: transparent;
+  box-shadow: none !important;
+}
+
+.mat-expansion-panel-header
+{
+  padding-left: 16px;
+  padding-right: 16px;
+}
+
+.no-station,
+::ng-deep .mat-expansion-panel-body
+{
+  padding: 0 0 0px 8px !important; //Overwrite the mat defaults
+}
+
+mat-panel-description {
+  flex-grow: 0;
+}

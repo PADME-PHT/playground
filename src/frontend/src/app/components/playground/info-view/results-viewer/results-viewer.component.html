@@ -1,0 +1,182 @@
+<div class="height-100 width-100">
+
+  <!-- Header Execution results-->
+  <div *ngIf="!visualizing" class="container width-100" style="height: 60px; display: flex; flex-direction: row; align-items: center; justify-content: center">
+    <div class="mat-title" style="margin: 0px !important;">
+      Execution results 
+    </div>
+  </div>
+
+  <!-- Header File visualizer-->
+  <div class="container width-100" *ngIf="visualizing" style="height: 60px; display: flex; flex-direction: row; align-items: center; justify-content: space-between">
+    <button mat-icon-button (click)="visualizingBack();">
+      <mat-icon>
+        arrow_back
+      </mat-icon>
+    </button>
+    <div class="mat-title" style="margin: 0px !important;">
+      {{visualizing.name}}
+    </div>
+    <!-- Empty element such that the back button is left and the name centered-->
+    <div style="height: 1px; width: 1px">
+    </div>
+  </div>
+
+  <!-- Change viewer -->
+  <div style="height: calc(100% - 92px); overflow: auto;"
+       *ngIf="results.length > 0 && !hasError && !visualizing">
+    <mat-tree [dataSource]="dataSource" [treeControl]="treeControl" class="result-tree">
+      <!-- Template for files -->
+      <mat-tree-node *matTreeNodeDef="let node;" matTreeNodeToggle>
+        <mat-icon style="padding-right: 4px"
+            [class.modified-element]="node.changeType == 0"
+            [class.added-element]="node.changeType == 1"
+            [class.deleted-element]="node.changeType == 2">
+          description
+        </mat-icon>
+        <span style="padding-right: 5px">
+          {{node.name}}
+        </span>
+        <!-- Download Button -->
+        <div>
+          <button (click)="downloadFile(node)" *ngIf="!resultLoading.get(node)" mat-icon-button style="width: 20px; height: 20px;">
+            <mat-icon *ngIf="node.changeType != 2" class="icon-button">
+              download
+            </mat-icon>
+          </button>
+          <!-- View files if available -->
+          <button (click)="viewFile(node)" *ngIf="resultVisualizable.get(node) && !resultLoading.get(node)" mat-icon-button style="width: 20px; height: 20px;">
+            <mat-icon *ngIf="node.changeType != 2" class="icon-button">
+              visibility
+            </mat-icon>
+          </button>
+          <div style="display: flex; align-items: center; justify-content: center;">
+            <mat-spinner *ngIf="resultLoading.get(node)" color="accent" diameter="17"></mat-spinner>
+          </div>
+        </div>
+      </mat-tree-node>
+      <!--  Template for expandable nodes -->
+      <mat-nested-tree-node *matTreeNodeDef="let node; when: hasChild; index as i">
+          <div class="mat-tree-node">
+            <button mat-icon-button matTreeNodeToggle [disableRipple]="true" 
+                    [attr.aria-label]="'Toggle ' + node.name">
+              <mat-icon class="mat-icon-rtl-mirror">
+                {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
+              </mat-icon>
+            </button>
+            <mat-icon style="padding-right: 4px" 
+                  [class.modified-element]="node.changeType == 0"
+                  [class.added-element]="node.changeType == 1"
+                  [class.deleted-element]="node.changeType == 2">
+              folder
+            </mat-icon>
+            <span style="padding-right: 5px">
+              {{node.name}}
+            </span>
+            <!-- Download Button -->
+            <div>
+              <button (click)="downloadFile(node)" *ngIf="!resultLoading.get(node)" mat-icon-button style="width: 20px; height: 20px;">
+                <mat-icon *ngIf="node.changeType != 2" class="icon-button">
+                  download
+                </mat-icon>
+              </button>              
+              <div style="display: flex; align-items: center; justify-content: center;">
+                <mat-spinner *ngIf="resultLoading.get(node)" color="accent" diameter="17"></mat-spinner>
+              </div>
+            </div>
+          </div>
+          <!-- There is inline padding applied to this div using styles.
+              This padding value depends on the mat-icon-button width.  -->
+          <div [class.result-tree-invisible]="!treeControl.isExpanded(node)"
+              role="group">
+            <ng-container matTreeNodeOutlet></ng-container>
+        </div>
+      </mat-nested-tree-node>
+    </mat-tree>
+  </div>
+
+  <!-- File visualizer -->
+  <div style="height: calc(100% - 61px);" *ngIf="visualizing && visualizeType && visualizeBlob">
+    <app-file-visualizer 
+        [fileType]="visualizeType"
+        [content]="visualizeBlob"
+        #visualizer >
+    </app-file-visualizer>
+  </div>
+
+  <!-- error -->
+  <mat-card *ngIf="hasError" style="height: calc(100% - 92px);" class="widht-100">
+    <mat-card-content class="height-100 width-100">
+      <div style="display:flex; flex-direction: column; align-items: center; justify-content: center;" class="height-100 width-100">
+        <div class="mat-title error-message" >
+          Something went wrong while loading the results, please try again.
+        </div>
+        <button mat-stroked-button (click)="retry()">
+          Retry
+        </button>
+      </div>  
+    </mat-card-content> 
+  </mat-card>
+
+   <!-- loading -->
+   <div *ngIf="loading" style="display: flex; flex-wrap: nowrap; flex-direction: column; justify-content: center; align-items: center; height: calc(100% - 92px)">
+        <mat-spinner color="accent" diameter="40"></mat-spinner>
+        <div style="margin-top: 10px">Loading...</div>
+  </div>
+
+  <!-- No changes -->
+  <mat-card *ngIf="results.length == 0 && executionManager.hasExecuted && !executionManager.isExecuting && !hasError && !loading" style="height: calc(100% - 92px);" class="widht-100">
+    <mat-card-content class="height-100 width-100">
+      <div style="display:flex; align-items: center; justify-content: center;" class="height-100 width-100">
+        <div class="mat-title">
+         No files were changed in the last execution
+        </div>
+      </div>  
+    </mat-card-content> 
+  </mat-card>
+
+   <!-- Not yet executed -->
+   <mat-card *ngIf="executionManager.isExecuting && !hasError && !loading" style="height: calc(100% - 92px);" class="widht-100">
+    <mat-card-content class="height-100 width-100">
+      <div style="display:flex; align-items: center; justify-content: center;" class="height-100 width-100">
+        <div class="mat-title">
+          Please wait for the current execution to finish
+        </div>
+      </div>  
+    </mat-card-content> 
+  </mat-card>
+
+  <!-- Not yet executed -->
+  <mat-card *ngIf="!executionManager.hasExecuted && !hasError && !loading" style="height: calc(100% - 92px);" class="widht-100">
+    <mat-card-content class="height-100 width-100">
+      <div style="display:flex; align-items: center; justify-content: center;" class="height-100 width-100">
+        <div class="mat-title">
+          Please start a execution to view results
+        </div>
+      </div>  
+    </mat-card-content> 
+  </mat-card>
+
+  <!-- Footer -->
+  <div *ngIf="!visualizing" class="container-footer width-100" style="height: 30px; display: flex; flex-direction: row; align-items: center; justify-content: space-evenly">
+    <div style="display: flex; align-items: center; justify-content: center;">
+      <div style="width: 30px; height: 10px; margin-right: 7px;" class="modified-legend"></div>
+      <div>
+        Modified
+      </div>
+    </div>
+    <div style="display: flex; align-items: center; justify-content: center;">
+      <div style="width: 30px; height: 10px; margin-right: 7px;" class="added-legend"></div>
+      <div>
+        Added
+      </div>
+    </div>
+    <div style="display: flex; align-items: center; justify-content: center;">
+      <div style="width: 30px; height: 10px; margin-right: 7px;" class="deleted-legend"></div>
+      <div>
+        Deleted
+      </div>
+    </div>
+  </div>
+
+</div>

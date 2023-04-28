@@ -1,0 +1,16 @@
+<div class="height-100 width-100">
+
+  <mat-list style="padding-top: 0px;" cdkDropList class="route-list"(cdkDropListDropped)="drop($event)">
+    <mat-divider></mat-divider>
+    <div *ngFor="let halt of route.halts;index as i">
+      <mat-list-item style="width:100%;" class="route-box" style="border-bottom: 1px solid #515151;" [style.border-top]="i == 0 ? '1px solid #515151': 'none'" cdkDrag>
+        <div style="display: flex; justify-content: center; align-items: center;">
+          <mat-icon style="padding-right: 4px">drag_handle</mat-icon>
+          <span>
+            {{i+1}}. {{halt.station.name}} ({{halt.organization.name}})
+          </span>
+        </div>
+      </mat-list-item>
+    </div>
+  </mat-list>
+</div>

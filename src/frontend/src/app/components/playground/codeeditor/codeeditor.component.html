@@ -1,0 +1,131 @@
+
+<div class="height-100" style="display: flex; flex-direction: row;">
+
+  <!-- Sidebar -->
+  <div class="height-100" style="flex: 0 1 200px; min-width: 200px" #firstElement>
+    <mat-sidenav-container class="height-100 width-100 sidebar">
+      <mat-sidenav-content class="width-100" style="overflow-y: hidden;">
+          
+        <!-- Top Icons -->
+      <div class="width-100" style="min-width:200px; padding-top: 5px; padding-bottom: 5px;">
+        <div class="flex-container width-100 flex-nowrap flex-space-around">
+          <button mat-icon-button matTooltip="Upload an existing file" aria-label="Upload an existing file" (click)="uploadFile()">
+            <mat-icon>file_upload</mat-icon>
+          </button>
+          <button mat-icon-button matTooltip="Add new file" aria-label="Add new file" (click)="openNewFileDialog()">
+            <mat-icon>note_add</mat-icon>
+          </button>
+          <button mat-icon-button matTooltip="Download all files" [disabled]="!fileManager.hasFiles()" aria-label="Download all files" (click)="downloadAllFiles()">
+            <mat-icon>file_download</mat-icon>
+          </button>
+          <button *ngIf="!executing" mat-icon-button matTooltip="Run the code" [disabled]="!fileManager.hasFiles()" aria-label="Run the code" (click)="execute()" #runButton>
+            <mat-icon [style.color]='!runButton.disabled ? "#019101" : ""' >slideshow</mat-icon>
+          </button>
+          <button *ngIf="executing" [disabled]="canceled" color="warn" mat-icon-button matTooltip="Cancel execution" aria-label="Cancel execution" (click)="cancelExecution()">
+            <mat-icon>stop</mat-icon>
+          </button>
+        </div>
+      </div>
+      
+      <mat-progress-bar *ngIf="executing" style="height:1px" class="width-100" class="example-margin" [color]="'accent'" [mode]="'indeterminate'">
+      </mat-progress-bar>
+
+      <mat-divider *ngIf="!executing"></mat-divider>
+
+      <!-- File list -->
+      <div class="width-100" style="height: calc(100% - 50px); white-space: nowrap; overflow-y: auto;">
+        <mat-selection-list style="overflow:auto; padding:0px;" [multiple]="false" [(ngModel)]="this.selectedOptions" (selectionChange)="this.fileSelectionChanged()" #fileList>
+          <mat-list-option style="overflow: auto;" (contextmenu)="openContextMenu($event,i)" *ngFor="let file of this.fileManager.files; index as i" [value]="i">
+            {{file.name}}
+          </mat-list-option>
+        </mat-selection-list>
+      </div>
+      
+      </mat-sidenav-content>
+    </mat-sidenav-container>
+
+    <!-- hidden div that follows the mouse (used as a trigger for the context menu)--> 
+    <div style="visibility: hidden; position: fixed;" 
+      [style.left]="menuTopLeftPosition.x" 
+      [style.top]="menuTopLeftPosition.y" 
+      [matMenuTriggerFor]="rightMenu">
+    </div> 
+
+    <!-- Context Menu for the Files-->
+    <mat-menu #rightMenu="matMenu"> 
+      <ng-template matMenuContent let-item="index"> 
+        <button mat-menu-item (click)="deleteFile(item)"> 
+          <mat-icon>delete</mat-icon>
+          <span>Delete</span>
+        </button> 
+        <button mat-menu-item (click)="renameFile(item)"> 
+          <mat-icon>drive_file_rename_outline</mat-icon>
+          <span>Rename</span>
+        </button>
+        <button mat-menu-item (click)="downloadFile(item)"> 
+          <mat-icon>file_download</mat-icon>
+          <span>Download</span>
+        </button>
+      </ng-template> 
+    </mat-menu> 
+  </div>
+
+  <!-- Grabber -->
+  <div class="grabber" appResize [leftResize]="firstElement" [rightResize]="rightElement"></div>
+  
+  <!-- Right side-->
+  <div style="flex: 1 1 calc(100% - 206px); min-width: 5px" class="height-100" #rightElement>
+    
+    <!-- Initial View-->
+    <mat-card *ngIf="!this.fileManager.hasFiles()" class="height-100">
+      <mat-card-content class="height-100">
+        <div class="flex-container flex-wrap flex-center height-100">
+          <div class="mat-title">
+            Please create a 
+            <button mat-stroked-button color="accent" (click)="openNewFileDialog()">new file</button> 
+            or start with a 
+            <button mat-stroked-button color="accent" (click)="openTemplateDialog()">template</button> 
+          </div>
+        </div>  
+      </mat-card-content> 
+    </mat-card>
+
+    <!-- Code editor -->
+    <div style="flex: 1 1 auto; overflow:auto" class="height-100" *ngIf="
+        this.fileManager.hasFiles() && 
+        this.selectedIndex != undefined && 
+        this.fileManager.files[this.selectedIndex].type != unsupportedType">
+      <app-editor 
+        [FileType]="this.fileManager.files[this.selectedIndex].type" 
+        [content]="this.fileManager.files[this.selectedIndex].content"
+        (contentChange)="fileUpdated(this.selectedIndex, $event)"></app-editor>
+    </div>
+
+    <!-- No preview available -->
+    <mat-card class="height-100" *ngIf="
+      this.fileManager.hasFiles() && 
+      this.selectedIndex != undefined && 
+      this.fileManager.files[this.selectedIndex].type == unsupportedType">
+      <mat-card-content class="height-100">
+        <div class="flex-container flex-wrap flex-center height-100">
+          <div class="mat-title">
+            No Preview available
+          </div>
+        </div>  
+      </mat-card-content> 
+    </mat-card>
+
+    <!-- Please select a file-->
+    <mat-card class="height-100" *ngIf="
+    this.fileManager.hasFiles() && 
+    this.selectedIndex == undefined">
+      <mat-card-content class="height-100">
+        <div class="flex-container flex-wrap flex-center height-100">
+          <div class="mat-title">
+            Please select a file
+          </div>
+        </div>  
+      </mat-card-content> 
+    </mat-card>
+  </div>  
+</div>

@@ -1,0 +1,12 @@
+<h1 mat-dialog-title>Rename File</h1>
+<div mat-dialog-content>
+  <mat-form-field appearance="fill">
+    <mat-label>File name</mat-label>
+    <input matInput type="text" [formControl]="fileName" (keyup.enter)="Rename()" required appFileValidator [ignoreFile]="initialFileName">
+    <mat-error *ngIf="fileName.invalid">{{getErrorMessage()}}</mat-error>
+  </mat-form-field>
+</div>
+<div mat-dialog-actions style="margin-top: 8px">
+  <button mat-raised-button style="margin-right: 10px" (click)="Cancel()">Cancel</button>
+  <button mat-raised-button (click)="Rename()" [disabled]="fileName.invalid || fileName.value == initialFileName">Rename</button>
+</div>

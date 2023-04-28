@@ -1,0 +1,40 @@
+@use 'sass:map';
+@use '@angular/material' as mat;
+@use '../../../../../styles.scss' as theme;
+
+//Load the theme and the color config from there
+$color-config:  mat.get-color-config(theme.$theme);
+$background-palette: map.get($color-config, 'background');
+$warn-palette: map.get($color-config, 'warn');
+
+::ng-deep .error-snackbar
+{
+  color:  mat.get-color-from-palette($warn-palette, main);
+}
+
+::ng-deep .success-snackbar
+{
+  color:  darkgreen;
+}
+
+.container
+{
+  background-color: mat.get-color-from-palette($background-palette, background);
+  border-bottom: 1px solid black;
+}
+
+.mat-selected
+{
+  color: theme.$light-text !important;
+}
+
+::ng-deep .mat-pseudo-checkbox-checked
+{
+  background: theme.$light-text !important;
+}
+
+.mat-card
+{
+  padding: 0px;
+  border-radius: 0px;
+}

@@ -1,0 +1,49 @@
+@use 'sass:map';
+@use '@angular/material' as mat;
+@use '../../../../../styles.scss' as theme;
+
+//Load the theme and the color config from there
+$color-config:  mat.get-color-config(theme.$theme);
+$background-palette: map.get($color-config, 'background');
+
+.mat-card-title
+{
+  font-size: 20px !important;
+  margin-bottom: 8px;
+}
+
+::ng-deep .mat-form-field-wrapper {
+  padding-bottom: 15px !important
+}
+
+.mat-card
+{
+  border-radius: 0px;
+  box-shadow: none !important;
+  background-color: transparent;
+  padding-bottom: 0px;
+  padding-top: 6px;
+}
+
+.selectionContainer
+{
+  background-color: mat.get-color-from-palette($background-palette, background);
+  border-bottom: 1px solid black;
+}
+
+table {
+  width: 100%;
+}
+
+.mat-form-field.filter {
+  font-size: 14px;
+}
+
+//Padding for the table cells
+mat-cell,
+.mat-cell,
+mat-footer-cell,
+.mat-footer-cell,
+mat-header-cell .mat-header-cell {
+  padding: 0.2rem !important;
+}

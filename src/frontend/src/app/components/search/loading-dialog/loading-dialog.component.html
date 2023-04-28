@@ -1,0 +1,29 @@
+<h1 mat-dialog-title>Loading</h1>
+<div mat-dialog-content style="max-width: 600px; min-width: 400px;">
+  <!-- No Error - loading -->
+  <div *ngIf="!errorMessage" style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
+    <div *ngIf="fetchingInfo">
+      Please wait while we fetching your information...
+    </div>
+    <div *ngIf="!fetchingInfo">
+      Please wait while we setup your environment...
+    </div>
+    <mat-spinner style="margin-top: 10px; margin-bottom: 10px;" color="accent" diameter="30"></mat-spinner>
+    <div *ngIf="!fetchingInfo && showBlazeMessage">
+      (Starting a blaze fhir instance usually takes around 60 seconds)
+    </div>  
+  </div>
+
+  <!-- Error -->
+  <div *ngIf="errorMessage" style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
+    <div >
+      Something went wrong during the setup. Please read the following error message and contact your administrator in doubt:
+    </div>
+    <div style="margin-top: 20px" class="error-text">
+      {{errorMessage}}
+    </div>
+  </div>
+</div>
+<div style="margin-top: 12px; display: flex; justify-content: flex-start; align-items: center">
+  <button mat-raised-button (click)="Cancel()">Cancel</button>
+</div>
