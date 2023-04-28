@@ -19,6 +19,9 @@ VIDEO HERE!
 
 Before starting the simulation, one has to select the data sources and institutes that the simulation should use. For this, one can browse the available institues and explore their data sources via a schema visualization (1. screenshot). Morover, the UI offers further details like the version and type of the provided data source, a description, and whether authentication is required to access the data (2. screenshot). The first screenshots shots the data model for the FHIR server from the ISIC usecase. The third screenshots shows a relational model from PostgreSQL database.
 
-![Image](/img/setup.png "Simulation setup")
-![Image](/img/setup2.png "Data source details")
-![Image](/img/setup3.png "PostgreSQL")
+Explore data sources             |  Data source details | Relational visualization
+:-------------------------:|:-------------------------:|:-------------------------:
+![Image](/img/setup.png "Simulation setup") |  ![Image](/img/setup2.png "Data source details") | ![Image](/img/setup3.png "PostgreSQL")
+
+
+
