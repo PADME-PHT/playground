@@ -45,6 +45,24 @@ Now you can start the backend. This is possible by simply pressing F5 or the pla
 
 You can now proceed with the frontend setup.
 
+## Good to know
+
+## Docker in docker
+
+We currently use the base-image of docker-in-docker (dind). It could be the case, that this image runs out of virtual network addresses when you use too many parallel simulation instances. In this case, you might get the following error:
+```
+2023-04-29 15:25:33;sessionController;Error: (HTTP code 404) driver not found - could not find an available, non-overlapping IPv4 address pool among the defaults to assign to the network 
+```
+To solve this problem, configure the docker deamon of the dind container via a [deamon.json](https://docs.docker.com/config/daemon/) file to use a different address pool like so:
+
+```
+{
+  "default-address-pools":[
+    {"base":"172.16.0.0/12","size":24}
+  ]
+}
+```
+
 ### Caveat when using VSC F5/Play for starting the backend
 
 When debugging the backend there unfortunately is **one caveat** that you should be aware of:
