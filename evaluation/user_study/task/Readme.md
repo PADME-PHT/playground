@@ -1,12 +1,12 @@
 # Playground Evaluation task
 
-This directory contains all the needed information to replicate the user-study as described in our paper. 
+This directory contains all the needed information to replicate the user study as described in our paper. 
 
 ## Directory content
 
 This directory contains the following files:
 
-- schema.ttl -> A Turtle (RDF) file with the evaluation database schemas. The file contents should be stored into the playgrounds blazegraph instance (instructions below)
+- schema.ttl -> A Turtle (RDF) file with the evaluation database schemas. The file contents should be put into the playgrounds blazegraph instance (instructions below)
 - example_solution_eval.zip -> A working solution that fulfills the evaluation task.
 
 Moreover, we provide some files to replicate the simulated setting in a real environment:

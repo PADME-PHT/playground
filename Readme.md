@@ -1,9 +1,9 @@
 ## PADME Playground
 
-This repository contains supplementary material for the paper titled "Will it run? - A Playground for Testing and Monitoring Decentralized Data Analytics Experiments" by [Welten et al](). The offered material includes the source code, evaluation materials, a video demonstration, and screenshots of the PADME Playground.
+This repository contains supplementary material for the paper titled "Will it run? - A Playground for Testing and Monitoring Decentralized Data Analytics Experiments" by [Welten et al.](). The offered material includes the source code, evaluation materials, a video demonstration, and screenshots of the PADME Playground.
 
 ## Source Code
-The sub-folder **'src'** provides the source code for the presented PoC implementation of the Playground. Moreover, you can find instructions on how the code can be set up locally for development in the folder's 'readme' file. Furthermore, all the developed plugins used in the presented use cases are also available.
+The sub-folder **'src'** provides the source code for the presented PoC implementation of the Playground. Moreover, you can find instructions on how the code can be setup locally for development in the folder's 'readme' file. Furthermore, all the developed plugins used in the presented use cases are also available.
 
 ## Evaluation material (User study and use cases)
 
@@ -51,13 +51,13 @@ Main screen (6)            | Code templates (7) | Code editor options (8)
 
 The right-hand side of the main screen offers a total of six different screens which provide additional simulation details or allow developers to adjust simulation settings.
 
-The first screen ('Schema') offers the data schema visualization as provided during the simulation setup (9 & 1). This visualization is interactive and allows one to zoom and move elements to a preferred position (see video above). Moreover, the second screen ('Schema Details') provides the database details that where already mentioned above and could be seen in the setup screen as well (10). If needed, the third screen ('Route') allows developers to change the order in which the data providers will be visited during the simulation (11).
+The first screen ('Schema') offers the data schema visualization as provided during the simulation setup (9 & 1). This visualization is interactive and allows one to zoom and move elements to a preferred position (see the video above). Moreover, the second screen ('Schema Details') provides the database details that were already mentioned above and could be seen in the setup screen as well (10). If needed, the third screen ('Route') allows developers to change the order in which the data providers will be visited during the simulation (11).
 
 Data schema visualization (9)            | Database details (10) | Route settings (11)
 :-------------------------:|:-------------------------:|:-------------------------:
 ![Image](/img/execution/4.png "Data schema visualization") |  ![Image](/img/execution/5.png "Database details") | ![Image](/img/execution/6.png "Route settings")
 
-The Screen 'Log Output' allows developers to monitor the execution of their simulation. For example, (12) shows the output of a ML learning algorithm that is executed on the simulated data. If needed, this screen also allows one to show detailed build outputs for the Docker image. Moreover, it provides options to filter execution logs according to the visited data providers. After the execution of an algorithm is finished, the screen 'Filesystem Changes' allows developers to see which files in the container where modified, added, or deleted (13). Moreover, users can download the modified or changed files and view text-based files directly in the Playground (14).
+The Screen 'Log Output' allows developers to monitor the execution of their simulation. For example, (12) shows the output of an ML learning algorithm that is executed on the simulated data. If needed, this screen also allows one to show detailed build outputs for the Docker image. Moreover, it provides options to filter execution logs according to the visited data providers. After the execution of an algorithm is finished, the screen 'Filesystem Changes' allows developers to see which files in the container were modified, added, or deleted (13). Moreover, users can download the modified or changed files and view text-based files directly in the Playground (14).
 
 
 Execution logs (12)            | Filesystem changes (13) | Example content of a modified file (14)

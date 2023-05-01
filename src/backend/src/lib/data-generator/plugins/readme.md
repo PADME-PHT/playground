@@ -2,7 +2,7 @@
 
 ## Idea
 
-Plugins are node modules and stored in sub-folders. Each plugin supports the generation of at least one data type. For details on the idea behind data types and how to add your own please see the user documentation [here](https://docs.padme-analytics.de/en/how-to/playground#datatypes) and the data types folder inside the models directory (same level as this directory). 
+Plugins are node modules stored in sub-folders. Each plugin supports the generation of at least one data type. For details on the idea behind data types and how to add your own please see the user documentation [here](https://docs.padme-analytics.de/en/how-to/playground#datatypes) and the data types folder inside the models directory (same level as this directory). 
 
 ## Structure
 
@@ -22,7 +22,7 @@ const complexTypes = require('../../../models/datatypes/complexDataTypes');
 class TestPlugin
 {
   /**
-  * Creates a instance of the datatype with the provided iri
+  * Creates an instance of the datatype with the provided iri
   * @param {*} iri 
   * @param {*} length 
   * @returns 

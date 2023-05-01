@@ -2,7 +2,7 @@
 
 This folder contains all files that are needed to replicate the ISIC use case as described in the paper. Before trying to replicate the use case, please setup your development environment (backend, frontend, etc.) as described in the Readme.md in the /src folder.
 
-After your local Playground instance is running successfully, you can execute the following to replicate the use-case:
+After your local Playground instance is running successfully, you can execute the following to replicate the use case:
 
 ## 1. Insert the schema data into Blazegraph
 
