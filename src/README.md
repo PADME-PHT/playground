@@ -1,10 +1,10 @@
 # PADME Playground
 
-Welcome to the codebase of the PADME Playground. The playground consists of **two** main components: A **backend** written in [Node.js](www.nodejs.org/en/) and a **frontend** written with [Typescript](www.typescriptlang.org) using [Angular](www.angular.io) and [Material](https://material.angular.io/). 
+Welcome to the codebase of the PADME Playground. The playground consists of **two** main components: A **backend** written in [Node.js](https://www.nodejs.org/en/) and a **frontend** written with [Typescript](https://www.typescriptlang.org) using [Angular](https://www.angular.io) and [Material](https://material.angular.io/). 
 
-The backend uses the library [Express](www.expressjs.com) to provide functionalities such as RESTful interfaces. Moreover, its designed as a monolithic application that separates the sub-components mentioned in the paper (Query Engine, Source Provisioner, ...) via libraries. 
+The backend uses the library [Express](https://www.expressjs.com) to provide functionalities such as RESTful interfaces. Moreover, its designed as a monolithic application that separates the sub-components mentioned in the paper (Query Engine, Source Provisioner, ...) via libraries. 
 
-The Metadata Store is realized by a [Blazegraph](https://blazegraph.com/) database and accessed by the backend via [SPARQL](www.w3.org/TR/sparql11-query), the standard query language for RDF based data[^1].
+The Metadata Store is realized by a [Blazegraph](https://blazegraph.com/) database and accessed by the backend via [SPARQL](https://www.w3.org/TR/sparql11-query), the standard query language for RDF based data[^1].
 
 In the following and the corresponding readme files of the relevant sub-folders you can find instructions on how to setup a playground instance yourself.
 
