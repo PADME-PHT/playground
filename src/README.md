@@ -19,4 +19,4 @@ After installing Docker and VSC, we require you to install the [Remote Developme
 
 The configuration files provided in this repository are **only meant for local development**. Please **do not setup a production instance without adjusting the configurations first**. For example, you will need to replace default user names and passwords with appropriate values!
 
-[^1] Pérez, Jorge, Marcelo Arenas, and Claudio Gutierrez. "Semantics and complexity of SPARQL." ACM Transactions on Database Systems (TODS) 34.3 (2009): 1-45.
+[^1]: Pérez, Jorge, Marcelo Arenas, and Claudio Gutierrez. "Semantics and complexity of SPARQL." ACM Transactions on Database Systems (TODS) 34.3 (2009): 1-45.
