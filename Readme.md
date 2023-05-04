@@ -13,7 +13,8 @@ The sub-folder **'evaluation'** provides supplementary material for the user stu
 
 The following video demonstrates the usage of the playground by conducting the analysis from the user evaluation.
 
-VIDEO HERE!
+TODO: Replace URL
+[![Watch the video](https://img.youtube.com/vi/nTQUwghvy5Q/default.jpg)](https://youtu.be/nTQUwghvy5Q)
 
 ## Screenshots
 
