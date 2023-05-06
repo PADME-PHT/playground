@@ -4,7 +4,7 @@ Welcome to the codebase of the PADME Playground. The playground consists of **tw
 
 The backend uses the library [Express](https://www.expressjs.com) to provide functionalities such as RESTful interfaces. Moreover, its designed as a monolithic application that separates the sub-components mentioned in the paper (Query Engine, Source Provisioner, ...) via libraries. 
 
-The Metadata Store is realized by a [Blazegraph](https://blazegraph.com/) database and accessed by the backend via [SPARQL](https://www.w3.org/TR/sparql11-query), the standard query language for RDF based data[^1].
+The Metadata Store is realized by a [Blazegraph](https://blazegraph.com/) database and accessed by the backend via [SPARQL](https://www.w3.org/TR/sparql11-query), the standard query language for RDF based data[^1]. Moreover, the data for the Metadata Store adheres to the developed metadata schema that is presented in the _schema_ sub-folder.
 
 In the following and the corresponding readme files of the relevant sub-folders you can find instructions on how to setup a playground instance yourself.
 

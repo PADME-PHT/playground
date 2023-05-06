@@ -1,0 +1,275 @@
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix prov: <http://www.w3.org/ns/prov> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/#> .
+@prefix dcat: <http://www.w3.org/ns/dcat/#> .
+@prefix : <http://schema.padme-analytics.de#> .
+@base <http://schema.padme-analytics.de#> .
+
+######### Classes already defined in the DAMS schema (lines 12 - 54) #########
+
+# UserOwned as parent class for everything that belongs to a certain user in the PHT ecosystem
+:UserOwned rdf:type owl:Class ;
+           rdfs:label "User-Owned"@en ;
+           prov:definition "An informational authority which belongs to a user."@en .
+           
+:userOwnedHasDescription rdf:type owl:DatatypeProperty ;
+                         rdfs:domain :UserOwned ;
+                         rdfs:range xsd:string ;
+                         rdfs:comment "This description should contain important information at a glance. The information should be informative only."@en ;
+                         rdfs:label "User owned entity has description"@en ;
+                         prov:definition "Associates a user owned entity with a natural language description."@en .
+
+:userOwnedHasTitle rdf:type owl:DatatypeProperty ;
+                   rdfs:domain :UserOwned ;
+                   rdfs:range xsd:string ;
+                   rdfs:label "User owned entity has title"@en ;
+                   prov:definition "Associates a user owned entity with a natural language title."@en .
+        
+:responsibleOrganization rdf:type owl:ObjectProperty ;
+                         rdfs:domain :UserOwned ;
+                         rdfs:range foaf:Organization .
+                         
+#Definition of a Station and associated datasets
+:Station rdf:type owl:Class ;
+         rdfs:subClassOf :UserOwned ;
+         rdfs:label "Station"@en ;
+         prov:definition "The data holding entity in the PHT ecosystem."@en .
+
+:Dataset rdf:type owl:Class ;
+         rdfs:subClassOf dcat:Dataset ;
+         rdfs:comment "A data set of a station to which the station provides access through an interface for trains. The dataset itself is more of an abstract nature, describing the semantic content rather than the structure or syntactical components of the dataset."@en ;
+         rdfs:label "Dataset"@en ;
+         prov:definition "A Dataset at a station."@en .
+
+# Connection between Station and Dataset
+:hasDataSet rdf:type owl:ObjectProperty ;
+            rdfs:domain :Station ;
+            rdfs:range :Dataset ;
+            rdfs:label "Station has Data set" ;
+            prov:definition "Associated a Station with a dataset." .
+            
+######################### DataInterface #########################
+
+#A Dataset is accessed trough an interface
+:accessThroughInterface rdf:type owl:ObjectProperty ;
+                        rdfs:domain :Dataset ;
+                        rdfs:range :DataInterface ;
+                        rdfs:label "Access through Interface"@en .
+
+#See the current possible subclasses below in section 'DataInterfaces'
+:DataInterface rdf:type owl:Class ;
+               rdfs:subClassOf dcat:Distribution ;
+               rdfs:comment "Describes the actual technical Interface. The Form of the Interface is described by the connected DataInterfaceShape object. This is an abstract class, the concrete subclasses should be used to describe the data interface, where the most precise one possible should be choosen."@en ;
+               rdfs:label "Data Interface"@en ;
+               rdfs:seeAlso :DataInterfaceShape ;
+               prov:definition "Describes the Interface at a Station through which data can be accessed."@en .
+
+:interfaceHasFormat rdf:type owl:DatatypeProperty ;
+                    rdfs:domain :DataInterface ;
+                    rdfs:label "Interface has Format"@en ;
+                    prov:definition "Associates an Interface with a valid IRI type describing the format of this interface."@en .
+   
+:interfaceAllowsAnonymousAccess rdf:type owl:DatatypeProperty ;
+                    rdfs:domain :DataInterface ;
+                    rdfs:range xsd:boolean ;
+                    rdfs:label "Interface allows access without authentication"@en ;
+                    prov:definition "Indicates wheter the interface allows anoynmous access to its resources. This means that no authentication is needed in order to access the information provided by the interface"@en .
+          
+:hasInterfaceShape rdf:type owl:ObjectProperty ;
+                   rdfs:domain :DataInterface ;
+                   rdfs:range :DataInterfaceShape ;
+                   rdfs:comment "Connects a DataInterface to a Shape which describes it."@en ;
+                   rdfs:label "Has InterfaceShape"@en .
+                   
+#Parent class for DataInterfaces with associated version (e.g., allows to express PostgreSQL in version 14.0.0.0, see Postgres Interface below)
+:VersionedDataInterface rdf:type owl:Class ;
+                        rdfs:subClassOf :DataInterface ;
+                        rdfs:comment "If the [major.minor] scheme is used, the patch number should not be included. In general, the  version string should be as general as possible, while distinguishing versions of a data interface which are not compatible." ;
+                        rdfs:label "Abstract Versioned Data Interface" ;
+                        prov:definition "Abstract class for a data interface which is a specified version. The format of the version identifier depends on the context." .      
+                        
+:dataInterfaceVersion rdf:type owl:DatatypeProperty ;
+                      rdfs:domain :VersionedDataInterface ;
+                      rdfs:range xsd:string ;
+                      rdfs:label "Data Interface has version" ;
+                      prov:definition "Describes that a VersionedDataInterface subclass has this version." .
+                      
+######################### DataInterfaceShape #########################           
+           
+:DataInterfaceShape rdf:type owl:Class ;
+                    rdfs:subClassOf :DataInterfaceShapeDatatype ;
+                    rdfs:comment "This shape describes the structural representation of an interface to semantic data. Multiple subclasses exists to describe the most common representation."@en ;
+                    rdfs:label "Data interface shape"@en ;
+                    prov:definition "The shape of data which is published by a station." . 
+                    
+:dataInterfaceShapeHasKey rdf:type owl:DatatypeProperty ;
+                          rdfs:domain :DataInterfaceShape ;
+                          rdfs:range xsd:string ;
+                          rdfs:label "Data interface shape has key" ;
+                          prov:definition "Associates a Data Interface Shape instance with a key that uniquely identifies the Data Interface Shape. Furthermore, this key can act as a name of the Data Interface Shape if the context implies it. (E.g. Table in a Database)" .
+  
+#object-oriented shapes
+:AttributeObjectCollectionInterfaceShape rdf:type owl:Class ;
+                                         rdfs:subClassOf :DataInterfaceShape ;
+                                         rdfs:label "Attribute object collection interface shape"@en ;
+                                         prov:definition "Describes a Data Interface Shape in the shape of a collection of multiple Attribute Object Shapes, each having a different set of attributes, forming together a data set."@en .
+
+:consistsOfTabularShapes rdf:type owl:ObjectProperty ;
+                         rdfs:domain :AttributeObjectCollectionInterfaceShape ;
+                         rdfs:range :AttributeObjectDataInterfaceShape ;
+                         rdfs:label "Consists of Tabular Shapes"@en .                                         
+                                         
+:AttributeObjectDataInterfaceShape rdf:type owl:Class ;
+                                   rdfs:subClassOf :DataInterfaceShape ;
+                                   rdfs:label "Attribute object data interface shape"@en ;
+                                   prov:definition "Describes a DataInterfaceShape in the Shape of a Object having one to multiple attributes."@en .       
+                                          
+:consistsOfColumnShapes rdf:type owl:ObjectProperty ;
+            rdfs:domain :AttributeObjectDataInterfaceShape ;
+            rdfs:range :AttributeInterfaceShape ;
+            rdfs:label "Consists of column Shapes"@en .
+                                   
+:AttributeInterfaceShape rdf:type owl:Class ;
+                         rdfs:subClassOf :DataInterfaceShape ;
+                         rdfs:label "Attribute data interface shape"@en ;
+                         prov:definition "Describes a DataInterfaceShape in the shape of an attribute, holding data of one specific type."@en .
+
+:shapeReferences rdf:type owl:ObjectProperty ;
+                 rdfs:domain :AttributeInterfaceShape ;
+                 rdfs:range :AttributeInterfaceShape ;
+                 rdfs:label "Shape references"@en ;
+                 prov:definition "Indicates that on Attribute references another attribute. This can, for example, be used to express foreign key relations in relational data sources."@en .
+                 
+:attributeIsUnique rdf:type owl:DatatypeProperty ;
+                   rdfs:domain :AttributeInterfaceShape ;
+                   rdfs:range xsd:boolean ;
+                   rdfs:label "Attribute is Unique"@en ;
+                   prov:definition "Indicates whether the value of this attribute should be unqiue in its context."@en .
+                
+:associatedDataSet rdf:type owl:ObjectProperty ;
+                   rdfs:domain :AttributeInterfaceShape ;
+                   rdfs:range :Dataset ;
+                   rdfs:label "associated Data set"@en ;
+                   prov:definition "Associates an attribute with a data set. This can be used to express vertical data partitioning"@en . 
+                   # For example used in the real-world use case to express that the FHIR Media resource references MinIO
+                
+:attributeDataInterfaceShapeHasDataType rdf:type owl:ObjectProperty ;
+                                        rdfs:domain :AttributeInterfaceShape ;
+                                        rdfs:range :DataInterfaceShapeDatatype ;
+                                        rdfs:label "Attribute data interface shape has datatype"@en ;
+                                        prov:definition "Describes that the value of a AttributeDataIntefaceShape are described by the specified data interface datatype shape."@en .
+
+#relational shapes
+:RelationalSQLDataInterfaceShape rdf:type owl:Class ;
+                                 rdfs:subClassOf :AttributeObjectCollectionInterfaceShape ;
+                                 rdfs:comment "Refines the Attribute Object Collection into one a collection of tables, compatible with sql, additionally holding SQL specific information" ;
+                                 rdfs:label "Relational SQL data interface shape"@en ;
+                                 prov:definition "A relational collection of SQL data interface shapes, forming a relational database"@en .
+                                 
+:TabularSQLDataInterfaceShape rdf:type owl:Class ;
+                              rdfs:subClassOf :AttributeObjectDataInterfaceShape ;
+                              rdfs:label "Tabular SQL data interface shape"@en ;
+                              prov:definition "Refines the Attribute Object into a Shape describing a SQL based table explicitly. The columns of the table can be perceived as properties which are populate with multiple instances."@en .
+
+:ColumnSQLDataInterfaceShape rdf:type owl:Class ;
+                             rdfs:subClassOf :AttributeInterfaceShape ;
+                             rdfs:label "Column SQL data interface shape"@en ;
+                             prov:definition "Refines an attribute shape into a shape of a columnal representation, which additional contains metadata regarding tables in sql-based databases."@en .
+
+######################### InterfaceShapeDataTypes #########################
+                                                                                    
+:DataInterfaceShapeDatatype rdf:type owl:Class ;
+                            rdfs:label "Data interface shape datatype"@en ;
+                            prov:definition "Abstract superclass for datatypes."@en .
+                            
+#The different possible datatype: Enum, List, and Atomic  
+:DataInterfaceShapeEnumDatatype rdf:type owl:Class ;
+                                rdfs:subClassOf :DataInterfaceShapeDatatype ;
+                                rdfs:label "Data interface shape enum datatype"@en ;
+                                prov:definition "Describes a data interface shape datatype in the form of an enum."@en .
+                                
+:dataInterfaceShapeEnumDataTypeAllowedValue rdf:type owl:DatatypeProperty ;
+                                            rdfs:domain :DataInterfaceShapeEnumDatatype ;
+                                            rdfs:range xsd:string ;
+                                            rdfs:label "Enum Data type has allowed value" ;
+                                            prov:definition "Describes that a enum datatype can take the specified value." .
+                                            
+:DataInterfaceShapeListDatatype rdf:type owl:Class ;
+                                rdfs:subClassOf :DataInterfaceShapeDatatype ;
+                                rdfs:label "Data interface shape list datatype"@en ;
+                                prov:definition "Describes a data interface shape in the form of a list of other datatypes."@en .
+
+:listDatatypeShapeContainsDatatype rdf:type owl:ObjectProperty ;
+                                   rdfs:domain :DataInterfaceShapeListDatatype ;
+                                   rdfs:range :DataInterfaceShapeDatatype ;
+                                   rdfs:comment "Describes which datatype a list contains. Describes a one to one relationship, since a list can only contain one datatype, i.e. the instantiated list contains only objects of the same datatype."@en ;
+                                   rdfs:label "list datatype shape contains datatype"@en .                                
+                                
+:DataInterfaceShapeAtomicDatatype rdf:type owl:Class ;
+                          rdfs:subClassOf :DataInterfaceShapeDatatype ;
+                          rdfs:comment "Instances for the main primitive datatype are shipped with this ontology. Therefore, new instances of this class must not be created."@en ;
+                          rdfs:label "Data interface shape atomic datatype"@en ;
+                          prov:definition "Abstract superclass for primitive datatypes."@en .
+        
+:hasDatatype rdf:type owl:ObjectProperty ;
+             rdfs:domain :DataInterfaceShapeAtomicDatatype ;
+             rdfs:label "has simple datatype"@en ;
+             prov:definition "Associates an atomic data type with an IRI that represents the datatype's syntax."@en .
+
+:atomicDataTypeLength rdf:type owl:DatatypeProperty ;
+                  rdfs:domain :DataInterfaceShapeAtomicDatatype ;
+                  rdfs:range xsd:integer ;
+                  rdfs:comment "E.g. the length for a string may describe the number of characters." ;
+                  rdfs:label "atomic data type length" ;
+                  prov:definition "Describes a maximum length for a datatype. The length has to be interpreted in the context of the actual underlying datatype." .
+                                                  
+######################### DataInterfaces #########################
+
+#Parent class for network interfaces
+:NetworkInterface rdf:type owl:Class ;
+                  rdfs:subClassOf :DataInterface ,
+                                  [ rdf:type owl:Restriction ;
+                                    owl:onProperty :networkInterfaceAdress ;
+                                    owl:maxQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                    owl:onDataRange xsd:string
+                                  ] ;
+                  rdfs:comment "A Data Interface which is accessed over the local network in the Station"@en ;
+                  rdfs:label "NetworkInterface"@en ;
+                  prov:definition "An interface in the form of a network interface with a specified fully url." .
+                  
+#MinIO Instance of a NetworkInterface
+:MinIOInterface rdf:type owl:Class ;
+                rdfs:subClassOf :NetworkInterface, :VersionedDataInterface ;
+                rdfs:label "Min IO Interface"@en .
+                
+#Parent class with interfaces to access the FHIR standard
+:FHIRNetworkInterface rdf:type owl:Class ;
+                      rdfs:subClassOf :NetworkInterface ;
+                      rdfs:label "FHIR Network Interface"@en .
+                      
+:BlazeInterface rdf:type owl:Class ;
+                rdfs:subClassOf :FHIRNetworkInterface, :VersionedDataInterface;
+                rdfs:label "Blaze Interface" ;
+                prov:definition "Describes an Interface of the Blazegraph FHIR server." .
+                
+#Parent class for all SQL based network intefaces
+:SQLNetworkInterface rdf:type owl:Class ;
+                     rdfs:subClassOf :NetworkInterface ;
+                     rdfs:label "SQL Network Interface" ;
+                     prov:definition "Describes a Data Interface which is an Interface to a SQL Interface" .
+                
+:MySQLInterface rdf:type owl:Class ;
+                rdfs:subClassOf :SQLNetworkInterface ,
+                                :VersionedDataInterface ;
+                rdfs:label "MySQL Interface" ;
+                prov:definition "Describe an interface in the form of a MySQL database." .
+                
+:PostgresInterface rdf:type owl:Class ;
+                   rdfs:subClassOf :SQLNetworkInterface ,
+                                   :VersionedDataInterface ;
+                   rdfs:label "Postgres SQL Interface" ;
+                   prov:definition "Describes an interface in the form of a Postgres database." .
