@@ -13,9 +13,9 @@ The sub-folder **'evaluation'** provides supplementary material for the user stu
 
 The following video demonstrates the usage of the playground by conducting the analysis from the user evaluation.
 
-TODO: Replace URL
-[![Watch the video](https://img.youtube.com/vi/nTQUwghvy5Q/default.jpg)](https://youtu.be/nTQUwghvy5Q)
 
+[![Image](/img/thumbnail.png "PADME Playground Demonstration")](https://youtu.be/jVFgNsx9bfk)
+(Click on the image to watch the video on YouTube)
 ## Screenshots
 
 The following provides screenshots of the different aspects of the developed tool.
