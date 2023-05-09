@@ -15,7 +15,10 @@ The following video demonstrates the usage of the playground by conducting the a
 
 
 [![Image](/img/thumbnail.png "PADME Playground Demonstration")](https://youtu.be/jVFgNsx9bfk)
+<p align="center">
 (Click on the image to watch the video on YouTube)
+</p>
+
 ## Screenshots
 
 The following provides screenshots of the different aspects of the developed tool.
