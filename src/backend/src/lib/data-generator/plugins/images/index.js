@@ -17,10 +17,12 @@ class ImagesPlugin {
   async getRandomFileStream(type)
   {
     //Get a random file
-    let dirPath = path.join(__dirname, ASSETS_FOLDER, type);
-    let files = await fs.promises.readdir(dirPath);
-    let index = Math.round(Math.random() * (files.length - 1));
-    let file = files[index];
+    const dirPath = path.join(__dirname, ASSETS_FOLDER, type);
+    const files = await fs.promises.readdir(dirPath);
+    //Filter files to only includes once in the correct format (x.jpg)
+    const filteredFiles = files.filter(file => /\d+.jpg/.test(file))
+    const index = Math.round(Math.random() * (filteredFiles.length - 1));
+    const file = filteredFiles[index];
     return fs.createReadStream(path.join(dirPath, file));
   }
 

@@ -1,6 +1,6 @@
 ## Evaluation: ISIC use case
 
-This folder contains all files that are needed to replicate the ISIC use case as described in the paper. Before trying to replicate the use case, please setup your development environment (backend, frontend, etc.) as described in the Readme.md in the /src folder.
+This folder contains all files that are needed to replicate the ISIC-GEN use case as described in the paper. Before trying to replicate the use case, please setup your development environment (backend, frontend, etc.) as described in the Readme.md in the /src folder.
 
 After your local Playground instance is running successfully, you can execute the following to replicate the use case:
 
@@ -16,11 +16,15 @@ After your local Playground instance is running successfully, you can execute th
 To execute the use case, do the following: 
 
 1. Open your local Playground instance at http://localhost:4200. 
-2. In the 'ISIC Orga', select both datasets from the 'ISIC Station'. 
+2. In the 'ISIC Orga', select both datasets for all three available stations. 
 3. Click on 'Select Route' in the lower right corner and confirm the route
 4. Wait for the environment to be created
-4. Upload the file **./isic.zip** into the playground via the upload button in the upper left corner. This file contains all the source code needed to execute the use case
+5. Upload the file **./isic.zip** into the playground via the upload button in the upper left corner. This file contains all the source code needed to execute the use case
 
-Now you can already press **play** to execute the use case.
+Now you can press **play** in the upper left corner of the playground to execute the use case.
 
 If you want, you can change the Hyperparameters by creating environment variables via the 'Environment variable' tab on the right (see code in main.py, line 59+ for the names of the variables) or in the code directly.
+
+Please note, that as stated in the paper, the same code provided here for the ISIC-GEN use case can be used to execute the ISIC-SAMPLE use case. For this, you first have to setup the real data sources as described in the original use case paper by Mou et al.[^1] and [this accompanying github repository](https://github.com/rwth-i5/mie2021). You can then change the environment variables in the playground to point to the real FHIR and file dump servers instead of the simulated ones to execute the use case.
+
+[^1]: [Mou, Yongli, et al. "Distributed skin lesion analysis across decentralised data sources." Public Health and Informatics. IOS Press, 2021. 352-356.](https://ebooks.iospress.nl/volumearticle/56886)

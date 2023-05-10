@@ -1,0 +1,158 @@
+@prefix pht: <http://schema.padme-analytics.de#> .
+@prefix station:<https://station-registry.hs-mittweida.de/api/stations/> .
+@prefix dataset: <https://playgroundapi.padme-analytics.de/dataset/> .
+@prefix interface: <https://playgroundapi.padme-analytics.de/interface/> .
+@prefix interfaceShape: <https://playgroundapi.padme-analytics.de/interfaceShape/> .
+@prefix datatype: <https://playgroundapi.padme-analytics.de/datatype/> .
+@prefix tabular: <https://playgroundapi.padme-analytics.de/tabular/> .
+@prefix column: <https://playgroundapi.padme-analytics.de/column/> .
+@prefix orga: <https://station-registry.hs-mittweida.de/api/organizations/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/#> .
+@prefix dcat: <http://www.w3.org/ns/dcat/#> .
+
+#Organization
+orga:a0a6e2c0-ed2a-4ef4-bdfb-ea853b6f7706 a foaf:Organization;
+foaf:name "BC Orga"^^xsd:string .
+
+#Stations
+station:a7b0a9a7-07fd-4a31-b93a-3c946dc82667 a pht:Station;
+pht:userOwnedHasTitle "UKA"^^xsd:string;
+pht:userOwnedHasDescription "UKA"^^xsd:string;
+pht:responsibleOrganization orga:a0a6e2c0-ed2a-4ef4-bdfb-ea853b6f7706;
+pht:hasDataSet dataset:afc441e6-f160-11ec-8ea0-0242ac120002 .
+
+dataset:afc441e6-f160-11ec-8ea0-0242ac120002 a pht:Dataset;
+dcat:title "Breast Cancer Detection Dataset"^^xsd:string;
+dcat:description "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin vehicula, leo in congue auctor, dui nulla auctor est, a finibus tortor ex consequat elit. Etiam efficitur rhoncus urna, a fringilla augue mollis in. Phasellus lorem libero, viverra a quam sollicitudin, auctor tincidunt quam. Sed eu turpis dapibus dui tempor accumsan vitae et felis. Aliquam tempus arcu nec odio scelerisque pellentesque. Quisque eget auctor mi. Nam ultricies sapien nec rutrum interdum."^^xsd:string;
+pht:accessThroughInterface interface:ad9a7972-f160-11ec-8ea0-0242ac120002 .
+
+interface:ad9a7972-f160-11ec-8ea0-0242ac120002 a pht:PostgresInterface;
+pht:dataInterfaceVersion "14.0.0.0"^^xsd:string;
+pht:hasInterfaceShape interfaceShape:a3491650-12fc-11ed-861d-0242ac120002 .
+
+interfaceShape:a3491650-12fc-11ed-861d-0242ac120002 a pht:RelationalSQLDataInterfaceShape;
+pht:dataInterfaceShapeHasKey "bcdb"^^xsd:string;
+pht:consistsOfTabularShapes tabular:a6ed17c8-f189-11ec-8ea0-0242ac120002 .
+
+tabular:a6ed17c8-f189-11ec-8ea0-0242ac120002 a pht:TabularSQLDataInterfaceShape;
+pht:dataInterfaceShapeHasKey "Breast Cancer Data"^^xsd:string .
+
+# UKG
+station:4a5e5c5a-7549-4e62-a5af-48da2f7d5c61 a pht:Station;
+pht:userOwnedHasTitle "UKG"^^xsd:string;
+pht:userOwnedHasDescription "UKG"^^xsd:string;
+pht:responsibleOrganization orga:a0a6e2c0-ed2a-4ef4-bdfb-ea853b6f7706;
+pht:hasDataSet dataset:9cbfecc7-0b3a-43f3-b8d8-c1b6111571f2 .
+
+dataset:9cbfecc7-0b3a-43f3-b8d8-c1b6111571f2 a pht:Dataset;
+dcat:title "Breast Cancer Detection Dataset"^^xsd:string;
+dcat:description "Dataset for the BCD Usecase"^^xsd:string;
+pht:accessThroughInterface interface:3c07f1fc-9545-4d5b-9d3c-0674f4c0a90a .
+
+interface:3c07f1fc-9545-4d5b-9d3c-0674f4c0a90a a pht:PostgresInterface;
+pht:dataInterfaceVersion "14.0.0.0"^^xsd:string;
+pht:hasInterfaceShape interfaceShape:4e2227c9-e05d-4c22-82b6-06d3465af5df .
+
+interfaceShape:4e2227c9-e05d-4c22-82b6-06d3465af5df a pht:RelationalSQLDataInterfaceShape;
+pht:dataInterfaceShapeHasKey "bcdb"^^xsd:string;
+pht:consistsOfTabularShapes tabular:12cb0136-9875-4b06-8e11-c3b6656a60a3 .
+
+tabular:12cb0136-9875-4b06-8e11-c3b6656a60a3 a pht:TabularSQLDataInterfaceShape;
+pht:dataInterfaceShapeHasKey "Breast Cancer Data"^^xsd:string .
+
+# UKK
+station:efb3aa06-ecc7-48c2-9db7-843e0eb9e44e a pht:Station;
+pht:userOwnedHasTitle "UKK"^^xsd:string;
+pht:userOwnedHasDescription "UKK"^^xsd:string;
+pht:responsibleOrganization orga:a0a6e2c0-ed2a-4ef4-bdfb-ea853b6f7706;
+pht:hasDataSet dataset:6d8a87f3-3c3a-4811-bbe4-4d1b4cf774f4 .
+
+dataset:6d8a87f3-3c3a-4811-bbe4-4d1b4cf774f4 a pht:Dataset;
+dcat:title "Breast Cancer Detection Dataset"^^xsd:string;
+dcat:description "Dataset for the BCD Usecase"^^xsd:string;
+pht:accessThroughInterface interface:f499358f-300a-42b8-a97b-0f27aae8497b .
+
+interface:f499358f-300a-42b8-a97b-0f27aae8497b a pht:PostgresInterface;
+pht:dataInterfaceVersion "14.0.0.0"^^xsd:string;
+pht:hasInterfaceShape interfaceShape:6a7f8cf9-cc20-4d85-9f95-7c4e4d4b1ef4 .
+
+interfaceShape:6a7f8cf9-cc20-4d85-9f95-7c4e4d4b1ef4 a pht:RelationalSQLDataInterfaceShape;
+pht:dataInterfaceShapeHasKey "bcdb"^^xsd:string;
+pht:consistsOfTabularShapes tabular:dc6d5e6a-5056-4f6e-8a39-7e53c3e3e3a2 .
+
+tabular:dc6d5e6a-5056-4f6e-8a39-7e53c3e3e3a2 a pht:TabularSQLDataInterfaceShape;
+pht:dataInterfaceShapeHasKey "Breast Cancer Data"^^xsd:string .
+
+
+# UKL
+station:672a96b9-2e89-4b09-bb1f-bb6928c4261e a pht:Station;
+pht:userOwnedHasTitle "UKL"^^xsd:string;
+pht:userOwnedHasDescription "UKL"^^xsd:string;
+pht:responsibleOrganization orga:a0a6e2c0-ed2a-4ef4-bdfb-ea853b6f7706;
+pht:hasDataSet dataset:2bf2f09d-1b1e-4c14-9b19-80e2221ca692 .
+
+dataset:2bf2f09d-1b1e-4c14-9b19-80e2221ca692 a pht:Dataset;
+dcat:title "Breast Cancer Detection Dataset"^^xsd:string;
+dcat:description "Dataset for the BCD Usecase"^^xsd:string;
+pht:accessThroughInterface interface:d18b2463-4565-496f-a21c-d57e6b50e6ec .
+
+interface:d18b2463-4565-496f-a21c-d57e6b50e6ec a pht:PostgresInterface;
+pht:dataInterfaceVersion "14.0.0.0"^^xsd:string;
+pht:hasInterfaceShape interfaceShape:1a0e10e9-d073-4a2d-bb34-b1aa1c8aaf3b .
+
+interfaceShape:1a0e10e9-d073-4a2d-bb34-b1aa1c8aaf3b a pht:RelationalSQLDataInterfaceShape;
+pht:dataInterfaceShapeHasKey "bcdb"^^xsd:string;
+pht:consistsOfTabularShapes tabular:7f95b508-3d74-46c8-86cc-e1319b42af36 .
+
+tabular:7f95b508-3d74-46c8-86cc-e1319b42af36 a pht:TabularSQLDataInterfaceShape;
+pht:dataInterfaceShapeHasKey "Breast Cancer Data"^^xsd:string .
+
+
+# IMISE
+station:eb59e9b2-1d4a-4f4c-9ebf-7a83f3a46d2b a pht:Station;
+pht:userOwnedHasTitle "IMISE"^^xsd:string;
+pht:userOwnedHasDescription "IMISE"^^xsd:string;
+pht:responsibleOrganization orga:a0a6e2c0-ed2a-4ef4-bdfb-ea853b6f7706;
+pht:hasDataSet dataset:0c63a88a-2f1a-46eb-9667-9ed9c7a36a8f .
+
+dataset:0c63a88a-2f1a-46eb-9667-9ed9c7a36a8f a pht:Dataset;
+dcat:title "Breast Cancer Detection Dataset"^^xsd:string;
+dcat:description "Dataset for the BCD Usecase"^^xsd:string;
+pht:accessThroughInterface interface:201e982b-1c05-4ca9-9e2c-27338eb227f4 .
+
+interface:201e982b-1c05-4ca9-9e2c-27338eb227f4 a pht:PostgresInterface;
+pht:dataInterfaceVersion "14.0.0.0"^^xsd:string;
+pht:hasInterfaceShape interfaceShape:0945ca5a-63ec-4e53-a9e9-a3eb27eafae4 .
+
+interfaceShape:0945ca5a-63ec-4e53-a9e9-a3eb27eafae4 a pht:RelationalSQLDataInterfaceShape;
+pht:dataInterfaceShapeHasKey "bcdb"^^xsd:string;
+pht:consistsOfTabularShapes tabular:787f1d54-66dc-44f3-8d39-06f6fe48212a .
+
+tabular:787f1d54-66dc-44f3-8d39-06f6fe48212a a pht:TabularSQLDataInterfaceShape;
+pht:dataInterfaceShapeHasKey "Breast Cancer Data"^^xsd:string .
+
+
+# Mittweida
+station:f0f9e6c1-b8e4-4dbd-bf85-4ccadba8b8f2 a pht:Station;
+pht:userOwnedHasTitle "Mittweida"^^xsd:string;
+pht:userOwnedHasDescription "Mittweida"^^xsd:string;
+pht:responsibleOrganization orga:a0a6e2c0-ed2a-4ef4-bdfb-ea853b6f7706;
+pht:hasDataSet dataset:9d3ecbcf-3e19-48d2-94c8-2a10f0c96902 .
+
+dataset:9d3ecbcf-3e19-48d2-94c8-2a10f0c96902 a pht:Dataset;
+dcat:title "Breast Cancer Detection Dataset"^^xsd:string;
+dcat:description "Dataset for the BCD Usecase"^^xsd:string;
+pht:accessThroughInterface interface:1a98be7e-4b08-4b6f-b4fa-8112c5f60a9e .
+
+interface:1a98be7e-4b08-4b6f-b4fa-8112c5f60a9e a pht:PostgresInterface;
+pht:dataInterfaceVersion "14.0.0.0"^^xsd:string;
+pht:hasInterfaceShape interfaceShape:2fb48cc2-66cc-49b6-8b77-ec7c07e99005 .
+
+interfaceShape:2fb48cc2-66cc-49b6-8b77-ec7c07e99005 a pht:RelationalSQLDataInterfaceShape;
+pht:dataInterfaceShapeHasKey "bcdb"^^xsd:string;
+pht:consistsOfTabularShapes tabular:d9d7d147-5df1-487f-89fd-b5b05d5b5c5f .
+
+tabular:d9d7d147-5df1-487f-89fd-b5b05d5b5c5f a pht:TabularSQLDataInterfaceShape;
+pht:dataInterfaceShapeHasKey "Breast Cancer Data"^^xsd:string .

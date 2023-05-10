@@ -16,11 +16,10 @@
 orga:7122716d-6fde-4f56-b5c3-1955a58dc848 a foaf:Organization;
 foaf:name "ISIC Orga"^^xsd:string .
 
-# Stations
-# ISIC Station
+# Station 1
 station:0db7b7d2-3cf2-4864-bd58-3ccf055940fb a pht:Station;
-pht:userOwnedHasTitle "ISIC Station"^^xsd:string; 
-pht:userOwnedHasDescription "Station for the ISIC use-case"^^xsd:string;
+pht:userOwnedHasTitle "ISIC Station 1"^^xsd:string; 
+pht:userOwnedHasDescription "First station for the ISIC use-case"^^xsd:string;
 pht:responsibleOrganization orga:7122716d-6fde-4f56-b5c3-1955a58dc848;
 pht:hasDataSet dataset:a80bac0f-7f44-4fdd-a3c5-45f9aad175b6;
 pht:hasDataSet dataset:0ed80d8f-6f34-45c7-979f-714681f59046a .
@@ -244,3 +243,459 @@ pht:attributeHasValue "image/jpeg"^^xsd:string .
 attribute:6b0b4dea-e9a4-4df6-9262-d46713a13bca a pht:AttributeInterfaceShape;
 pht:dataInterfaceShapeHasKey "url"^^xsd:string;
 pht:associatedDataSet dataset:a80bac0f-7f44-4fdd-a3c5-45f9aad175b6 .
+
+# Station 2
+station:e642396a-0a99-4791-aaba-0772399b4f8a a pht:Station;
+pht:userOwnedHasTitle "ISIC Station 2"^^xsd:string; 
+pht:userOwnedHasDescription "Second station for the ISIC use-case"^^xsd:string;
+pht:responsibleOrganization orga:7122716d-6fde-4f56-b5c3-1955a58dc848;
+pht:hasDataSet dataset:487944f9-0388-4379-a9a4-cb4923ecabdc;
+pht:hasDataSet dataset:abf84d33-e638-4d57-bb9f-e1ab666945a2a .
+
+#MinIO (File Dump)
+dataset:487944f9-0388-4379-a9a4-cb4923ecabdc a pht:Dataset; 
+dcat:title "ISIC MINIO"^^xsd:string;
+dcat:description "MINIO instance for the ISIC dataset"^^xsd:string;
+pht:accessThroughInterface interface:93498f1e-de27-4ffb-b9a8-865a2543b527 . 
+
+#Access for MinIO Interface
+interface:93498f1e-de27-4ffb-b9a8-865a2543b527 a pht:MinIOInterface;
+pht:dataInterfaceVersion "22.9.1"^^xsd:string;
+pht:interfaceHasFormat datatype:image-jpeg;
+pht:interfaceAllowsAnonymousAccess "true"^^xsd:boolean .
+
+#Dataset
+dataset:abf84d33-e638-4d57-bb9f-e1ab666945a2a a pht:Dataset; 
+dcat:title "ISIC FHIR"^^xsd:string;
+dcat:description "FHIR server for the ISIC dataset"^^xsd:string;
+pht:accessThroughInterface interface:d4f820b4-76d6-425c-9a15-16a4c7dbf9c7 . 
+
+#Blaze FHIR server
+interface:d4f820b4-76d6-425c-9a15-16a4c7dbf9c7 a pht:BlazeInterface;
+pht:dataInterfaceVersion "0.10.3"^^xsd:string;
+pht:hasInterfaceShape object:62e40a70-0d15-4520-8a7d-bb2365aeaedb .
+
+#Object collection, consists of subschemas that describe the Patient, ImagingStudy and Media resources
+object:62e40a70-0d15-4520-8a7d-bb2365aeaedb a pht:AttributeObjectCollectionInterfaceShape;
+pht:consistsOfTabularShapes object:8435fe28-efaa-4f6e-aeb2-cb829290e03f,
+object:43f9780d-3a9c-489d-8841-1082b1fe480f,
+object:7024a66e-55d4-4a3c-a16a-717222132522 .
+
+#Image Study Object
+object:8435fe28-efaa-4f6e-aeb2-cb829290e03f a pht:AttributeObjectDataInterfaceShape;
+pht:dataInterfaceShapeHasKey fhir:ImagingStudy;
+pht:consistsOfColumnShapes attribute:4d69e4e1-16bf-44ac-93b0-e540cc3d5474,
+attribute:76964afe-d7bf-4d54-9314-4f2bbaa3893d .
+
+attribute:4d69e4e1-16bf-44ac-93b0-e540cc3d5474 a pht:AttributeInterfaceShape;
+pht:dataInterfaceShapeHasKey "id"^^xsd:string;
+pht:attributeHasValue "isic"^^xsd:string .
+
+attribute:76964afe-d7bf-4d54-9314-4f2bbaa3893d a pht:AttributeInterfaceShape;
+pht:dataInterfaceShapeHasKey "name"^^xsd:string;
+pht:attributeHasValue "ISIC"^^xsd:string .
+
+#Patient Object
+object:43f9780d-3a9c-489d-8841-1082b1fe480f a pht:AttributeObjectDataInterfaceShape;
+pht:dataInterfaceShapeHasKey fhir:Patient;
+pht:consistsOfColumnShapes attribute:4460b85b-bf11-4c40-a6a0-3de727e102e1,
+attribute:74b9d9b5-35da-4b33-a9c9-723882145238,
+attribute:b26d35d0-03a0-42c8-aa61-50dccb9d5a09, 
+attribute:7024a66e-55d4-4a3c-a16a-717222132522 .
+
+attribute:4460b85b-bf11-4c40-a6a0-3de727e102e1 a pht:AttributeInterfaceShape;
+pht:dataInterfaceShapeHasKey "id"^^xsd:string;
+pht:attributeIsUnique "true"^^xsd:boolean;
+pht:shapeHasDatatype  [
+    a pht:DataInterfaceShapeAtomicDatatype; 
+    pht:hasDatatype xsd:unsignedInt
+] .
+
+attribute:74b9d9b5-35da-4b33-a9c9-723882145238 a pht:AttributeInterfaceShape;
+pht:dataInterfaceShapeHasKey "gender"^^xsd:string;
+pht:shapeHasDatatype  [
+    a pht:DataInterfaceShapeAtomicDatatype; 
+    pht:hasDatatype fhir:Patient.gender
+] .
+
+attribute:b26d35d0-03a0-42c8-aa61-50dccb9d5a09 a pht:AttributeInterfaceShape;
+pht:dataInterfaceShapeHasKey "birthDate"^^xsd:string;
+pht:shapeHasDatatype  [
+    a pht:DataInterfaceShapeAtomicDatatype; 
+    pht:hasDatatype fhir:Patient.birthDate
+] .
+
+attribute:7024a66e-55d4-4a3c-a16a-717222132522 a pht:AttributeInterfaceShape;
+pht:dataInterfaceShapeHasKey "meta"^^xsd:string;
+pht:shapeHasDatatype object:af3bfdd7-e5a5-423d-8537-55e2f894fc2ba .
+
+object:af3bfdd7-e5a5-423d-8537-55e2f894fc2ba a pht:AttributeObjectDataInterfaceShape;
+pht:consistsOfColumnShapes attribute:f8ed1649-e216-4654-b05f-d3d17a5e325e .
+
+attribute:f8ed1649-e216-4654-b05f-d3d17a5e325e a pht:AttributeInterfaceShape;
+pht:dataInterfaceShapeHasKey "profile"^^xsd:string;
+pht:shapeHasDatatype datatype:8fd34cb0-5a33-471f-8026-92868d4c0158 .
+
+datatype:8fd34cb0-5a33-471f-8026-92868d4c0158 a pht:DataInterfaceShapeListDatatype;
+pht:listDatatypeShapeContainsDatatype attribute:6c024ee2-25a4-49b5-afbf-5eab99dd02bc .
+
+attribute:6c024ee2-25a4-49b5-afbf-5eab99dd02bc a pht:AttributeInterfaceShape;
+pht:attributeHasValue "https://www.medizininformatik-initiative.de/fhir/core/StructureDefinition/Patient"^^xsd:string .
+
+#Media Object
+object:7024a66e-55d4-4a3c-a16a-717222132522 a pht:AttributeObjectDataInterfaceShape;
+pht:dataInterfaceShapeHasKey fhir:Media;
+pht:consistsOfColumnShapes attribute:21bd1eb4-9484-45e1-9c0f-95ccf3b1243d,
+attribute:9198ab8d-f099-4f9c-8c81-8b3d7ab742b1,
+attribute:9f8512b7-d0d9-4ee1-9d96-fa0bc9e13e04,
+attribute:13ad27e2-b61f-4f38-9a7f-8df79db5b428,
+attribute:56aecf39-5b04-4d2a-9db5-1b9647e8b62c,
+attribute:1fcad42b-d692-4d45-ba73-98a26fa80bc8,
+attribute:d8692d69-772a-40b0-9913-50e1cc3488c6, 
+attribute:24ddffee-34f6-415e-8258-bbed3459056f, 
+attribute:4d5ef01b-a316-45df-8847-1e1401001d5b .
+
+attribute:21bd1eb4-9484-45e1-9c0f-95ccf3b1243d a pht:AttributeInterfaceShape;
+pht:dataInterfaceShapeHasKey "id"^^xsd:string;
+pht:attributeIsUnique "true"^^xsd:boolean;
+pht:shapeHasDatatype  [
+    a pht:DataInterfaceShapeAtomicDatatype; 
+    pht:hasDatatype xsd:unsignedInt
+] .
+
+attribute:9198ab8d-f099-4f9c-8c81-8b3d7ab742b1 a pht:AttributeInterfaceShape;
+pht:dataInterfaceShapeHasKey "createdDateTime"^^xsd:string; 
+pht:shapeHasDatatype  [
+    a pht:DataInterfaceShapeAtomicDatatype; 
+    pht:hasDatatype fhir:Media.createdDateTime
+] .
+
+attribute:9f8512b7-d0d9-4ee1-9d96-fa0bc9e13e04 a pht:AttributeInterfaceShape;
+pht:dataInterfaceShapeHasKey "status"^^xsd:string; 
+pht:shapeHasDatatype  [
+    a pht:DataInterfaceShapeAtomicDatatype; 
+    pht:hasDatatype fhir:Media.status
+] .
+
+#Body site
+attribute:13ad27e2-b61f-4f38-9a7f-8df79db5b428 a pht:AttributeInterfaceShape;
+pht:dataInterfaceShapeHasKey "bodySite"^^xsd:string;
+pht:shapeHasDatatype object:ec77c885-03d6-46a9-b1d5-33e887f0fd2b .
+
+object:ec77c885-03d6-46a9-b1d5-33e887f0fd2b a pht:AttributeObjectDataInterfaceShape;
+pht:consistsOfColumnShapes attribute:dbfd538d-d266-4c50-b1c6-eccc52069a40 .
+
+attribute:dbfd538d-d266-4c50-b1c6-eccc52069a40 a pht:AttributeInterfaceShape;
+pht:dataInterfaceShapeHasKey "text"^^xsd:string; 
+pht:shapeHasDatatype [
+    a pht:DataInterfaceShapeAtomicDatatype; 
+    pht:hasDatatype datatype:isicBodysite
+] .
+
+#Reason code
+attribute:56aecf39-5b04-4d2a-9db5-1b9647e8b62c a pht:AttributeInterfaceShape;
+pht:dataInterfaceShapeHasKey "reasonCode"^^xsd:string;
+pht:shapeHasDatatype datatype:4ee4160b-3ccf-4ac3-aa47-24b0b3146fe1 .
+
+datatype:4ee4160b-3ccf-4ac3-aa47-24b0b3146fe1 a pht:DataInterfaceShapeListDatatype;
+pht:listDatatypeShapeContainsDatatype object:e9215932-f744-40f7-9dc6-b5093d1d2951 .
+
+object:e9215932-f744-40f7-9dc6-b5093d1d2951 a pht:AttributeObjectDataInterfaceShape;
+pht:consistsOfColumnShapes attribute:fa3e09ec-bcc6-41ac-8ed4-b6c4f5f9462a .
+
+attribute:fa3e09ec-bcc6-41ac-8ed4-b6c4f5f9462a a pht:AttributeInterfaceShape;
+pht:dataInterfaceShapeHasKey "text"^^xsd:string;
+pht:shapeHasDatatype [
+    a pht:DataInterfaceShapeAtomicDatatype; 
+    pht:hasDatatype datatype:isicLesionId
+] .
+
+
+#Ground Truth
+attribute:1fcad42b-d692-4d45-ba73-98a26fa80bc8 a pht:AttributeInterfaceShape;
+pht:dataInterfaceShapeHasKey "note"^^xsd:string;
+pht:shapeHasDatatype datatype:b5400df8-b37b-4061-af02-703c39134d8c .
+
+datatype:b5400df8-b37b-4061-af02-703c39134d8c a pht:DataInterfaceShapeListDatatype;
+pht:listDatatypeShapeContainsDatatype object:5f66cd4b-0d75-4001-af97-cff483337cda .
+
+object:5f66cd4b-0d75-4001-af97-cff483337cda a pht:AttributeObjectDataInterfaceShape;
+pht:consistsOfColumnShapes attribute:d9be4612-dc15-4400-a160-cd75d3519213 .
+
+attribute:d9be4612-dc15-4400-a160-cd75d3519213 a pht:AttributeInterfaceShape;
+pht:dataInterfaceShapeHasKey "text"^^xsd:string;
+pht:shapeHasDatatype [
+    a pht:DataInterfaceShapeAtomicDatatype; 
+    pht:hasDatatype datatype:isicGroundTruth
+] .
+
+#Subject
+attribute:d8692d69-772a-40b0-9913-50e1cc3488c6 a pht:AttributeInterfaceShape;
+pht:dataInterfaceShapeHasKey "subject"^^xsd:string;
+pht:shapeHasDatatype object:8c6f88a6-71cd-4fda-9e75-a3db0d660448 .
+
+object:8c6f88a6-71cd-4fda-9e75-a3db0d660448 a pht:AttributeObjectDataInterfaceShape;
+pht:consistsOfColumnShapes attribute:0630e2ae-4bc2-4a43-9d05-490e6cc8d501 .
+
+#Reference to a Patient
+attribute:0630e2ae-4bc2-4a43-9d05-490e6cc8d501 a pht:AttributeInterfaceShape;
+pht:dataInterfaceShapeHasKey "reference"^^xsd:string;
+pht:shapeReferences attribute:4460b85b-bf11-4c40-a6a0-3de727e102e1 .
+
+#Encounter
+attribute:24ddffee-34f6-415e-8258-bbed3459056f a pht:AttributeInterfaceShape;
+pht:dataInterfaceShapeHasKey "encounter"^^xsd:string;
+pht:shapeHasDatatype object:d6a26414-c82c-43a7-9c23-cf265367b2e9 .
+
+object:d6a26414-c82c-43a7-9c23-cf265367b2e9 a pht:AttributeObjectDataInterfaceShape;
+pht:consistsOfColumnShapes attribute:e6cba2f5-7c05-48d8-8a36-109e0994c647 .
+
+#Reference to the Imaging Study
+attribute:e6cba2f5-7c05-48d8-8a36-109e0994c647 a pht:AttributeInterfaceShape;
+pht:dataInterfaceShapeHasKey "reference"^^xsd:string;
+pht:shapeReferences attribute:4d69e4e1-16bf-44ac-93b0-e540cc3d5474 .
+
+#Content
+attribute:4d5ef01b-a316-45df-8847-1e1401001d5b a pht:AttributeInterfaceShape;
+pht:dataInterfaceShapeHasKey "content"^^xsd:string;
+pht:shapeHasDatatype object:11b4c57c-7030-43b7-9c94-b1cce5e10735 .
+
+object:11b4c57c-7030-43b7-9c94-b1cce5e10735 a pht:AttributeObjectDataInterfaceShape;
+pht:consistsOfColumnShapes attribute:18a3d88a-ac04-453f-9e45-efc4bf8b0224,
+attribute:b6c233b0-be17-4d55-8677-97b3848d37f5 .
+
+attribute:18a3d88a-ac04-453f-9e45-efc4bf8b0224 a pht:AttributeInterfaceShape;
+pht:dataInterfaceShapeHasKey "contentType"^^xsd:string;
+pht:attributeHasValue "image/jpeg"^^xsd:string .
+
+attribute:b6c233b0-be17-4d55-8677-97b3848d37f5 a pht:AttributeInterfaceShape;
+pht:dataInterfaceShapeHasKey "url"^^xsd:string;
+pht:associatedDataSet dataset:487944f9-0388-4379-a9a4-cb4923ecabdc .
+
+# Station 3
+station:9362e21e-4e44-4ab8-a762-b3d0970771e8 a pht:Station;
+pht:userOwnedHasTitle "ISIC Station 3"^^xsd:string; 
+pht:userOwnedHasDescription "Third station for the ISIC use-case"^^xsd:string;
+pht:responsibleOrganization orga:7122716d-6fde-4f56-b5c3-1955a58dc848;
+pht:hasDataSet dataset:5dd7ee72-8ef8-4959-9a2e-20742dafdc14;
+pht:hasDataSet dataset:a781f95a-3cbf-4745-8d46-c87f8f52d65da .
+
+#MinIO (File Dump)
+dataset:5dd7ee72-8ef8-4959-9a2e-20742dafdc14 a pht:Dataset; 
+dcat:title "ISIC MINIO"^^xsd:string;
+dcat:description "MINIO instance for the ISIC dataset"^^xsd:string;
+pht:accessThroughInterface interface:dde8a3ef-c83f-4b44-b89a-3b7a68281962 . 
+
+#Access for MinIO Interface
+interface:dde8a3ef-c83f-4b44-b89a-3b7a68281962 a pht:MinIOInterface;
+pht:dataInterfaceVersion "22.9.1"^^xsd:string;
+pht:interfaceHasFormat datatype:image-jpeg;
+pht:interfaceAllowsAnonymousAccess "true"^^xsd:boolean .
+
+#Dataset
+dataset:a781f95a-3cbf-4745-8d46-c87f8f52d65da a pht:Dataset; 
+dcat:title "ISIC FHIR"^^xsd:string;
+dcat:description "FHIR server for the ISIC dataset"^^xsd:string;
+pht:accessThroughInterface interface:04b2ed07-3823-4eb2-afd3-e4c08361de9d . 
+
+#Blaze FHIR server
+interface:04b2ed07-3823-4eb2-afd3-e4c08361de9d a pht:BlazeInterface;
+pht:dataInterfaceVersion "0.10.3"^^xsd:string;
+pht:hasInterfaceShape object:7001c21d-8d32-4006-a544-8812b03f94db .
+
+#Object collection, consists of subschemas that describe the Patient, ImagingStudy and Media resources
+object:7001c21d-8d32-4006-a544-8812b03f94db a pht:AttributeObjectCollectionInterfaceShape;
+pht:consistsOfTabularShapes object:271165d2-cb78-46ab-b1f0-dd570a9ac829,
+object:af192327-ec9d-40fa-a434-98467d5c9f68,
+object:5447ad97-bd81-4130-9a7c-6dee2117ba0d .
+
+#Image Study Object
+object:271165d2-cb78-46ab-b1f0-dd570a9ac829 a pht:AttributeObjectDataInterfaceShape;
+pht:dataInterfaceShapeHasKey fhir:ImagingStudy;
+pht:consistsOfColumnShapes attribute:d56f4252-dac5-43b3-bf69-578bec6248d8,
+attribute:36be8d08-a4d1-4db2-9942-44942f381353 .
+
+attribute:d56f4252-dac5-43b3-bf69-578bec6248d8 a pht:AttributeInterfaceShape;
+pht:dataInterfaceShapeHasKey "id"^^xsd:string;
+pht:attributeHasValue "isic"^^xsd:string .
+
+attribute:36be8d08-a4d1-4db2-9942-44942f381353 a pht:AttributeInterfaceShape;
+pht:dataInterfaceShapeHasKey "name"^^xsd:string;
+pht:attributeHasValue "ISIC"^^xsd:string .
+
+#Patient Object
+object:af192327-ec9d-40fa-a434-98467d5c9f68 a pht:AttributeObjectDataInterfaceShape;
+pht:dataInterfaceShapeHasKey fhir:Patient;
+pht:consistsOfColumnShapes attribute:41fc57eb-01c1-40a1-9502-2a37493534d0,
+attribute:80fc0661-b551-423e-a232-639cd31e3d3e,
+attribute:c560745c-612f-45b9-8762-e87265c7e67a, 
+attribute:5447ad97-bd81-4130-9a7c-6dee2117ba0d .
+
+attribute:41fc57eb-01c1-40a1-9502-2a37493534d0 a pht:AttributeInterfaceShape;
+pht:dataInterfaceShapeHasKey "id"^^xsd:string;
+pht:attributeIsUnique "true"^^xsd:boolean;
+pht:shapeHasDatatype  [
+    a pht:DataInterfaceShapeAtomicDatatype; 
+    pht:hasDatatype xsd:unsignedInt
+] .
+
+attribute:80fc0661-b551-423e-a232-639cd31e3d3e a pht:AttributeInterfaceShape;
+pht:dataInterfaceShapeHasKey "gender"^^xsd:string;
+pht:shapeHasDatatype  [
+    a pht:DataInterfaceShapeAtomicDatatype; 
+    pht:hasDatatype fhir:Patient.gender
+] .
+
+attribute:c560745c-612f-45b9-8762-e87265c7e67a a pht:AttributeInterfaceShape;
+pht:dataInterfaceShapeHasKey "birthDate"^^xsd:string;
+pht:shapeHasDatatype  [
+    a pht:DataInterfaceShapeAtomicDatatype; 
+    pht:hasDatatype fhir:Patient.birthDate
+] .
+
+attribute:5447ad97-bd81-4130-9a7c-6dee2117ba0d a pht:AttributeInterfaceShape;
+pht:dataInterfaceShapeHasKey "meta"^^xsd:string;
+pht:shapeHasDatatype object:e760a551-84fb-4ec8-ab83-0c18931f1de0a .
+
+object:e760a551-84fb-4ec8-ab83-0c18931f1de0a a pht:AttributeObjectDataInterfaceShape;
+pht:consistsOfColumnShapes attribute:89be755f-43f3-472b-ab88-ade1604a2146 .
+
+attribute:89be755f-43f3-472b-ab88-ade1604a2146 a pht:AttributeInterfaceShape;
+pht:dataInterfaceShapeHasKey "profile"^^xsd:string;
+pht:shapeHasDatatype datatype:7995e56b-4834-45fc-8df0-76055b5c8c74 .
+
+datatype:7995e56b-4834-45fc-8df0-76055b5c8c74 a pht:DataInterfaceShapeListDatatype;
+pht:listDatatypeShapeContainsDatatype attribute:53b08b25-23bf-40b7-b74e-2632360dfd65 .
+
+attribute:53b08b25-23bf-40b7-b74e-2632360dfd65 a pht:AttributeInterfaceShape;
+pht:attributeHasValue "https://www.medizininformatik-initiative.de/fhir/core/StructureDefinition/Patient"^^xsd:string .
+
+#Media Object
+object:5447ad97-bd81-4130-9a7c-6dee2117ba0d a pht:AttributeObjectDataInterfaceShape;
+pht:dataInterfaceShapeHasKey fhir:Media;
+pht:consistsOfColumnShapes attribute:01574e6a-ca54-4a2e-b250-86555e70dc34,
+attribute:7981090a-8137-4c84-afeb-139a3c0aa00a,
+attribute:ad21fe72-3ce1-4762-9dbc-0ae11b33403b,
+attribute:0c63e8bb-5dea-42bf-b69e-667c468fe642,
+attribute:e6bb6d77-b3d1-48f9-b0ed-7c9237e155cb,
+attribute:41b7da0f-19ef-4f98-adbf-2f317d0b4aef,
+attribute:f2d6c4ac-acaa-463b-8e8a-1d5fd8a40f81, 
+attribute:0c098ba4-555b-4763-9376-78449700fd7a, 
+attribute:f4c14aea-a5c8-4f9c-bcc2-cb6ed3a03336 .
+
+attribute:01574e6a-ca54-4a2e-b250-86555e70dc34 a pht:AttributeInterfaceShape;
+pht:dataInterfaceShapeHasKey "id"^^xsd:string;
+pht:attributeIsUnique "true"^^xsd:boolean;
+pht:shapeHasDatatype  [
+    a pht:DataInterfaceShapeAtomicDatatype; 
+    pht:hasDatatype xsd:unsignedInt
+] .
+
+attribute:7981090a-8137-4c84-afeb-139a3c0aa00a a pht:AttributeInterfaceShape;
+pht:dataInterfaceShapeHasKey "createdDateTime"^^xsd:string; 
+pht:shapeHasDatatype  [
+    a pht:DataInterfaceShapeAtomicDatatype; 
+    pht:hasDatatype fhir:Media.createdDateTime
+] .
+
+attribute:ad21fe72-3ce1-4762-9dbc-0ae11b33403b a pht:AttributeInterfaceShape;
+pht:dataInterfaceShapeHasKey "status"^^xsd:string; 
+pht:shapeHasDatatype  [
+    a pht:DataInterfaceShapeAtomicDatatype; 
+    pht:hasDatatype fhir:Media.status
+] .
+
+#Body site
+attribute:0c63e8bb-5dea-42bf-b69e-667c468fe642 a pht:AttributeInterfaceShape;
+pht:dataInterfaceShapeHasKey "bodySite"^^xsd:string;
+pht:shapeHasDatatype object:712158b5-13e2-4553-9ff8-aedd12c2dc46 .
+
+object:712158b5-13e2-4553-9ff8-aedd12c2dc46 a pht:AttributeObjectDataInterfaceShape;
+pht:consistsOfColumnShapes attribute:053d175d-10aa-42d7-8191-425160a8eb97 .
+
+attribute:053d175d-10aa-42d7-8191-425160a8eb97 a pht:AttributeInterfaceShape;
+pht:dataInterfaceShapeHasKey "text"^^xsd:string; 
+pht:shapeHasDatatype [
+    a pht:DataInterfaceShapeAtomicDatatype; 
+    pht:hasDatatype datatype:isicBodysite
+] .
+
+#Reason code
+attribute:e6bb6d77-b3d1-48f9-b0ed-7c9237e155cb a pht:AttributeInterfaceShape;
+pht:dataInterfaceShapeHasKey "reasonCode"^^xsd:string;
+pht:shapeHasDatatype datatype:833e4f73-69d8-4b26-9b75-da7eaf9e211a .
+
+datatype:833e4f73-69d8-4b26-9b75-da7eaf9e211a a pht:DataInterfaceShapeListDatatype;
+pht:listDatatypeShapeContainsDatatype object:1681a75f-32a8-4fd5-b469-8764e6380204 .
+
+object:1681a75f-32a8-4fd5-b469-8764e6380204 a pht:AttributeObjectDataInterfaceShape;
+pht:consistsOfColumnShapes attribute:9b1904a7-8a0b-4e4d-8b82-0f64580fc70e .
+
+attribute:9b1904a7-8a0b-4e4d-8b82-0f64580fc70e a pht:AttributeInterfaceShape;
+pht:dataInterfaceShapeHasKey "text"^^xsd:string;
+pht:shapeHasDatatype [
+    a pht:DataInterfaceShapeAtomicDatatype; 
+    pht:hasDatatype datatype:isicLesionId
+] .
+
+
+#Ground Truth
+attribute:41b7da0f-19ef-4f98-adbf-2f317d0b4aef a pht:AttributeInterfaceShape;
+pht:dataInterfaceShapeHasKey "note"^^xsd:string;
+pht:shapeHasDatatype datatype:7ece97ce-6459-4039-a765-2621daad7412 .
+
+datatype:7ece97ce-6459-4039-a765-2621daad7412 a pht:DataInterfaceShapeListDatatype;
+pht:listDatatypeShapeContainsDatatype object:49652e7b-ea03-4e69-8cb6-64a1a0f9ae16 .
+
+object:49652e7b-ea03-4e69-8cb6-64a1a0f9ae16 a pht:AttributeObjectDataInterfaceShape;
+pht:consistsOfColumnShapes attribute:cad798cf-60b7-4e96-805f-44dfe5d09886 .
+
+attribute:cad798cf-60b7-4e96-805f-44dfe5d09886 a pht:AttributeInterfaceShape;
+pht:dataInterfaceShapeHasKey "text"^^xsd:string;
+pht:shapeHasDatatype [
+    a pht:DataInterfaceShapeAtomicDatatype; 
+    pht:hasDatatype datatype:isicGroundTruth
+] .
+
+#Subject
+attribute:f2d6c4ac-acaa-463b-8e8a-1d5fd8a40f81 a pht:AttributeInterfaceShape;
+pht:dataInterfaceShapeHasKey "subject"^^xsd:string;
+pht:shapeHasDatatype object:188de3b2-502b-4d21-a23d-d710b6968e70 .
+
+object:188de3b2-502b-4d21-a23d-d710b6968e70 a pht:AttributeObjectDataInterfaceShape;
+pht:consistsOfColumnShapes attribute:047637d0-53aa-4170-9933-04c55e2e8a8a .
+
+#Reference to a Patient
+attribute:047637d0-53aa-4170-9933-04c55e2e8a8a a pht:AttributeInterfaceShape;
+pht:dataInterfaceShapeHasKey "reference"^^xsd:string;
+pht:shapeReferences attribute:41fc57eb-01c1-40a1-9502-2a37493534d0 .
+
+#Encounter
+attribute:0c098ba4-555b-4763-9376-78449700fd7a a pht:AttributeInterfaceShape;
+pht:dataInterfaceShapeHasKey "encounter"^^xsd:string;
+pht:shapeHasDatatype object:6fe72297-8ada-4ba5-aaf1-4a1fec6e9e9b .
+
+object:6fe72297-8ada-4ba5-aaf1-4a1fec6e9e9b a pht:AttributeObjectDataInterfaceShape;
+pht:consistsOfColumnShapes attribute:500ace2b-720f-427b-89c8-214eb761416f .
+
+#Reference to the Imaging Study
+attribute:500ace2b-720f-427b-89c8-214eb761416f a pht:AttributeInterfaceShape;
+pht:dataInterfaceShapeHasKey "reference"^^xsd:string;
+pht:shapeReferences attribute:d56f4252-dac5-43b3-bf69-578bec6248d8 .
+
+#Content
+attribute:f4c14aea-a5c8-4f9c-bcc2-cb6ed3a03336 a pht:AttributeInterfaceShape;
+pht:dataInterfaceShapeHasKey "content"^^xsd:string;
+pht:shapeHasDatatype object:ca14dc01-57bb-4c17-b631-b226ad658f8b .
+
+object:ca14dc01-57bb-4c17-b631-b226ad658f8b a pht:AttributeObjectDataInterfaceShape;
+pht:consistsOfColumnShapes attribute:e406fb51-8ec1-4518-ac9c-b13f9dccedc2,
+attribute:e68fff77-c6e6-4c11-bb5f-66134ec44365 .
+
+attribute:e406fb51-8ec1-4518-ac9c-b13f9dccedc2 a pht:AttributeInterfaceShape;
+pht:dataInterfaceShapeHasKey "contentType"^^xsd:string;
+pht:attributeHasValue "image/jpeg"^^xsd:string .
+
+attribute:e68fff77-c6e6-4c11-bb5f-66134ec44365 a pht:AttributeInterfaceShape;
+pht:dataInterfaceShapeHasKey "url"^^xsd:string;
+pht:associatedDataSet dataset:5dd7ee72-8ef8-4959-9a2e-20742dafdc14 .

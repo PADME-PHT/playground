@@ -36,6 +36,6 @@ To execute the use case, do the following:
 2. In the 'Eval Orga', select the eval data set for both Hospitals
 3. Click on 'Select Route' in the lower right corner and confirm the route
 4. Wait for the environment to be created
-4. Upload the file **./example_solution_eval.zip** into the playground via the upload button in the upper left corner. This file contains all the source code needed to execute the use case
+5. Upload the file **./example_solution_eval.zip** into the playground via the upload button in the upper left corner. This file contains all the source code needed to execute the use case
 
-Now you can already press **play** to execute the use case.
+Now you can press **play** in the upper left corner of the playground to execute the use case.
