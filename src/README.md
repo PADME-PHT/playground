@@ -1,6 +1,6 @@
-# PADME Playground
+# PADME DEATHSTAR
 
-Welcome to the codebase of the PADME Playground. The playground consists of **two** main components: A **backend** written in [Node.js](https://www.nodejs.org/en/) and a **frontend** written with [Typescript](https://www.typescriptlang.org) using [Angular](https://www.angular.io) and [Material](https://material.angular.io/). 
+Welcome to the codebase of the PADME Development Environment for AuTomated \& Holistic Smoke Testing of Analysis-Runs (DEATHSTAR). The playground consists of **two** main components: A **backend** written in [Node.js](https://www.nodejs.org/en/) and a **frontend** written with [Typescript](https://www.typescriptlang.org) using [Angular](https://www.angular.io) and [Material](https://material.angular.io/). 
 
 The backend uses the library [Express](https://www.expressjs.com) to provide functionalities such as RESTful interfaces. Moreover, its designed as a monolithic application that separates the sub-components mentioned in the paper (Query Engine, Source Provisioner, ...) via libraries. 
 
