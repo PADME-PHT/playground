@@ -25,6 +25,17 @@ Now you can press **play** in the upper left corner of the playground to execute
 
 If you want, you can change the Hyperparameters by creating environment variables via the 'Environment variable' tab on the right (see code in main.py, line 59+ for the names of the variables) or in the code directly.
 
-Please note, that as stated in the paper, the same code provided here for the ISIC-GEN use case can be used to execute the ISIC-SAMPLE use case. For this, you first have to setup the real data sources as described in the original use case paper by Mou et al.[^1] and [this accompanying github repository](https://github.com/rwth-i5/mie2021). You can then change the environment variables in the playground to point to the real FHIR and file dump servers instead of the simulated ones to execute the use case.
+### GPU support
+
+Please note, that **by default the code that is provided here will be executed using only the CPU**. The execution times provided in the paper steam however from a GPU-based execution. If you also want to execute the code using GPU acceleration, you have to do the following:
+
+1. Install the [Nvidia Container Toolkit on your host machine](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html)
+2. Change the Docker-In-Docker (dind) container provided in the '/src/docker-compose-dev.yml' such that [the GPU is enabled in compose](https://docs.docker.com/compose/gpu-support/) and the container supports the correct cuda version of your GPU.
+
+After executing these steps, you need to change the base image of the provided ISIC code to fit your Cuda version as well. With these steps, you should be able to execute the simulation in the Playground using GPU acceleration.
+
+### ISIC-SAMPLE
+
+As stated in the paper, the same code provided here for the ISIC-GEN use case can be used to execute the ISIC-SAMPLE use case. For this, you first have to setup the real data sources as described in the original use case paper by Mou et al.[^1] and [this accompanying github repository](https://github.com/rwth-i5/mie2021). You can then change the environment variables in the playground to point to the real FHIR and file dump servers instead of the simulated ones to execute the use case.
 
 [^1]: [Mou, Yongli, et al. "Distributed skin lesion analysis across decentralised data sources." Public Health and Informatics. IOS Press, 2021. 352-356.](https://ebooks.iospress.nl/volumearticle/56886)
