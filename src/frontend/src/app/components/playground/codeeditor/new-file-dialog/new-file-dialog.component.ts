@@ -4,6 +4,7 @@ import { FileManager } from '../../../../services/file-manager';
 import { AbstractControl, FormControl, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { EditorFileType } from 'src/app/model/editor-file-type';
 import { EditorFile } from 'src/app/model/editor-file';
+import { StateManagerService } from '../../../../services/state-manager/state-manager';
 
 @Component({
   selector: 'app-new-file-dialog',
@@ -15,7 +16,8 @@ export class NewFileDialogComponent implements OnInit {
   public fileName = new FormControl();
   constructor(
     public dialogRef: MatDialogRef<NewFileDialogComponent>,
-    public fileManager: FileManager
+    public fileManager: FileManager,
+    public stateManager: StateManagerService
   ) { }
 
   ngOnInit(): void {
@@ -38,7 +40,7 @@ export class NewFileDialogComponent implements OnInit {
     {
         //Get the correct extension, then close the dialog
       let type = this.fileManager.getFileType(this.fileName.value);
-      this.dialogRef.close({name: this.fileName.value, content: "", type: type} as EditorFile);
+      this.dialogRef.close({name: this.fileName.value, content: "", type: type, purpose:this.stateManager.getCurrentPurpose()} as EditorFile);
     }
   }
 }

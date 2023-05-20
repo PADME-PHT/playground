@@ -1,6 +1,6 @@
 ## Evaluation: BC use case
 
-This folder contains all files that are needed to replicate the BC use case as described in the paper. Before trying to replicate the use case, please setup your development environment (backend, frontend, etc.) as described in the Readme.md in the /src folder.
+This folder contains all files that are needed to replicate the the Federated Learning (FL) version of the BC use case as described in the paper. Before trying to replicate the use case, please setup your development environment (backend, frontend, etc.) as described in the Readme.md in the /src folder.
 
 After your local Playground instance is running successfully, you can execute the following to replicate the use case:
 
@@ -58,7 +58,12 @@ To execute the use case, do the following:
 2. In the 'BC Orga', select the 'Breast Cancer Detection Dataset' for all six available data providers 
 3. Click on 'Select Route' in the lower right corner and confirm the route
 4. Wait for the environment to be created
-5. Upload the file **./bc.zip** into the playground via the upload button in the upper left corner. This file contains all the source code needed to execute the use case. Moreover, we also provide one csv file for each station. This file indicates which patients of the dataset from step 2.2 should be analyzed at the respective station.
+5. Upload the following two zip files into the playground via the upload button in the upper left corner. Both zip files contain all the source code needed to execute the use case. Moreover, we also provide one csv file for each station as part of the learning code. This file indicates which patients of the dataset from step 2.2 should be analyzed at the respective station.
+
+    5.1 Upload the file **./bc_learning.zip** when "Execution" is selected in the code editor on the left
+
+    5.2 Select "Aggregation" in the code editor on the left and upload the file  **./bc_aggregation.zip**
+
 6. Switch to the 'Environment Variables' setting via the menu on the right side of the playground
 7. Under 'Custom Environment Variables', click the 'Add Variable' Button for each of the following variables and enter the information. Please also check the 'Add for all Stations' checkbox before clicking on 'Add'.
 

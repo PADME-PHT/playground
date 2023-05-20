@@ -20,6 +20,8 @@ const tar = require('tar-stream');
 const _ = require('lodash'); 
 const path = require('path');
 const e = require("express");
+const streamToPromise = require('stream-to-promise');
+
 
 /**
  *  Emits a newLog event that provides the session id whenever there is a update for a specific session
@@ -498,7 +500,7 @@ class TaskExecutionUnit extends EventEmitter
    * @param {object} stationInfo Info about the station
    * @return Whether the execution was successful
    */
-  async #executeInStation(sessionId, imageName, stationInfo) {
+  async #executeInStationFederated(sessionId, imageName, stationInfo) {
     let self = this;
     self.#addLogToSession(self, sessionId, LogType.ExecutionStart, '', stationInfo.id);
     let provisionResult = this.#getProvisionResultForStation(sessionId, stationInfo.id);
@@ -521,27 +523,15 @@ class TaskExecutionUnit extends EventEmitter
         return false;
       }
 
-      //Extract changes and commit container
-      let newImageName = await this.#finalizeContainerExecution(container, sessionId);
-      this.#sessionLookup[sessionId].addImage(newImageName);
-
-      //Add log of finished execution
-      this.#addLogToSession(this, sessionId, LogType.ExecutionEnd, '', stationInfo.id);
-      // record size difference
-      const newSize = await docker.getImageSize(newImageName)
-      this.#sessionLookup[sessionId].stationStorageIncreasement[stationInfo.id] = newSize - previousSize
+      this.#addLogToSession(this, sessionId, LogType.ExecutionEnd, '', stationInfo.id);    
     } catch (e)
     {
       log.error(`Execution in session ${sessionId} failed`);
       log.error(e);
       this.#addLogToSession(this, sessionId, LogType.Error, e.message);
       return false;
-    } finally
-    {
-      // Remove container (always)
-      await container.remove({force: true});
-    }   
-    return true;
+    }
+    return [true,container,container.id];
   }
 
   /**
@@ -647,6 +637,27 @@ class TaskExecutionUnit extends EventEmitter
     return !this.#sessionLookup[sessionId].isExecuting;
   }
 
+
+  /**
+   * Temporary method to split files into two groups
+   * @param {object[]} content
+   * @returns {[object[], object[]]} An array with two arrays, the first containing the files that should be executed during execution, the second containing the files that should be executed during aggregation
+   * 
+  */
+  getContent(content) {
+    let contentAggregatorFalse = []
+    let contentAggregatorTrue = []
+    for (let i = 0; i < content.length; i++) {
+      log.info(content[i].purpose)
+      if (content[i].purpose == "execution") {
+        contentAggregatorFalse.push(content[i])
+      } else if (content[i].purpose == "aggregation") {
+        contentAggregatorTrue.push(content[i])
+      }
+    }
+    return [contentAggregatorFalse, contentAggregatorTrue]
+  }
+
   /**
    * Executes the provided info in the session with the given id
    * @param {string} sessionId 
@@ -663,11 +674,14 @@ class TaskExecutionUnit extends EventEmitter
       self.#addLogToSession(self, sessionId, LogType.ExecutionFailed);
       self.#sessionLookup[sessionId].updateExecutionStatus(false); 
     }
+    
+    // Split content into execution and aggregation
+    const [executionContent,aggregationContent] = this.getContent(executionInfo.content)
 
     //Execute
     try {
-      //First: build image, also check if it could be build
-      let res = await this.#buildImageForExecution(sessionId, executionInfo.content);
+      //First: build execution image, also check if it could be build
+      let res = await this.#buildImageForExecution(sessionId, executionContent);
       if (!res || this.#sessionLookup[sessionId].shouldCancel)
       {
         executionFailed(this);
@@ -677,16 +691,47 @@ class TaskExecutionUnit extends EventEmitter
       //Clear changes
       this.#sessionLookup[sessionId].setChanges([]);
 
-      //Execute in every station of the route
-      for (let station of executionInfo.route)
+      let executionImage = this.#sessionLookup[sessionId].getLastImage();
+
+      let res_ = await this.#buildImageForExecution(sessionId, aggregationContent);
+      if (!res_ || this.#sessionLookup[sessionId].shouldCancel)
       {
-        let res = await this.#executeInStation(sessionId, this.#sessionLookup[sessionId].getLastImage(), station);
+        executionFailed(this);
+        return;
+      }
+
+      let aggregationImage = this.#sessionLookup[sessionId].getLastImage();
+
+      //Execute in every station of the route concurrently
+      let results = []
+      
+      let containerMap = {}
+      await Promise.all(executionInfo.route.map(async (station) => {
+        let [res,change_,c_id] = await this.#executeInStationFederated(sessionId, executionImage, station);
         if (!res || this.#sessionLookup[sessionId].shouldCancel)
         {
           executionFailed(this);
           return;
         }
+        results.push(change_)
+        containerMap[c_id] = station;
+      }));
+      /*for (let station of executionInfo.route) {
+        let [res, change_, c_id] = await this.#executeInStationFederated(sessionId, executionImage, station);
+        if (!res || this.#sessionLookup[sessionId].shouldCancel) {
+          executionFailed(this);
+          return;
+        }
+        results.push(change_)
+        containerMap[c_id] = station;
+      }*/
+
+      let res_aggregation = await this.#executeAggregation(results,executionInfo.route,sessionId, aggregationImage,containerMap);
+      if (!res_aggregation || this.#sessionLookup[sessionId].shouldCancel) {
+        executionFailed(this);
+        return;
       }
+    
     } catch (e)
     {
       log.error(`Execution in session ${sessionId} failed`);
@@ -710,6 +755,67 @@ class TaskExecutionUnit extends EventEmitter
   getSessionLogsSince(sessionId, logId)
   {
     return this.#sessionLookup[sessionId].getLogsSinceId(logId);
+  }
+
+  async #executeAggregation(containers, stations, sessionId, imageName,containerMap) {
+    let self = this; // todo add another station: agg
+    let stationInfo = stations[stations.length-1]
+    self.#addLogToSession(self, sessionId, LogType.AggregationStart, '', stationInfo.id);
+    let provisionResult = this.#getProvisionResultForStation(sessionId, stationInfo.id);
+    let envs = await this.#resolveEnvVariables(stationInfo, provisionResult);
+    //Create the container
+    let container = await dockerUtil.createContainerFromImage(
+      imageName,
+      envs,
+      this.#sessionLookup[sessionId].getNetworkForStation(stationInfo.id)
+    );
+    let i=0;
+    for(let c of containers) {
+      let changes = await c.changes();
+      if (changes && changes.length > 0 && changes[0].Path) {
+        console.log(containerMap[c.id].name);
+        const sourcePath = "usr/src/app/" + containerMap[c.id].name.replaceAll(" ", "_");//change.Path;
+        console.log(sourcePath)
+        const destPath = "usr/src/app/"; // or modify the path if needed
+        console.log(destPath)
+        let sourceStream = await c.getArchive({ path: sourcePath });
+        let buffer = await streamToPromise(sourceStream);
+        await container.putArchive(buffer, { path: destPath });
+      i++;
+    }}
+    
+    try
+    {
+      //Start container and wait for the execution to finish
+      await this.#startContainerAndWaitForFinish(container, sessionId, stationInfo);
+      
+      //Return on cancel
+      if (this.#sessionLookup[sessionId].shouldCancel)
+      {
+        return false;
+      }
+
+      //Extract changes and commit container
+      let newImageName = await this.#finalizeContainerExecution(container, sessionId);
+      this.#sessionLookup[sessionId].addImage(newImageName);
+      this.#addLogToSession(this, sessionId, LogType.AggregationEnd, '', stationInfo.id);
+      //Add log of finished execution
+      /*this.#addLogToSession(this, sessionId, LogType.ExecutionEnd, '', stationInfo.id);
+      // record size difference
+      const newSize = await docker.getImageSize(newImageName)
+      this.#sessionLookup[sessionId].stationStorageIncreasement[stationInfo.id] = newSize - previousSize*/
+    } catch (e)
+    {
+      log.error(`Execution in session ${sessionId} failed`);
+      log.error(e);
+      this.#addLogToSession(this, sessionId, LogType.Error, e.message);
+      return false;
+    } finally
+    {
+      // Remove container (always)
+      await container.remove({force: true});
+    }  
+    return true;
   }
 
   /**

@@ -1,0 +1,11 @@
+<h1 mat-dialog-title>FL Settings</h1>
+<div mat-dialog-content style="max-width: 600px">
+  Please specify some settings you want the FL algorithm to consider: <br>
+  Latency at station X, bandwidth, ... <br>
+  The options specified here can later also be changed in the simulation settings.
+
+</div>
+<div style="display: flex; justify-content: flex-start; align-items: center">
+  <button mat-raised-button style="margin-right: 10px" (click)="Cancel()">Cancel</button>
+  <button mat-raised-button style="margin-right: 10px;" class="confirm" (click)="Confirm()">Confirm</button>
+</div>

@@ -1,6 +1,6 @@
 ## Evaluation: ISIC use case
 
-This folder contains all files that are needed to replicate the ISIC-GEN use case as described in the paper. Before trying to replicate the use case, please setup your development environment (backend, frontend, etc.) as described in the Readme.md in the /src folder.
+This folder contains all files that are needed to replicate the Federated Learning (FL) version of ISIC-GEN use case as described in the paper. Before trying to replicate the use case, please setup your development environment (backend, frontend, etc.) as described in the Readme.md in the /src folder.
 
 After your local Playground instance is running successfully, you can execute the following to replicate the use case:
 
@@ -19,7 +19,11 @@ To execute the use case, do the following:
 2. In the 'ISIC Orga', select both datasets for all three available stations. 
 3. Click on 'Select Route' in the lower right corner and confirm the route
 4. Wait for the environment to be created
-5. Upload the file **./isic.zip** into the playground via the upload button in the upper left corner. This file contains all the source code needed to execute the use case
+5. Upload the following two zip files into the playground via the upload button in the upper left corner. Both zip files contain all the source code needed to execute the use case:
+
+    5.1 Upload the file **./isic_learning.zip** when "Execution" is selected in the code editor on the left
+
+    5.2 Select "Aggregation" in the code editor on the left and upload the file  **./isic_aggregation.zip**
 
 Now you can press **play** in the upper left corner of the playground to execute the use case.
 

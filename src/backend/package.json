@@ -29,6 +29,7 @@
     "semver": "^7.3.7",
     "sequelize": "^6.21.3",
     "sparql-http-client": "^2.4.1",
+    "stream-to-promise": "^3.0.0",
     "tar-stream": "^2.2.0",
     "uuid": "^8.3.2",
     "wait-queue": "^1.1.4"

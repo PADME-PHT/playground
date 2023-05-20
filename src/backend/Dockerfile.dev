@@ -4,5 +4,7 @@ WORKDIR /usr/src/app
 # Install netcat (used for portwarding to the keycloak container) and helpful network tools
 RUN apt-get update && apt-get install -y netcat-traditional iputils-ping dnsutils
 
+#Copy content
+COPY . .
 EXPOSE 80
 ENTRYPOINT [ "npm", "run" , "start" ]

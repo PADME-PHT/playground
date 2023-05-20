@@ -30,6 +30,20 @@ $warn-palette: map.get($color-config, 'warn');
   background: #C2C2C2;
 }
 
+.button-container {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  padding-bottom: 5px;
+}
+
+button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
 .item-left
 {
   margin-left:10px;

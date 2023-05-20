@@ -10,6 +10,7 @@ import { StateManagerService } from '../state-manager/state-manager';
 import { ExecutionEvent, LISTENING_FAILED } from 'src/app/model/ExecutionEvent';
 import { ExecutionResult } from 'src/app/model/execution-result';
 import { range } from 'lodash';
+import { EditorFilePurpose } from 'src/app/model/editor-file-purpose';
 
 @Injectable({
   providedIn: 'root'
@@ -261,6 +262,7 @@ export class ApiClientService {
     let routes = this.stateManager.getRoute().halts.map((halt) => {
       return {
         id: halt.station.id, 
+        name: halt.station.name,
         envs: halt.station.envs.map((env) => 
         {
           return {
@@ -283,7 +285,8 @@ export class ApiClientService {
       return {
         name: file.name,
         contentType: file.content instanceof ArrayBuffer ? 'binary' : 'plain',
-        content: file.content instanceof ArrayBuffer ? this.base64ArrayBuffer(file.content) : file.content
+        content: file.content instanceof ArrayBuffer ? this.base64ArrayBuffer(file.content) : file.content,
+        purpose: file.purpose == EditorFilePurpose.aggregation ? 'aggregation' : 'execution' 
       }
     });
     return this.httpClient.post<Response>(this.getEndpoint(`sessions/${this.stateManager.getSessionId()}/execution`), {

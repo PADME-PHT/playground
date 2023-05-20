@@ -4,12 +4,12 @@
 
 $color-config:  mat.get-color-config(theme.$theme);
 $warn-palette: map.get($color-config, 'warn');
+$background-palette: map.get($color-config, 'background');
 
 ::ng-deep .error-snackbar
 {
   color:  mat.get-color-from-palette($warn-palette, main);
 }
-
 .mat-card
 {
   padding: 0px;
@@ -20,7 +20,46 @@ $warn-palette: map.get($color-config, 'warn');
 {
   flex-wrap: wrap;
 }
+.menu-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.menu-elem
+{
+  //Mimics behavior of the mat-list-option
+  //(see https://github.com/angular/components/blob/main/src/material/list/_list-theme.scss)
+  width:50%; height:50px;
+  font-size: 25px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  &:hover, &:focus {
+    background: mat.get-color-from-palette($background-palette, hover);
+  }
+}
 
+.menu-elem-selected
+{
+  //Mimics behavior of the mat-list-option
+  //(see https://github.com/angular/components/blob/main/src/material/list/_list-theme.scss)
+  //and there the class .mat-list-single-selected-option
+  &, &:hover, &:focus {
+    background: mat.get-color-from-palette($background-palette, hover, 0.12);
+  }
+}
+
+
+.menu-elem:hover
+{
+  cursor: pointer;
+}
+
+.custom-divider {
+  width: 1px;
+  height: 50%;
+  background-color: rgba(0, 0, 0, 0.12);
+}
 .flex-nowrap
 {
   flex-wrap: nowrap;

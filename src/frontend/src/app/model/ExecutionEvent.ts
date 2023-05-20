@@ -1,6 +1,6 @@
 export interface ExecutionEvent {
   id: number;
-  type: "Build" | "BuildStart" | "BuildEnd" | "ExecutionStart" | "Execution" | "ExecutionEnd" | "ExecutionFinished" | "ExecutionCanceled"| "ExecutionFailed" | "Error";
+  type: "Build" | "BuildStart" | "BuildEnd" | "ExecutionStart" | "Execution" | "ExecutionEnd" | "ExecutionFinished" | "ExecutionCanceled"| "ExecutionFailed" | "Error" | "AggregationStart" | "AggregationEnd";
   message: string;
   station: string;
 }

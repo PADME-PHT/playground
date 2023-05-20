@@ -5,6 +5,7 @@ import { DatasetDetailsChanged, DataSourceSelection, DataSourceSelectorComponent
 import { find, clone, remove, findIndex, sortBy} from 'lodash';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { SelectRouteDialogComponent } from './select-route-dialog/select-route-dialog.component';
+import { SelectFLDialogComponent } from './select-fl-dialog/select-fl-dialog.component';
 import { Route } from 'src/app/model/route';
 import { WelcomeDialogComponent } from './welcome-dialog/welcome-dialog.component';
 import { UserSettingsManager } from 'src/app/services/user-settings-manager';
@@ -380,6 +381,27 @@ export class SearchComponent implements AfterViewInit {
     {
       data: this.getDefaultRoute()
     });
+    dialogRef.afterClosed().subscribe(result => {
+
+      //If defined, dialog was successful
+      if (result)
+      {
+        this.switchToPlayground(result);
+      }
+    });
+  }
+
+
+  /**
+   * Displays the Dialog to specify FL settings
+   * TODO: Properly split from CIIL functionality.
+   */
+  openSelectFLDialog() {
+    let dialogRef = this.dialog.open(SelectFLDialogComponent,
+    {
+      data: this.getDefaultRoute()
+    });
+    
     dialogRef.afterClosed().subscribe(result => {
 
       //If defined, dialog was successful

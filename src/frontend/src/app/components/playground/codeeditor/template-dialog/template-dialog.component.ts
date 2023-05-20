@@ -4,6 +4,7 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { catchError, throwError } from 'rxjs';
 import { EditorFile } from 'src/app/model/editor-file';
 import { EditorFileType } from 'src/app/model/editor-file-type';
+import { StateManagerService } from 'src/app/services/state-manager/state-manager';
 
 export interface Template
 {
@@ -40,7 +41,8 @@ export class TemplateDialogComponent implements OnInit {
 
   constructor(
     public dialogRef: MatDialogRef<TemplateDialogComponent>,
-    public httpClient: HttpClient
+    public httpClient: HttpClient,
+    public stateManager: StateManagerService
   ) { }
 
   ngOnInit(): void {
@@ -86,11 +88,12 @@ export class TemplateDialogComponent implements OnInit {
     let mainContent = await this.getResource(`${prefix}/main.py`);
     let dockerContent = await this.getResource(`${prefix}/Dockerfile`);
     let requirementsContent = await this.getResource(`${prefix}/requirements.txt`);
+    let purpose = this.stateManager.getCurrentPurpose();
 
     return [
-      { name: "main.py", content: mainContent, type: EditorFileType.python },
-      { name: "Dockerfile", content: dockerContent, type: EditorFileType.dockerfile },
-      { name: "requirements.txt", content: requirementsContent, type: EditorFileType.plain },
+      { name: "main.py", content: mainContent, type: EditorFileType.python, purpose: purpose },
+      { name: "Dockerfile", content: dockerContent, type: EditorFileType.dockerfile, purpose: purpose  },
+      { name: "requirements.txt", content: requirementsContent, type: EditorFileType.plain, purpose: purpose  },
     ] 
   }
 
@@ -104,11 +107,12 @@ export class TemplateDialogComponent implements OnInit {
     let mainContent = await this.getResource(`${prefix}/main.py`);
     let dockerContent = await this.getResource(`${prefix}/Dockerfile`);
     let requirementsContent = await this.getResource(`${prefix}/requirements.txt`);
+    let purpose = this.stateManager.getCurrentPurpose();
 
     return [
-      { name: "main.py", content: mainContent, type: EditorFileType.python },
-      { name: "Dockerfile", content: dockerContent, type: EditorFileType.dockerfile },
-      { name: "requirements.txt", content: requirementsContent, type: EditorFileType.plain },
+      { name: "main.py", content: mainContent, type: EditorFileType.python, purpose: purpose  },
+      { name: "Dockerfile", content: dockerContent, type: EditorFileType.dockerfile, purpose: purpose  },
+      { name: "requirements.txt", content: requirementsContent, type: EditorFileType.plain, purpose: purpose  },
     ] 
   }
   
@@ -122,11 +126,11 @@ export class TemplateDialogComponent implements OnInit {
     let mainContent = await this.getResource(`${prefix}/main.R`);
     let dockerContent = await this.getResource(`${prefix}/Dockerfile`);
     let requirementsContent = await this.getResource(`${prefix}/install_packages.R`);
-
+    let purpose = this.stateManager.getCurrentPurpose();
     return [
-      { name: "main.R", content: mainContent, type: EditorFileType.R },
-      { name: "Dockerfile", content: dockerContent, type: EditorFileType.dockerfile },
-      { name: "install_packages.R", content: requirementsContent, type: EditorFileType.R },
+      { name: "main.R", content: mainContent, type: EditorFileType.R, purpose: purpose  },
+      { name: "Dockerfile", content: dockerContent, type: EditorFileType.dockerfile, purpose: purpose  },
+      { name: "install_packages.R", content: requirementsContent, type: EditorFileType.R, purpose: purpose  },
     ] 
   }
 

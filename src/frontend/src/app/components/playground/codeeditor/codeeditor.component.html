@@ -35,9 +35,11 @@
       <!-- File list -->
       <div class="width-100" style="height: calc(100% - 50px); white-space: nowrap; overflow-y: auto;">
         <mat-selection-list style="overflow:auto; padding:0px;" [multiple]="false" [(ngModel)]="this.selectedOptions" (selectionChange)="this.fileSelectionChanged()" #fileList>
-          <mat-list-option style="overflow: auto;" (contextmenu)="openContextMenu($event,i)" *ngFor="let file of this.fileManager.files; index as i" [value]="i">
-            {{file.name}}
-          </mat-list-option>
+          <ng-container *ngFor="let file of this.fileManager.files; index as i">
+            <mat-list-option style="overflow: auto;" (contextmenu)="openContextMenu($event,i)" *ngIf="stateManager.getCurrentPurpose() === file.purpose" [value]="i">
+              {{file.name}}
+            </mat-list-option>
+          </ng-container>
         </mat-selection-list>
       </div>
       
@@ -75,57 +77,71 @@
   
   <!-- Right side-->
   <div style="flex: 1 1 calc(100% - 206px); min-width: 5px" class="height-100" #rightElement>
-    
-    <!-- Initial View-->
-    <mat-card *ngIf="!this.fileManager.hasFiles()" class="height-100">
-      <mat-card-content class="height-100">
-        <div class="flex-container flex-wrap flex-center height-100">
-          <div class="mat-title">
-            Please create a 
-            <button mat-stroked-button color="accent" (click)="openNewFileDialog()">new file</button> 
-            or start with a 
-            <button mat-stroked-button color="accent" (click)="openTemplateDialog()">template</button> 
+    <mat-drawer-container color="background" class="height-100">
+      <mat-drawer-content>
+        <div class="width-100">
+          <div class="menu-container">
+            <div class="menu-elem" (click)="setCurrentPurpose('execution')" [ngClass]="{'menu-elem-selected': hasEqualPurpose('execution')}">
+              Execution
+            </div>
+            <div class="menu-elem" (click)="setCurrentPurpose('aggregation')" [ngClass]="{'menu-elem-selected':  hasEqualPurpose('aggregation')}">
+              Aggregation
+            </div>
           </div>
-        </div>  
-      </mat-card-content> 
-    </mat-card>
+          <mat-divider></mat-divider>
+        </div>
 
-    <!-- Code editor -->
-    <div style="flex: 1 1 auto; overflow:auto" class="height-100" *ngIf="
-        this.fileManager.hasFiles() && 
-        this.selectedIndex != undefined && 
+        <mat-card *ngIf="!this.hasFiles()" class="height-100">
+          <mat-card-content class="height-100">
+            <div class="flex-container flex-wrap flex-center height-100">
+              <div class="mat-title">
+                Please create a
+                <button mat-stroked-button color="accent" (click)="openNewFileDialog()">new file</button>
+                or start with a
+                <button mat-stroked-button color="accent" (click)="openTemplateDialog()">template</button>
+              </div>
+            </div>
+          </mat-card-content>
+        </mat-card>
+
+        <!-- Code editor -->
+        <div style="flex: 1 1 auto; overflow:auto" class="height-100" *ngIf="
+        this.hasFiles() &&
+        this.selectedIndex != undefined &&
         this.fileManager.files[this.selectedIndex].type != unsupportedType">
-      <app-editor 
-        [FileType]="this.fileManager.files[this.selectedIndex].type" 
-        [content]="this.fileManager.files[this.selectedIndex].content"
-        (contentChange)="fileUpdated(this.selectedIndex, $event)"></app-editor>
-    </div>
+          <app-editor
+                  [FileType]="this.fileManager.files[this.selectedIndex].type"
+                  [content]="this.fileManager.files[this.selectedIndex].content"
+                  (contentChange)="fileUpdated(this.selectedIndex, $event)"></app-editor>
+        </div>
 
-    <!-- No preview available -->
-    <mat-card class="height-100" *ngIf="
-      this.fileManager.hasFiles() && 
-      this.selectedIndex != undefined && 
-      this.fileManager.files[this.selectedIndex].type == unsupportedType">
-      <mat-card-content class="height-100">
-        <div class="flex-container flex-wrap flex-center height-100">
-          <div class="mat-title">
-            No Preview available
-          </div>
-        </div>  
-      </mat-card-content> 
-    </mat-card>
+        <!-- No preview available -->
+        <mat-card class="height-100" *ngIf="
+          this.hasFiles() &&
+          this.selectedIndex != undefined &&
+          this.fileManager.files[this.selectedIndex].type == unsupportedType">
+          <mat-card-content class="height-100">
+            <div class="flex-container flex-wrap flex-center height-100">
+              <div class="mat-title">
+                No Preview available
+              </div>
+            </div>
+          </mat-card-content>
+        </mat-card>
 
-    <!-- Please select a file-->
-    <mat-card class="height-100" *ngIf="
-    this.fileManager.hasFiles() && 
+        <!-- Please select a file-->
+        <mat-card class="height-100" *ngIf="
+    this.hasFiles() &&
     this.selectedIndex == undefined">
-      <mat-card-content class="height-100">
-        <div class="flex-container flex-wrap flex-center height-100">
-          <div class="mat-title">
-            Please select a file
-          </div>
-        </div>  
-      </mat-card-content> 
-    </mat-card>
-  </div>  
+          <mat-card-content class="height-100">
+            <div class="flex-container flex-wrap flex-center height-100">
+              <div class="mat-title">
+                Please select a file
+              </div>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </mat-drawer-content>
+    </mat-drawer-container>
+  </div>
 </div>

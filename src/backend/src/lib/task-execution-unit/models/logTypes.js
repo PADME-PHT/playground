@@ -9,4 +9,6 @@ module.exports = {
   ExecutionFinished: "ExecutionFinished",
   ExecutionCanceled: "ExecutionCanceled",
   ExecutionFailed: "ExecutionFailed",
+  AggregationStart: "AggregationStart",
+  AggregationEnd: "AggregationEnd",
 }

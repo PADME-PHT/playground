@@ -46,6 +46,7 @@ const executionSchema = joi.object(
       joi.object(
         {
           id: joi.string().guid().required(),
+          name: joi.string().required(),
           envs: joi.array().items(
             joi.object(
               {
@@ -72,6 +73,7 @@ const executionSchema = joi.object(
       joi.object(
         {
           name: joi.string().required(),
+          purpose: joi.string().required(),
           contentType: joi.string().valid('plain', 'binary').required(),
           content: joi.alternatives().conditional('contentType', {
             is: 'plain', 

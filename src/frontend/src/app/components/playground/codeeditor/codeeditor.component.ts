@@ -18,8 +18,9 @@ import { NewFileDialogComponent } from './new-file-dialog/new-file-dialog.compon
 import { OverwriteFileDialogComponent } from './overwrite-file-dialog/overwrite-file-dialog.component';
 import { RenameFileDialogComponent } from './rename-file-dialog/rename-file-dialog.component';
 import { TemplateDialogComponent } from './template-dialog/template-dialog.component';
+import { StateManagerService } from 'src/app/services/state-manager/state-manager';
 import { UploadFileDialogComponent } from './upload-file-dialog/upload-file-dialog.component';
-
+import { EditorFilePurpose } from 'src/app/model/editor-file-purpose';
 
 @Component({
   selector: 'app-codeeditor',
@@ -31,6 +32,7 @@ export class CodeeditorComponent implements OnInit {
   constructor(
     public dialog: MatDialog,
     public fileManager: FileManager, 
+    public stateManager: StateManagerService,
     private snackBar: MatSnackBar, 
     private apiClient: ApiClientService,
     private executionManager: ExecutionManagerService, 
@@ -60,12 +62,29 @@ export class CodeeditorComponent implements OnInit {
   public unsupportedType = EditorFileType.unsupported;
   public executing = false;
   public canceled = false;
+  // This is a rather hacky way to save the state of the selected file mode and should be replaced with file attributes
+
 
   ngOnInit(): void {}
 
   fileSelectionChanged() {
     //switch the viewed file
     this.selectedIndex = this.selectedOptions[0];
+  }
+
+  hasEqualPurpose(purpose: string) {
+    if((this.stateManager.getCurrentPurpose() == EditorFilePurpose.execution && purpose == "execution") || (this.stateManager.getCurrentPurpose() == EditorFilePurpose.aggregation && purpose == "aggregation")) {
+      return true;
+    }
+    return false;
+  }
+
+  setCurrentPurpose(purpose: string) {
+    if(purpose == "execution") {
+      this.stateManager.setCurrentPurpose(EditorFilePurpose.execution);
+    } else if(purpose == "aggregation") {
+      this.stateManager.setCurrentPurpose(EditorFilePurpose.aggregation);
+    }
   }
 
   openNewFileDialog() {
@@ -100,6 +119,20 @@ export class CodeeditorComponent implements OnInit {
     
     return dialogRef.afterClosed();
   }
+  
+  /**
+   * Checks if there are files that match the selected mode
+   * @returns true if there are files that match the selected mode
+   */
+  hasFiles() {
+    let found = false;
+    this.fileManager.files.forEach((file) => {
+      if(file.purpose == this.stateManager.getCurrentPurpose()) {
+        found = true;
+      }
+    });
+    return found;
+  }
 
   /**
    * Adds multiple files to the editor
@@ -109,6 +142,7 @@ export class CodeeditorComponent implements OnInit {
   {
     //Check if this is the first file
     let first = !this.fileManager.hasFiles();   
+   
     this.fileManager.addFiles(files);
     this.changedFiles = this.changedFiles.concat(files);
     if (first)
@@ -331,8 +365,8 @@ export class CodeeditorComponent implements OnInit {
       if (result)
       {
         let files = result as EditorFile[];
-        let overwrite = files.filter((file) => this.fileManager.fileExists(file.name));
-        let add = files.filter((file) => !this.fileManager.fileExists(file.name))
+        let overwrite = files.filter((file) => this.fileManager.fileExists(file.name,this.stateManager.getCurrentPurpose()));
+        let add = files.filter((file) => !this.fileManager.fileExists(file.name,this.stateManager.getCurrentPurpose()))
         this.addMultipleFiles(add);
 
         //Ask user for each overwrite file whether this should be overwritten

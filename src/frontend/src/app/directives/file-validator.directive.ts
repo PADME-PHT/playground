@@ -1,6 +1,7 @@
 import { Directive, Input } from '@angular/core';
 import { AbstractControl, NG_VALIDATORS, ValidationErrors } from '@angular/forms';
 import { FileManager } from '../services/file-manager';
+import { StateManagerService } from '../services/state-manager/state-manager';
 
 @Directive({
   selector: '[appFileValidator]', 
@@ -14,7 +15,7 @@ export class FileValidatorDirective {
 
   @Input('ignoreFile') ignoreFile!: string;
 
-  constructor(public fileManager : FileManager) { }
+  constructor(public fileManager : FileManager, public stateManager: StateManagerService) { }
 
   validate(control: AbstractControl): ValidationErrors | null
   {
@@ -27,7 +28,7 @@ export class FileValidatorDirective {
     }
 
     //Otherwise: check if file exists
-    if (this.fileManager.fileExists(name))
+    if (this.fileManager.fileExists(name,this.stateManager.getCurrentPurpose()))
     {
       return { fileExists: {} };
     }

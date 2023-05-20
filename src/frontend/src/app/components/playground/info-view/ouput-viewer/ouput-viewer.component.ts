@@ -209,6 +209,10 @@ export class OuputViewerComponent implements OnInit {
         return this.createInfoMessage(`Executing at station ${this.getStationNameFromId(event.station)}`);
       case "ExecutionEnd":
         return this.createInfoMessage(`Execution finished at station ${this.getStationNameFromId(event.station)}`);
+      case "AggregationStart":
+        return this.createInfoMessage(`Aggregating results`);
+      case "AggregationEnd":
+        return this.createInfoMessage(`Aggregation finished`);
       case "ExecutionFinished":
         return this.createInfoMessage('Execution finished successfully');
       case "ExecutionCanceled":
@@ -349,6 +353,7 @@ export class OuputViewerComponent implements OnInit {
         this.highlightErrorLine(line, update.length -1);
       }
       if (this.isSystemMessage(event)) {
+        console.log(`${event.type}: ${new Date().toTimeString()}`);
         this.highlightSystemLine(line, update.length - 1);
       }
     }

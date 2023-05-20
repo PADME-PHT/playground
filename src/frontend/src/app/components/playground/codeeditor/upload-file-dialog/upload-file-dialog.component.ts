@@ -7,6 +7,7 @@ import { keys } from 'lodash';
 import { EditorFile } from 'src/app/model/editor-file';
 import { EditorFileType } from 'src/app/model/editor-file-type';
 import { FileManager } from 'src/app/services/file-manager';
+import { StateManagerService } from 'src/app/services/state-manager/state-manager';
 
 @Component({
   selector: 'app-upload-file-dialog',
@@ -18,6 +19,7 @@ export class UploadFileDialogComponent {
   constructor(
     private dialogRef: MatDialogRef<UploadFileDialogComponent>,
     private fileManager: FileManager,
+    private stateManager: StateManagerService,
     private snackBar: MatSnackBar) { }
 
   
@@ -63,7 +65,8 @@ export class UploadFileDialogComponent {
         self.results.push({
           name: file.name,
           content: fileReader.result,
-          type: self.fileManager.getFileType(file.name)
+          type: self.fileManager.getFileType(file.name),
+          purpose: self.stateManager.getCurrentPurpose()
         });
       }
       self.increaseFinishedCounter();
@@ -95,7 +98,8 @@ export class UploadFileDialogComponent {
           self.results.push({
               name: file.name,
               content: content,
-              type: type
+              type: type,
+              purpose: self.stateManager.getCurrentPurpose()
           });
         }
       }
@@ -139,7 +143,8 @@ export class UploadFileDialogComponent {
         self.results.push({
           name: file.name,
           content: fileReader.result,
-          type: self.fileManager.getFileType(file.name)
+          type: self.fileManager.getFileType(file.name),
+          purpose: self.stateManager.getCurrentPurpose()
         });
       }
       self.increaseFinishedCounter();

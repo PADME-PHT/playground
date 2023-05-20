@@ -2,6 +2,7 @@ import { EditorFile } from "src/app/model/editor-file";
 import { EditorFileType } from "src/app/model/editor-file-type";
 import { Injectable } from '@angular/core';
 import { find, filter, pullAt } from 'lodash';
+import { EditorFilePurpose } from "../model/editor-file-purpose";
 
 @Injectable({
   providedIn: 'root',
@@ -52,15 +53,15 @@ export class FileManager {
   hasOneDockerfile(): boolean
   {
     let dockerFiles = filter(this._files, { type: EditorFileType.dockerfile }); 
-    return dockerFiles != undefined && dockerFiles.length == 1;
+    return dockerFiles != undefined && dockerFiles.length == 2;
   }
 
   /**
    * @returns Whether the file with the given name already exists 
    */
-  fileExists(fileName: string) : boolean
+  fileExists(fileName: string, purpose: EditorFilePurpose) : boolean
   {
-    return find(this._files, { name: fileName }) != undefined;
+    return find(this._files, { name: fileName, purpose: purpose }) != undefined;
   }
 
   /**
@@ -148,7 +149,7 @@ export class FileManager {
    */
   public addFile(file:EditorFile)
   {
-    if (this.fileExists(file.name)) {
+    if (this.fileExists(file.name,file.purpose)) {
       throw Error("File already exists");
     }
     this._files.push(file);
@@ -163,7 +164,7 @@ export class FileManager {
      //Check
      for (let file of files)
      {
-       if (this.fileExists(file.name)) {
+       if (this.fileExists(file.name,file.purpose)) {
           throw Error("File already exists");
         }
      }

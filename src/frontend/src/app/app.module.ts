@@ -34,6 +34,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { SchemaDetailsViewerComponent } from './components/schema-details-viewer/schema-details-viewer.component';
 import { DataSourceSelectorComponent } from './components/search/data-source-selector/data-source-selector.component';
 import { SelectRouteDialogComponent } from './components/search/select-route-dialog/select-route-dialog.component';
+import { SelectFLDialogComponent } from './components/search/select-fl-dialog/select-fl-dialog.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { RouteSelectorComponent } from './components/route-selector/route-selector.component';
 import { WelcomeDialogComponent } from './components/search/welcome-dialog/welcome-dialog.component';
@@ -85,6 +86,7 @@ registerLocaleData(localeDE);
     SchemaDetailsViewerComponent,
     DataSourceSelectorComponent,
     SelectRouteDialogComponent,
+    SelectFLDialogComponent,
     RouteSelectorComponent,
     WelcomeDialogComponent,
     LoadingDialogComponent,

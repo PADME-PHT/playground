@@ -1,12 +1,6 @@
 # PADME DEATHSTAR
 
-Welcome to the codebase of the PADME Development Environment for AuTomated \& Holistic Smoke Testing of Analysis-Runs (DEATHSTAR). The playground consists of **two** main components: A **backend** written in [Node.js](https://www.nodejs.org/en/) and a **frontend** written with [Typescript](https://www.typescriptlang.org) using [Angular](https://www.angular.io) and [Material](https://material.angular.io/). 
-
-The backend uses the library [Express](https://www.expressjs.com) to provide functionalities such as RESTful interfaces. Moreover, its designed as a monolithic application that separates the sub-components mentioned in the paper (Query Engine, Source Provisioner, ...) via libraries. 
-
-The Metadata Store is realized by a [Blazegraph](https://blazegraph.com/) database and accessed by the backend via [SPARQL](https://www.w3.org/TR/sparql11-query), the standard query language for RDF based data[^1]. Moreover, the data for the Metadata Store adheres to the developed metadata schema that is presented in the _schema_ sub-folder.
-
-In the following and the corresponding readme files of the relevant sub-folders you can find instructions on how to setup a playground instance yourself.
+Welcome to the codebase of the Federated Learning (FL) variant of the PADME Development Environment for AuTomated \& Holistic Smoke Testing of Analysis-Runs (DEATHSTAR). This variant works in the same way as the incremental version. Therefore, the following instructions are also them same. However, **the FL implementation is considered experimental, not all features of the incremental variant will work here**.
 
 ## Setting up a local instance
 

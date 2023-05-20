@@ -95,13 +95,18 @@
       </div>
       
       <!-- Buttons at bottom -->
-      <div class="width-100" 
+      <div class="width-100 button-container"
         [matTooltip]="this.selectedOrganizations.length == 0 ? 'Please select at least one dataset to proceed' : 'Select the order in which the stations will be visited'"
         style="height: 50px; align-items: flex-end; text-align: center;">
-        <button mat-stroked-button 
-          [disabled]="this.selectedOrganizations.length == 0"
+        <button mat-stroked-button
+          [disabled]="true"
           (click)="openSelectRouteDialog()">
-          Select Route
+          Incremental Learning
+        </button>
+        <button mat-stroked-button
+          [disabled]="this.selectedOrganizations.length == 0"
+          (click)="openSelectFLDialog()">
+          Federated Learning
         </button>
       </div>
     </mat-card-content>
