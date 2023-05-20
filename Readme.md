@@ -5,6 +5,8 @@ This repository contains supplementary material for the paper titled "Will it ru
 ## Source Code
 The sub-folder **'src'** provides the source code for the presented PoC implementation of the Playground and the developed metadata schema. Moreover, you can find instructions on how the code can be setup locally for development in the folder's 'readme' file. Furthermore, all the developed plugins used in the presented use cases are also available.
 
+We also provide the Federated Learning (FL) implementation of our PoC in the branch 'federated'. However, note that this implementation is considered experimental and some features may not work yet. In the branch you can also find instructions how to use this variant and we provide the material for the FL based evaluations.
+
 ## Evaluation material (User study and use cases)
 
 The sub-folder **'evaluation'** provides supplementary material for the user study and ISIC use case. Moreover, we provide instructions on how the use cases can be replicated using the source code from the 'src' directory.
