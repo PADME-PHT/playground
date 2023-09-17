@@ -1,6 +1,6 @@
 ## PADME DEATHSTAR
 
-This repository contains supplementary material for the paper titled "Will it run? - A Playground for Testing and Monitoring Decentralized Data Analytics Experiments" by [Welten et al.](). The offered material includes the source code, evaluation materials, a video demonstration, and screenshots of the PADME Development Environment for AuTomated \& Holistic Smoke Testing of Analysis-Runs (DEATHSTAR).
+This repository contains supplementary material for the paper titled "Will it run? - A Playground for Testing and Monitoring Decentralized Data Analytics Experiments" by [Welten et al.]() [under review]. The offered material includes the source code, evaluation materials, a video demonstration, and screenshots of the PADME Development Environment for AuTomated \& Holistic Smoke Testing of Analysis-Runs (DEATHSTAR).
 
 ## Source Code
 The sub-folder **'src'** provides the source code for the presented PoC implementation of the Playground and the developed metadata schema. Moreover, you can find instructions on how the code can be setup locally for development in the folder's 'readme' file. Furthermore, all the developed plugins used in the presented use cases are also available.
