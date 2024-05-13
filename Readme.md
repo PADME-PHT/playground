@@ -1,5 +1,7 @@
 ## PADME DEATHSTAR
 
+[![DOI](https://zenodo.org/badge/632871391.svg)](https://zenodo.org/badge/latestdoi/632871391)
+
 This repository contains supplementary material for the paper titled ["Will it run? -A Proof of Concept for Smoke Testing Decentralized Data Analytics Experiments" by Welten et al.](https://www.frontiersin.org/articles/10.3389/fmed.2023.1305415/abstract). The offered material includes the source code, evaluation materials, a video demonstration, and screenshots of the PADME Development Environment for AuTomated \& Holistic Smoke Testing of Analysis-Runs (DEATHSTAR).
 
 ## Source Code
